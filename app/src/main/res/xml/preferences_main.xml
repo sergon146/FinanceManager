@@ -1,0 +1,20 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="@string/key_options_enable"
+        android:summaryOff="@string/switch_summary_off"
+        android:summaryOn="@string/switch_summary_on"
+        android:title="@string/pref_title_options" />
+
+    <ListPreference
+        android:defaultValue="1"
+        android:dependency="@string/key_options_enable"
+        android:entries="@array/pref_list_language_titles"
+        android:entryValues="@array/pref_list_language_values"
+        android:key="@string/key_language"
+        android:positiveButtonText="@null"
+        android:negativeButtonText="@null"
+        android:title="@string/pref_title_languages" />
+
+</PreferenceScreen>
