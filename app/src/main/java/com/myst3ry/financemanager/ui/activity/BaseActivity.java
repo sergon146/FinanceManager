@@ -15,7 +15,7 @@ abstract class BaseActivity extends AppCompatActivity {
 
     @Nullable
     @BindView(R.id.toolbar)
-    Toolbar toolbar;
+    Toolbar mToolbar;
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
@@ -25,8 +25,8 @@ abstract class BaseActivity extends AppCompatActivity {
     }
 
     private void setupToolbar() {
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
+        if (mToolbar != null) {
+            setSupportActionBar(mToolbar);
         }
     }
 

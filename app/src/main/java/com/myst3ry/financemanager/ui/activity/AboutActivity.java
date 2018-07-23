@@ -17,9 +17,9 @@ import butterknife.BindView;
 public final class AboutActivity extends BaseActivity {
 
     @BindView(R.id.tv_about_app_version)
-    TextView appVersionTextView;
+    TextView mAppVersionTextView;
     @BindView(R.id.tv_about_developer)
-    TextView developerTextView;
+    TextView mDeveloperTextView;
 
     public static Intent newIntent(final Context context) {
         return new Intent(context, AboutActivity.class);
@@ -54,12 +54,12 @@ public final class AboutActivity extends BaseActivity {
     }
 
     private void setAboutInfo() {
-        appVersionTextView.setText(String.format(getString(R.string.text_about_app_version), BuildConfig.VERSION_NAME));
+        mAppVersionTextView.setText(String.format(getString(R.string.text_about_app_version), BuildConfig.VERSION_NAME));
     }
 
     //todo hided contact info
     private void setListeners() {
-        developerTextView.setOnClickListener(v -> contactDeveloper());
+        mDeveloperTextView.setOnClickListener(v -> contactDeveloper());
     }
 
     private void contactDeveloper() {
