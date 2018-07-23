@@ -3,9 +3,10 @@
 
     <dimen name="padding_standard">16dp</dimen>
 
+    <dimen name="margin_half">8dp</dimen>
     <dimen name="margin_standard">16dp</dimen>
     <dimen name="margin_double">32dp</dimen>
-    <dimen name="margin_half">8dp</dimen>
+    <dimen name="margin_double_inc">48dp</dimen>
 
     <dimen name="div_height">1dp</dimen>
 </resources>

@@ -33,7 +33,7 @@ public final class MainActivity extends BaseActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_settings:
-                //startActivity(SettingsActivity.newIntent(this));
+                startActivity(SettingsActivity.newIntent(this));
                 return true;
             case R.id.action_about:
                 startActivity(AboutActivity.newIntent(this));

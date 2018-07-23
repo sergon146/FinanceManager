@@ -11,10 +11,10 @@
     <string name="text_currency_rur">RUR</string>
     <string name="rate_usd_sell">63.00</string>
     <string name="rate_usd_buy">64.00</string>
-    <string name="usd_exchange_rate">Доллар США (USD)</string>
-    <string name="text_sell_title">Продать</string>
-    <string name="text_buy_title">Купить</string>
-    <string name="text_exchange_rates_title">Курсы валют</string>
+    <string name="usd_exchange_rate">United States Dollar (USD)</string>
+    <string name="text_sell_title">Sell</string>
+    <string name="text_buy_title">Buy</string>
+    <string name="text_exchange_rates_title">Exchange rates</string>
     <string name="text_usd_balance">16\'461.61 $</string>
     <string name="text_rur_balance">1\'053\'543.25 ₽</string>
 
@@ -29,5 +29,23 @@
     <string name="mail_subject">Feedback: Finance Manager version.%s</string>
     <string name="mail_body">Device: %s %s (%s)\nBuild: %s\nVersion: %s (%d)\n\nMessage:\u0020\u0013</string>
     <string name="mail_chooser_text">Choose app:</string>
+
+    <!--Preferences-->
+    <string name="pref_title_options">Options</string>
+    <string name="pref_title_languages">Language</string>
+    <string name="key_options_enable">key_switch_enable_options</string>
+    <string name="key_language">key_list_language</string>
+    <string name="switch_summary_off">Off</string>
+    <string name="switch_summary_on">On</string>
+
+    <string-array name="pref_list_language_titles">
+        <item>Russian</item>
+        <item>English</item>
+    </string-array>
+
+    <string-array name="pref_list_language_values">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
 
 </resources>
