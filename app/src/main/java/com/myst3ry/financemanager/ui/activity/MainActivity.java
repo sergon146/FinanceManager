@@ -36,7 +36,7 @@ public final class MainActivity extends BaseActivity {
                 //startActivity(SettingsActivity.newIntent(this));
                 return true;
             case R.id.action_about:
-                //startActivity(AboutActivity.newIntent(this));
+                startActivity(AboutActivity.newIntent(this));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

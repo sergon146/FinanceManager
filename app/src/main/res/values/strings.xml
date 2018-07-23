@@ -18,4 +18,16 @@
     <string name="text_usd_balance">16\'461.61 $</string>
     <string name="text_rur_balance">1\'053\'543.25 ₽</string>
 
+    <!--About Info-->
+    <string name="text_about_app_version">Version: %s</string>
+    <string name="text_about_title">Finance Manager</string>
+    <string name="text_about_desc">This application was developed in accordance with the home task of the Yandex School of Mobile Development in 2018.</string>
+    <string name="text_about_developer">Developed by Alexey Egorov</string>
+
+    <!--Contact Info-->
+    <string name="mail_address">test@yandex.ru</string>
+    <string name="mail_subject">Feedback: Finance Manager version.%s</string>
+    <string name="mail_body">Device: %s %s (%s)\nBuild: %s\nVersion: %s (%d)\n\nMessage:\u0020\u0013</string>
+    <string name="mail_chooser_text">Choose app:</string>
+
 </resources>
