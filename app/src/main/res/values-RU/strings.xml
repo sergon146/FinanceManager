@@ -1,0 +1,51 @@
+<resources>
+    <string name="app_name">FinanceManager</string>
+
+    <!--Titles-->
+    <string name="title_main">Баланс</string>
+    <string name="title_settings">Настройки</string>
+    <string name="title_about">О программе</string>
+
+    <!--Balance-->
+    <string name="text_currency_usd">USD</string>
+    <string name="text_currency_rur">RUR</string>
+    <string name="usd_exchange_rate">Доллар США (USD)</string>
+    <string name="text_sell_title">Продажа</string>
+    <string name="text_buy_title">Покупка</string>
+    <string name="text_exchange_rates_title">Курс валют</string>
+
+    <!--About Info-->
+    <string name="text_about_app_version">Версия: %s</string>
+    <string name="text_about_title">Менеджер финансов</string>
+    <string name="text_about_desc">Это приложение было разработано в соответствии с домашним заданием Школы мобильной разработки Яндекс в 2018 году.</string>
+    <string name="text_about_developer">Разработчик Алексей Егоров</string>
+
+    <!--Contact Info-->
+    <string name="mail_address">test@yandex.ru</string>
+    <string name="mail_subject">Отзыв: Менеджер финансов версия.%s</string>
+    <string name="mail_body">Устройство: %s %s (%s)\nСборка: %s\nВерсия: %s (%d)\n\nСообщение:\u0020\u0013</string>
+    <string name="mail_chooser_text">Выберите приложение:</string>
+
+    <!--Preferences-->
+    <string name="pref_title_options">Настройки</string>
+    <string name="pref_title_languages">Язык</string>
+    <string name="switch_summary_off">Выключено</string>
+    <string name="switch_summary_on">Включено</string>
+    <string name="language_russian">Русский</string>
+    <string name="language_english">Английский</string>
+
+    <!--Pref Keys (Do Not Localize)-->
+    <string name="key_options_enable">key_switch_enable_options</string>
+    <string name="key_language">key_list_language</string>
+
+    <string-array name="pref_list_language_titles">
+        <item>@string/language_russian</item>
+        <item>@string/language_english</item>
+    </string-array>
+
+    <string-array name="pref_list_language_values">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+</resources>
