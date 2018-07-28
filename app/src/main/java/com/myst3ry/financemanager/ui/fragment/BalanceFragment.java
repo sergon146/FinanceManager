@@ -8,12 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.myst3ry.calculations.AccountType;
 import com.myst3ry.calculations.Calculations;
 import com.myst3ry.calculations.CurrencyType;
+import com.myst3ry.calculations.model.Account;
 import com.myst3ry.financemanager.R;
 import com.myst3ry.financemanager.utils.formatter.balance.BalanceFormatterFactory;
 import com.myst3ry.financemanager.utils.formatter.rate.DefaultRateFormatter;
 import com.myst3ry.financemanager.utils.formatter.rate.RateFormatter;
+
+import java.math.BigDecimal;
 
 import butterknife.BindView;
 
@@ -30,6 +34,7 @@ public final class BalanceFragment extends BaseFragment {
 
     public static final String TAG = BalanceFragment.class.getSimpleName();
     private BalanceFormatterFactory mFormatterFactory;
+    private Account mAccount;
     private Calculations mCalculations;
 
     public static BalanceFragment newInstance() {
@@ -43,7 +48,8 @@ public final class BalanceFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFormatterFactory = new BalanceFormatterFactory();
-        mCalculations = Calculations.getInstance();
+        initAccount();
+        initCalculationsModule();
     }
 
     @Override
@@ -58,10 +64,21 @@ public final class BalanceFragment extends BaseFragment {
         setCurrentBalance();
     }
 
+    private void initAccount() {
+        mAccount = new Account();
+        mAccount.setBalance(new BigDecimal("12354123"));
+        mAccount.setAccountType(AccountType.CASH);
+        mAccount.setCurrencyType(CurrencyType.RUR);
+    }
+
+    private void initCalculationsModule() {
+        mCalculations = Calculations.getInstance(mAccount, 64.0);
+    }
+
     private void setExchangeRates() {
         final RateFormatter rateFormatter = new DefaultRateFormatter();
-        mBuyUsdRate.setText(rateFormatter.formatRate(mCalculations.getBuyRate()));
-        mSellUsdRate.setText(rateFormatter.formatRate(mCalculations.getSellRate()));
+        mBuyUsdRate.setText(rateFormatter.formatRate(mCalculations.getRate()));
+        mSellUsdRate.setText(rateFormatter.formatRate(mCalculations.getRate()));
     }
 
     private void setCurrentBalance() {

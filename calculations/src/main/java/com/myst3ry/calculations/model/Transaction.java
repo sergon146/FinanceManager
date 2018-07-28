@@ -7,6 +7,9 @@ import java.math.BigDecimal;
 
 public final class Transaction {
 
+    //todo description
+    //todo mark
+
     private OperationType mOperationType;
     private CurrencyType mCurrencyType;
     private BigDecimal mAmount;
