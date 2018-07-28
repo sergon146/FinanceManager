@@ -8,7 +8,6 @@
         android:title="@string/pref_title_options" />
 
     <ListPreference
-        android:defaultValue="1"
         android:dependency="@string/key_options_enable"
         android:entries="@array/pref_list_language_titles"
         android:entryValues="@array/pref_list_language_values"

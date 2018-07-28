@@ -11,7 +11,9 @@ import android.widget.TextView;
 import com.myst3ry.calculations.Calculations;
 import com.myst3ry.calculations.CurrencyType;
 import com.myst3ry.financemanager.R;
-import com.myst3ry.financemanager.utils.StringUtils;
+import com.myst3ry.financemanager.utils.formatter.balance.BalanceFormatterFactory;
+import com.myst3ry.financemanager.utils.formatter.rate.DefaultRateFormatter;
+import com.myst3ry.financemanager.utils.formatter.rate.RateFormatter;
 
 import butterknife.BindView;
 
@@ -27,6 +29,8 @@ public final class BalanceFragment extends BaseFragment {
     TextView mSellUsdRate;
 
     public static final String TAG = BalanceFragment.class.getSimpleName();
+    private BalanceFormatterFactory mFormatterFactory;
+    private Calculations mCalculations;
 
     public static BalanceFragment newInstance() {
         final BalanceFragment fragment = new BalanceFragment();
@@ -38,6 +42,8 @@ public final class BalanceFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mFormatterFactory = new BalanceFormatterFactory();
+        mCalculations = Calculations.getInstance();
     }
 
     @Override
@@ -53,12 +59,13 @@ public final class BalanceFragment extends BaseFragment {
     }
 
     private void setExchangeRates() {
-        mBuyUsdRate.setText(StringUtils.formatRate(Calculations.getBuyRate()));
-        mSellUsdRate.setText(StringUtils.formatRate(Calculations.getSellRate()));
+        final RateFormatter rateFormatter = new DefaultRateFormatter();
+        mBuyUsdRate.setText(rateFormatter.formatRate(mCalculations.getBuyRate()));
+        mSellUsdRate.setText(rateFormatter.formatRate(mCalculations.getSellRate()));
     }
 
     private void setCurrentBalance() {
-        mBalanceRUR.setText(StringUtils.formatBalance(Calculations.getBalanceInRur().toString(), CurrencyType.RUR));
-        mBalanceUSD.setText(StringUtils.formatBalance(Calculations.getBalanceInUsd().toString(), CurrencyType.USD));
+        mBalanceRUR.setText(mFormatterFactory.create(CurrencyType.RUR).formatBalance(mCalculations.getBalanceInRur()));
+        mBalanceUSD.setText(mFormatterFactory.create(CurrencyType.USD).formatBalance(mCalculations.getBalanceInUsd()));
     }
 }

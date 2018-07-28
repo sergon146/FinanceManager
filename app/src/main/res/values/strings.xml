@@ -34,6 +34,11 @@
     <string name="language_russian">Russian</string>
     <string name="language_english">English</string>
 
+    <string name="dialog_lang_title">Language</string>
+    <string name="dialog_lang_message">The changes will be applied next time you open the app</string>
+
+    <!-- //////// -->
+
     <!--Pref Keys (Do Not Localize)-->
     <string name="key_options_enable">key_switch_enable_options</string>
     <string name="key_language">key_list_language</string>
@@ -44,8 +49,8 @@
     </string-array>
 
     <string-array name="pref_list_language_values">
-        <item>1</item>
-        <item>2</item>
+        <item>ru</item>
+        <item>en</item>
     </string-array>
 
 </resources>
