@@ -13,13 +13,17 @@ import com.myst3ry.financemanager.BuildConfig;
 import com.myst3ry.financemanager.R;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public final class AboutActivity extends BaseActivity {
 
     @BindView(R.id.tv_about_app_version)
     TextView mAppVersionTextView;
-    @BindView(R.id.tv_about_developer)
-    TextView mDeveloperTextView;
+
+    @OnClick(R.id.tv_about_developer)
+    void onDeveloperClick() {
+        contactDeveloper();
+    }
 
     public static Intent newIntent(final Context context) {
         return new Intent(context, AboutActivity.class);
@@ -31,7 +35,6 @@ public final class AboutActivity extends BaseActivity {
         setContentView(R.layout.activity_about);
         setupActionBar();
         setAboutInfo();
-        setListeners();
     }
 
     @Override
@@ -55,11 +58,6 @@ public final class AboutActivity extends BaseActivity {
 
     private void setAboutInfo() {
         mAppVersionTextView.setText(String.format(getString(R.string.text_about_app_version), BuildConfig.VERSION_NAME));
-    }
-
-    //todo hided contact info
-    private void setListeners() {
-        mDeveloperTextView.setOnClickListener(v -> contactDeveloper());
     }
 
     private void contactDeveloper() {

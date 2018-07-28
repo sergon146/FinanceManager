@@ -9,7 +9,9 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceManager;
 
 import com.myst3ry.financemanager.R;
+import com.myst3ry.financemanager.ui.dialog.ChangeLangDialogFragment;
 
+import java.util.Locale;
 import java.util.Objects;
 
 public final class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
@@ -29,11 +31,6 @@ public final class SettingsFragment extends PreferenceFragmentCompat implements 
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
@@ -41,8 +38,8 @@ public final class SettingsFragment extends PreferenceFragmentCompat implements 
 
     @Override
     public void onPause() {
-        super.onPause();
         getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        super.onPause();
     }
 
     @Override
@@ -50,13 +47,30 @@ public final class SettingsFragment extends PreferenceFragmentCompat implements 
         final Preference preference = findPreference(key);
         if (preference instanceof ListPreference) {
             final ListPreference listPreference = (ListPreference) preference;
-            final int index = listPreference.findIndexOfValue(sharedPreferences.getString(key, ""));
+            final String defLang = Locale.getDefault().getLanguage();
+
+            final int index = listPreference.findIndexOfValue(sharedPreferences.getString(key, defLang));
             preference.setSummary(index >= 0 ? listPreference.getEntries()[index] : null);
+            listPreference.setValueIndex(index >= 0 ? index : 0);
+
+            //todo fix
+            if (key.equals(getString(R.string.key_language))) {
+                if (listPreference.getValue().equals(defLang))
+                    //Need to reboot App Process for Runtime changes
+                    //LocaleManager.setNewLocale(getActivity(), sharedPreferences.getString(key, defLang));
+                    showChangesDialog();
+            }
+
         } else if (preference instanceof SwitchPreference) {
             final SwitchPreference switchPreference = (SwitchPreference) preference;
             preference.setSummary(switchPreference.isEnabled() ? switchPreference.getSummaryOn() : switchPreference.getSummaryOff());
         } else {
             preference.setSummary(sharedPreferences.getString(key, ""));
         }
+    }
+
+    private void showChangesDialog() {
+        final ChangeLangDialogFragment dialog = new ChangeLangDialogFragment();
+        dialog.show(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), null);
     }
 }

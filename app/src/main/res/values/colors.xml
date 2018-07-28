@@ -5,4 +5,9 @@
     <color name="color_accent">#CDDC39</color>
 
     <color name="color_primary_text">#212121</color>
+    <color name="color_secondary_text">#FFFFFF</color>
+
+    <color name="color_primary_background">#FFFFFF</color>
+    <color name="color_secondary_background">#212121</color>
+
 </resources>
