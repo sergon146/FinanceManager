@@ -34,7 +34,7 @@ public final class Calculations {
     }
 
     public void income(final Transaction transaction) {
-        if (transaction.getOperationType() == OperationType.INCOME) {
+        if (transaction.getOperationType() == TransactionType.INCOME) {
             if (transaction.getCurrencyType() == CurrencyType.RUR) {
                 mAccount.setBalance(mAccount.getBalance().add(transaction.getAmount()));
             } else if (transaction.getCurrencyType() == CurrencyType.USD) {
@@ -44,7 +44,7 @@ public final class Calculations {
     }
 
     public void expense(final Transaction transaction) {
-        if (transaction.getOperationType() == OperationType.EXPENSE) {
+        if (transaction.getOperationType() == TransactionType.EXPENSE) {
             if (transaction.getCurrencyType() == CurrencyType.RUR) {
                 mAccount.setBalance(mAccount.getBalance().subtract(transaction.getAmount()));
             } else if (transaction.getCurrencyType() == CurrencyType.USD) {

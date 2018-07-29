@@ -7,23 +7,24 @@ import java.math.BigDecimal;
 
 public final class Account {
 
-    //todo description
-    //todo title
-
+    private String mTitle;
     private BigDecimal mBalance;
     private CurrencyType mCurrencyType;
     private AccountType mAccountType;
 
-    //todo singleton
-
-    public Account(BigDecimal mBalance, CurrencyType mCurrencyType, AccountType mAccountType) {
-        this.mBalance = mBalance;
-        this.mCurrencyType = mCurrencyType;
-        this.mAccountType = mAccountType;
+    public Account(final String title, final BigDecimal balance, final CurrencyType currencyType, final AccountType accountType) {
+        this.mTitle = title;
+        this.mBalance = balance;
+        this.mCurrencyType = currencyType;
+        this.mAccountType = accountType;
     }
 
-    public Account() {
+    public String getTitle() {
+        return mTitle;
+    }
 
+    public void setTitle(final String title) {
+        this.mTitle = title;
     }
 
     public BigDecimal getBalance() {

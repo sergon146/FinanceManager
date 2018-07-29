@@ -1,31 +1,31 @@
 package com.myst3ry.calculations.model;
 
 import com.myst3ry.calculations.CurrencyType;
-import com.myst3ry.calculations.OperationType;
+import com.myst3ry.calculations.TransactionType;
 
 import java.math.BigDecimal;
 
 public final class Transaction {
 
     //todo description
-    //todo mark
+    //todo category
 
-    private OperationType mOperationType;
+    private TransactionType mTransactionType;
     private CurrencyType mCurrencyType;
     private BigDecimal mAmount;
 
-    public Transaction(OperationType operationType, CurrencyType currencyType, BigDecimal amount) {
-        this.mOperationType = operationType;
+    public Transaction(TransactionType transactionType, CurrencyType currencyType, BigDecimal amount) {
+        this.mTransactionType = transactionType;
         this.mCurrencyType = currencyType;
         this.mAmount = amount;
     }
 
-    public OperationType getOperationType() {
-        return mOperationType;
+    public TransactionType getOperationType() {
+        return mTransactionType;
     }
 
-    public void setOperationType(final OperationType operationType) {
-        this.mOperationType = operationType;
+    public void setOperationType(final TransactionType transactionType) {
+        this.mTransactionType = transactionType;
     }
 
     public CurrencyType getCurrencyType() {

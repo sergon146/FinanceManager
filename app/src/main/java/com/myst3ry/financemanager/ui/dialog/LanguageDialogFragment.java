@@ -10,7 +10,7 @@ import com.myst3ry.financemanager.R;
 
 import java.util.Objects;
 
-public final class ChangeLangDialogFragment extends DialogFragment {
+public final class LanguageDialogFragment extends DialogFragment {
 
     @NonNull
     @Override

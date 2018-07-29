@@ -20,11 +20,6 @@ public final class AboutActivity extends BaseActivity {
     @BindView(R.id.tv_about_app_version)
     TextView mAppVersionTextView;
 
-    @OnClick(R.id.tv_about_developer)
-    void onDeveloperClick() {
-        contactDeveloper();
-    }
-
     public static Intent newIntent(final Context context) {
         return new Intent(context, AboutActivity.class);
     }
@@ -58,6 +53,11 @@ public final class AboutActivity extends BaseActivity {
 
     private void setAboutInfo() {
         mAppVersionTextView.setText(String.format(getString(R.string.text_about_app_version), BuildConfig.VERSION_NAME));
+    }
+
+    @OnClick(R.id.tv_about_developer)
+    void onDeveloperClick() {
+        contactDeveloper();
     }
 
     private void contactDeveloper() {

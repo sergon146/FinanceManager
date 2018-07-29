@@ -41,9 +41,13 @@ dependencies {
     implementation "com.jakewharton:butterknife:$butterknife_ver"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknife_ver"
 
+    //icepick
+    implementation "frankiesardo:icepick:$icepick_ver"
+    annotationProcessor "frankiesardo:icepick-processor:$icepick_ver"
+
     //dagger2
-    implementation "com.google.dagger:dagger:$dagger_ver"
-    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_ver"
+    //implementation "com.google.dagger:dagger:$dagger_ver"
+    //annotationProcessor "com.google.dagger:dagger-compiler:$dagger_ver"
 
     testImplementation "junit:junit:$junit_ver"
     androidTestImplementation "com.android.support.test:runner:$runner_ver"

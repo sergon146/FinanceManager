@@ -1,8 +1,22 @@
 <resources>
     <string name="app_name">FinanceManager</string>
 
+    <!--Pref Keys (Do Not Localize)-->
+    <string name="key_options_enable">key_switch_enable_options</string>
+    <string name="key_language">key_list_language</string>
+
+    <string-array name="pref_list_language_titles">
+        <item>@string/language_russian</item>
+        <item>@string/language_english</item>
+    </string-array>
+
+    <string-array name="pref_list_language_values">
+        <item>ru</item>
+        <item>en</item>
+    </string-array>
+
     <!--Titles-->
-    <string name="title_main">Баланс</string>
+    <string name="title_balance">Баланс</string>
     <string name="title_settings">Настройки</string>
     <string name="title_about">О программе</string>
 
@@ -10,8 +24,7 @@
     <string name="text_currency_usd">USD</string>
     <string name="text_currency_rur">RUR</string>
     <string name="usd_exchange_rate">Доллар США (USD)</string>
-    <string name="text_sell_title">Продажа</string>
-    <string name="text_buy_title">Покупка</string>
+    <string name="text_usd_rate_title">Текущий курс</string>
     <string name="text_exchange_rates_title">Курс валют</string>
 
     <!--About Info-->
@@ -37,20 +50,34 @@
     <string name="dialog_lang_title">Язык</string>
     <string name="dialog_lang_message">Измения вступят в силу при следующем входе в приложение</string>
 
-    <!-- //////// -->
+    <!--Create Transaction-->
+    <string name="dialog_title_expense">Расход</string>
+    <string name="dialog_title_income">Доход</string>
+    <string name="text_select_account">Выберите счет</string>
+    <string name="text_transaction_type">Тип операции</string>
+    <string name="hint_enter_amount">Введите сумму</string>
+    <string name="text_select_currency">Выберите валюту</string>
+    <string name="text_add_category_label">Категория</string>
+    <string name="text_current_category">Отсутствует</string>
+    <string name="dialog_title_rur">Российский рубль (RUR)</string>
+    <string name="dialog_title_usd">Доллар США (USD)</string>
+    <string name="title_accept">Добавить</string>
+    <string name="new_transaction_title">Новая операция</string>
 
-    <!--Pref Keys (Do Not Localize)-->
-    <string name="key_options_enable">key_switch_enable_options</string>
-    <string name="key_language">key_list_language</string>
-
-    <string-array name="pref_list_language_titles">
-        <item>@string/language_russian</item>
-        <item>@string/language_english</item>
+    <string-array name="array_default_categories">
+        <item name="item_default">Без категории</item>
+        <item name="item_shopping">Покупки</item>
+        <item name="item_payments">Платежи</item>
+        <item name="item_transport">Транспорт</item>
+        <item name="item_clothes">Одежда</item>
+        <item name="item_medicine">Медицина</item>
+        <item name="item_entertainment">Развлечения</item>
     </string-array>
 
-    <string-array name="pref_list_language_values">
-        <item>ru</item>
-        <item>en</item>
+    <string-array name="arr_income_categories">
+        <item name="item_default">Без категории</item>
+        <item name="item_shopping">Зарплата</item>
+        <item name="item_payments">Банковский перевод</item>
     </string-array>
 
 </resources>

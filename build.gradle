@@ -7,6 +7,7 @@ buildscript {
         constraint_ver = '1.1.2'
         butterknife_ver = '8.8.1'
         dagger_ver = '2.7'
+        icepick_ver = '3.2.0'
 
         junit_ver = '4.12'
         runner_ver = '1.0.2'
@@ -27,6 +28,7 @@ buildscript {
 
 allprojects {
     repositories {
+        maven {url "https://clojars.org/repo/"}
         google()
         jcenter()
     }
