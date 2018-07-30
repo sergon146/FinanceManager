@@ -64,7 +64,12 @@
     <string name="title_accept">Добавить</string>
     <string name="new_transaction_title">Новая операция</string>
 
-    <string-array name="array_default_categories">
+    <!--Connection-->
+    <string name="error">Ошибка %d (%s)</string>
+    <string name="connection_error">Проверьте свое соединение с интернетом</string>
+
+    <!--Transaction Categories-->
+    <string-array name="arr_expense_categories">
         <item name="item_default">Без категории</item>
         <item name="item_shopping">Покупки</item>
         <item name="item_payments">Платежи</item>

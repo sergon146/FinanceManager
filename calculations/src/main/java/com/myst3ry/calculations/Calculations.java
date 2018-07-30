@@ -63,7 +63,7 @@ public final class Calculations {
         return convertToUsd(mAccount.getBalance(), getRate());
     }
 
-    public Double getRate() {
+    private Double getRate() {
         return mRate;
     }
 
@@ -72,6 +72,6 @@ public final class Calculations {
     }
 
     private BigDecimal convertToUsd(final BigDecimal amount, final Double rate) {
-        return amount.divide(new BigDecimal(rate), SCALE_VALUE, SCALE_TYPE);
+        return rate != 0d ? amount.divide(new BigDecimal(rate), SCALE_VALUE, SCALE_TYPE) : new BigDecimal(0);
     }
 }

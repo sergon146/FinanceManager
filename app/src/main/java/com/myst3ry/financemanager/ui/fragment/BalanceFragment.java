@@ -16,10 +16,10 @@ import com.myst3ry.calculations.AccountType;
 import com.myst3ry.calculations.Calculations;
 import com.myst3ry.calculations.CurrencyType;
 import com.myst3ry.calculations.model.Account;
+import com.myst3ry.financemanager.FinanceManagerApp;
 import com.myst3ry.financemanager.R;
 import com.myst3ry.financemanager.utils.formatter.balance.BalanceFormatterFactory;
 import com.myst3ry.financemanager.utils.formatter.rate.DefaultRateFormatter;
-import com.myst3ry.financemanager.utils.formatter.rate.RateFormatter;
 
 import java.math.BigDecimal;
 
@@ -31,11 +31,13 @@ public final class BalanceFragment extends BaseFragment {
     public static final String TAG = BalanceFragment.class.getSimpleName();
 
     @BindView(R.id.tv_rur_balance)
-    TextView mBalanceRUR;
+    TextView mRURBalanceTextView;
     @BindView(R.id.tv_usd_balance)
-    TextView mBalanceUSD;
+    TextView mUSDBalanceTextView;
     @BindView(R.id.tv_rate_usd)
-    TextView mRateUSD;
+    TextView mUSDRateTextView;
+
+    private double mUSDRate;
 
     private BalanceFormatterFactory mFormatterFactory;
     private Account mAccount;
@@ -61,7 +63,6 @@ public final class BalanceFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         mFormatterFactory = new BalanceFormatterFactory();
         initAccount();
-        initCalculationsModule();
     }
 
     @Override
@@ -90,21 +91,18 @@ public final class BalanceFragment extends BaseFragment {
         mAccount = new Account("Custom", new BigDecimal("12354123"), CurrencyType.RUR, AccountType.CASH);
     }
 
-    //no need here
-    private void initCalculationsModule() {
-        mCalculations = Calculations.getInstance(mAccount, 64.0);
-    }
-
-    //todo get rates from api
     private void setExchangeRates() {
-        final RateFormatter rateFormatter = new DefaultRateFormatter();
-        mRateUSD.setText(rateFormatter.formatRate(mCalculations.getRate()));
+        mUSDRate = (double) ((FinanceManagerApp) mActivity.getApplication()).getSavedRates();
+        mUSDRateTextView.setText(new DefaultRateFormatter().formatRate(mUSDRate));
+
+        //replace
+        mCalculations = Calculations.getInstance(mAccount, mUSDRate);
     }
 
     //todo get balance from db
     private void setCurrentBalance() {
-        mBalanceRUR.setText(mFormatterFactory.create(CurrencyType.RUR).formatBalance(mCalculations.getBalanceInRur()));
-        mBalanceUSD.setText(mFormatterFactory.create(CurrencyType.USD).formatBalance(mCalculations.getBalanceInUsd()));
+        mRURBalanceTextView.setText(mFormatterFactory.create(CurrencyType.RUR).formatBalance(mCalculations.getBalanceInRur()));
+        mUSDBalanceTextView.setText(mFormatterFactory.create(CurrencyType.USD).formatBalance(mCalculations.getBalanceInUsd()));
     }
 
     @OnClick(R.id.fab_add_new_transaction)

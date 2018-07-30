@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.myst3ry.financemanager">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".FinanceManagerApp"
         android:allowBackup="true"

@@ -53,10 +53,9 @@ public final class SettingsFragment extends PreferenceFragmentCompat implements 
             preference.setSummary(index >= 0 ? listPreference.getEntries()[index] : null);
             listPreference.setValueIndex(index >= 0 ? index : 0);
 
-            //todo fix dialog (not important)
+            //todo fix dialog
             if (key.equals(getString(R.string.key_language))) {
                 if (listPreference.getValue().equals(defLang))
-                    //Need to reboot App Process for Runtime changes
                     //LocaleManager.setNewLocale(getActivity(), sharedPreferences.getString(key, defLang));
                     onLanguageChanged();
             }
@@ -64,8 +63,6 @@ public final class SettingsFragment extends PreferenceFragmentCompat implements 
         } else if (preference instanceof SwitchPreference) {
             final SwitchPreference switchPreference = (SwitchPreference) preference;
             preference.setSummary(switchPreference.isEnabled() ? switchPreference.getSummaryOn() : switchPreference.getSummaryOff());
-        } else {
-            preference.setSummary(sharedPreferences.getString(key, ""));
         }
     }
 

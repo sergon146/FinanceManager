@@ -64,6 +64,11 @@
     <string name="title_accept">Add</string>
     <string name="new_transaction_title">New Transaction</string>
 
+    <!--Connection-->
+    <string name="http_error">Error Code#%d (%s)</string>
+    <string name="connection_error">Check your internet connection</string>
+
+    <!--Transaction Categories-->
     <string-array name="arr_expense_categories">
         <item name="item_default">None</item>
         <item name="item_shopping">Shopping</item>
@@ -79,5 +84,6 @@
         <item name="item_shopping">Salary</item>
         <item name="item_payments">Bank Transfer</item>
     </string-array>
+
 
 </resources>
