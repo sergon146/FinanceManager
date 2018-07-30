@@ -37,7 +37,7 @@ public final class FinanceManagerApp extends Application {
         PreferenceManager.getDefaultSharedPreferences(this).edit().putFloat(USD_RATE, rates[0]).apply();
     }
 
-    public Float getSavedRates() {
+    public Float getSavedUSDRate() {
         return PreferenceManager.getDefaultSharedPreferences(this).getFloat(USD_RATE, 0f);
     }
 }

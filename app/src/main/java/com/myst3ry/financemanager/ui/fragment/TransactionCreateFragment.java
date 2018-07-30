@@ -15,14 +15,14 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.myst3ry.calculations.AccountType;
 import com.myst3ry.calculations.CurrencyType;
 import com.myst3ry.calculations.model.Account;
+import com.myst3ry.financemanager.BuildConfig;
 import com.myst3ry.financemanager.R;
+import com.myst3ry.financemanager.db.AccountsDbStub;
 import com.myst3ry.financemanager.ui.dialog.SelectionDialogFragment;
 import com.myst3ry.financemanager.utils.Utils;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,6 +34,7 @@ import icepick.State;
 public final class TransactionCreateFragment extends BaseFragment {
 
     public static final String TAG = TransactionCreateFragment.class.getSimpleName();
+    private static final String ARG_ACCOUNT_INDEX = BuildConfig.APPLICATION_ID + "arg.ACCOUNT_INDEX";
 
     @BindView(R.id.tv_account_type)
     TextView mAccountTextView;
@@ -46,16 +47,16 @@ public final class TransactionCreateFragment extends BaseFragment {
     @BindView(R.id.et_amount)
     EditText mAmountEditText;
 
-
     @State
     int mAccountIndex, mTransactionIndex, mCurrencyIndex, mCategoryIndex;
     private ArrayList<String> mAccountTitles, mTransactionTitles, mCurrencyTitles, mCategoryTitles;
 
     private AppCompatActivity mActivity;
 
-    public static TransactionCreateFragment newInstance() {
+    public static TransactionCreateFragment newInstance(final int accountIndex) {
         final TransactionCreateFragment fragment = new TransactionCreateFragment();
         final Bundle args = new Bundle();
+        args.putInt(ARG_ACCOUNT_INDEX, accountIndex);
         fragment.setArguments(args);
         return fragment;
     }
@@ -71,12 +72,17 @@ public final class TransactionCreateFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
+
         final ActionBar actionBar = mActivity.getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        getTitlesLists();
+        if (getArguments() != null) {
+            mAccountIndex = getArguments().getInt(ARG_ACCOUNT_INDEX, 0);
+        }
+
+        initTitlesLists();
     }
 
     @Override
@@ -114,9 +120,11 @@ public final class TransactionCreateFragment extends BaseFragment {
         int id = item.getItemId();
         switch (id) {
             case android.R.id.home:
+                hideKeyboard();
                 mActivity.getSupportFragmentManager().popBackStackImmediate();
                 return true;
             case R.id.action_accept:
+                hideKeyboard();
                 createTransaction();
                 return true;
             default:
@@ -124,8 +132,8 @@ public final class TransactionCreateFragment extends BaseFragment {
         }
     }
 
-    private void getTitlesLists() {
-        mAccountTitles = loadAccounts();
+    private void initTitlesLists() {
+        mAccountTitles = getAccountTitles();
         mTransactionTitles = Utils.getTransactionTitles(mActivity);
         mCurrencyTitles = Utils.getCurrencyTitles(mActivity);
         mCategoryTitles = new ArrayList<>(Arrays.asList(getResources()
@@ -139,15 +147,11 @@ public final class TransactionCreateFragment extends BaseFragment {
         mCategoryTextView.setText(mCategoryTitles.get(mCategoryIndex));
     }
 
-    //load accounts titles from db
-    private ArrayList<String> loadAccounts() {
-
-        //todo stub
-        final List<Account> accounts = new ArrayList<>();
-        accounts.add(new Account("Наличные", new BigDecimal("123131"), CurrencyType.USD, AccountType.CASH));
-        accounts.add(new Account("Кредитная карта", new BigDecimal("13463100"), CurrencyType.RUR, AccountType.CREDIT));
-
+    //todo replace with db
+    private ArrayList<String> getAccountTitles() {
+        final List<Account> accounts = AccountsDbStub.getInstance().getAccounts();
         final ArrayList<String> titles = new ArrayList<>();
+
         for (final Account account : accounts) {
             titles.add(account.getTitle());
         }
@@ -170,13 +174,7 @@ public final class TransactionCreateFragment extends BaseFragment {
         final SelectionDialogFragment dialog = SelectionDialogFragment.newInstance(mTransactionTitles, mTransactionIndex);
         dialog.setOnDialogSelectionListener(selectedIndex -> {
             final String type = mTransactionTitles.get(selectedIndex);
-            if (type.equalsIgnoreCase(getString(R.string.dialog_title_expense))) {
-                mCategoryTitles = new ArrayList<>(Arrays.asList(getResources()
-                        .getStringArray(R.array.arr_expense_categories)));
-            } else if (type.equalsIgnoreCase(getString(R.string.dialog_title_income))) {
-                mCategoryTitles = new ArrayList<>(Arrays.asList(getResources()
-                        .getStringArray(R.array.arr_income_categories)));
-            }
+            replaceCategoryList(type);
             mTransactionTextView.setText(type);
             mTransactionIndex = selectedIndex;
         });
@@ -201,6 +199,19 @@ public final class TransactionCreateFragment extends BaseFragment {
             mCategoryIndex = selectedIndex;
         });
         dialog.show(mActivity.getSupportFragmentManager(), null);
+    }
+
+    private void replaceCategoryList(final String type) {
+        if (type.equalsIgnoreCase(getString(R.string.dialog_title_expense))) {
+            mCategoryTitles = new ArrayList<>(Arrays.asList(getResources()
+                    .getStringArray(R.array.arr_expense_categories)));
+        } else if (type.equalsIgnoreCase(getString(R.string.dialog_title_income))) {
+            mCategoryTitles = new ArrayList<>(Arrays.asList(getResources()
+                    .getStringArray(R.array.arr_income_categories)));
+        }
+
+        mCategoryIndex = 0;
+        mCategoryTextView.setText(mCategoryTitles.get(mCategoryIndex));
     }
 
     private void createTransaction() {

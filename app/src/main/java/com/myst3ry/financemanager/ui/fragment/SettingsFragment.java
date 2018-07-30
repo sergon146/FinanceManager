@@ -9,7 +9,6 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceManager;
 
 import com.myst3ry.financemanager.R;
-import com.myst3ry.financemanager.ui.dialog.LanguageDialogFragment;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -55,9 +54,10 @@ public final class SettingsFragment extends PreferenceFragmentCompat implements 
 
             //todo fix dialog
             if (key.equals(getString(R.string.key_language))) {
-                if (listPreference.getValue().equals(defLang))
+                if (listPreference.getValue().equals(defLang)) {
                     //LocaleManager.setNewLocale(getActivity(), sharedPreferences.getString(key, defLang));
                     onLanguageChanged();
+                }
             }
 
         } else if (preference instanceof SwitchPreference) {
@@ -67,6 +67,6 @@ public final class SettingsFragment extends PreferenceFragmentCompat implements 
     }
 
     private void onLanguageChanged() {
-        new LanguageDialogFragment().show(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), null);
+        //new LanguageDialogFragment().show(Objects.requireNonNull(getActivity()).getSupportFragmentManager(), null);
     }
 }

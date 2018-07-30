@@ -11,11 +11,11 @@ public final class Calculations {
     private static final int SCALE_VALUE = 2;
 
     private Account mAccount;
-    private Double mRate;
+    private double mRate;
 
     private static volatile Calculations INSTANCE;
 
-    public static Calculations getInstance(final Account account, final Double rate) {
+    public static Calculations getInstance(final Account account, final double rate) {
         Calculations instance = INSTANCE;
         if (instance == null) {
             synchronized (Calculations.class) {
@@ -28,7 +28,7 @@ public final class Calculations {
         return instance;
     }
 
-    private Calculations(final Account account, final Double rate) { //todo get rate from api
+    private Calculations(final Account account, final Double rate) {
         this.mAccount = account;
         this.mRate = rate;
     }
@@ -38,7 +38,7 @@ public final class Calculations {
             if (transaction.getCurrencyType() == CurrencyType.RUR) {
                 mAccount.setBalance(mAccount.getBalance().add(transaction.getAmount()));
             } else if (transaction.getCurrencyType() == CurrencyType.USD) {
-                mAccount.setBalance(mAccount.getBalance().add(convertToRur(transaction.getAmount(), getRate())));
+                mAccount.setBalance(mAccount.getBalance().add(convertToRur(transaction.getAmount())));
             }
         }
     }
@@ -48,30 +48,24 @@ public final class Calculations {
             if (transaction.getCurrencyType() == CurrencyType.RUR) {
                 mAccount.setBalance(mAccount.getBalance().subtract(transaction.getAmount()));
             } else if (transaction.getCurrencyType() == CurrencyType.USD) {
-                mAccount.setBalance(mAccount.getBalance().subtract(convertToRur(transaction.getAmount(), getRate())));
+                mAccount.setBalance(mAccount.getBalance().subtract(convertToRur(transaction.getAmount())));
             }
         }
     }
 
-    //todo temp
     public BigDecimal getBalanceInRur() {
         return mAccount.getBalance().setScale(SCALE_VALUE, SCALE_TYPE);
     }
 
-    //todo temp
     public BigDecimal getBalanceInUsd() {
-        return convertToUsd(mAccount.getBalance(), getRate());
+        return convertToUsd(mAccount.getBalance());
     }
 
-    private Double getRate() {
-        return mRate;
+    public BigDecimal convertToRur(final BigDecimal amount) {
+        return amount.multiply(new BigDecimal(mRate));
     }
 
-    private BigDecimal convertToRur(final BigDecimal amount, final Double rate) {
-        return amount.multiply(new BigDecimal(rate));
-    }
-
-    private BigDecimal convertToUsd(final BigDecimal amount, final Double rate) {
-        return rate != 0d ? amount.divide(new BigDecimal(rate), SCALE_VALUE, SCALE_TYPE) : new BigDecimal(0);
+    public BigDecimal convertToUsd(final BigDecimal amount) {
+        return mRate != 0d ? amount.divide(new BigDecimal(mRate), SCALE_VALUE, SCALE_TYPE) : new BigDecimal(0);
     }
 }

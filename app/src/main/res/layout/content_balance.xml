@@ -5,6 +5,17 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/tv_current_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_standard"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_percent="0.7" />
+
+    <TextView
         android:id="@+id/tv_rur"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,7 +25,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/div1"
         app:layout_constraintStart_toStartOf="@+id/div1"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/tv_current_account" />
 
     <TextView
         android:id="@+id/tv_usd"
@@ -39,7 +50,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/tv_current_account" />
 
     <View
         android:id="@+id/div2"
@@ -133,5 +144,16 @@
         app:layout_constraintEnd_toEndOf="@+id/tv_sell_title"
         app:layout_constraintStart_toStartOf="@+id/tv_sell_title"
         app:layout_constraintTop_toBottomOf="@+id/tv_sell_title" />
+
+
+    <com.myst3ry.financemanager.ui.view.DiagramView
+        android:id="@+id/diagram_money"
+        android:layout_width="@dimen/diagram_view_size"
+        android:layout_height="@dimen/diagram_view_size"
+        android:layout_margin="@dimen/margin_standard"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_exchange_usd" />
 
 </android.support.constraint.ConstraintLayout>

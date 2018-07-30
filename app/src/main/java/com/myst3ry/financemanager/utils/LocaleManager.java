@@ -1,5 +1,6 @@
 package com.myst3ry.financemanager.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -16,6 +17,8 @@ public final class LocaleManager {
         updateResources(context, language);
     }
 
+    //todo change language in runtime
+    @SuppressLint("unused")
     public static void setNewLocale(final Context context, final String language) {
         updateResources(context, language);
     }
@@ -25,7 +28,7 @@ public final class LocaleManager {
                 .getString(context.getString(R.string.key_language), Locale.getDefault().getLanguage());
     }
 
-    //todo api 26
+    //todo api 26 conflict
     private static void updateResources(final Context context, final String language) {
         final Locale locale = new Locale(language);
         Locale.setDefault(locale);

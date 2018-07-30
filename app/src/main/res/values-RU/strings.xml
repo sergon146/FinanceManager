@@ -26,6 +26,7 @@
     <string name="usd_exchange_rate">Доллар США (USD)</string>
     <string name="text_usd_rate_title">Текущий курс</string>
     <string name="text_exchange_rates_title">Курс валют</string>
+    <string name="text_current_account">Счет: %s</string>
 
     <!--About Info-->
     <string name="text_about_app_version">Версия: %s</string>

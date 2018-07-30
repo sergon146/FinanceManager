@@ -26,6 +26,7 @@
     <string name="usd_exchange_rate">United States Dollar (USD)</string>
     <string name="text_sell_title">Rate</string>
     <string name="text_exchange_rates_title">Exchange rates</string>
+    <string name="text_current_account">Account: %s</string>
 
     <!--About Info-->
     <string name="text_about_app_version">Version: %s</string>

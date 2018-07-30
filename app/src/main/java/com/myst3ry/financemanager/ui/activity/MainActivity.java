@@ -6,12 +6,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.myst3ry.calculations.AccountType;
+import com.myst3ry.calculations.CurrencyType;
+import com.myst3ry.calculations.model.Account;
 import com.myst3ry.financemanager.FinanceManagerApp;
 import com.myst3ry.financemanager.R;
+import com.myst3ry.financemanager.db.AccountsDbStub;
 import com.myst3ry.financemanager.network.CBRApi;
 import com.myst3ry.financemanager.network.model.Valute;
 import com.myst3ry.financemanager.ui.fragment.BalanceFragment;
 
+import java.math.BigDecimal;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -20,6 +25,10 @@ import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.HttpException;
+
+//TODO 1. MVP + Clean Architecture
+//TODO 2. Realm
+//TODO 3. Tests
 
 public final class MainActivity extends BaseActivity {
 
@@ -36,6 +45,7 @@ public final class MainActivity extends BaseActivity {
         FinanceManagerApp.getNetworkComponent(this).inject(this);
         if (savedInstanceState == null) {
             getActualExchangeRates();
+            initUserAccounts();
         }
     }
 
@@ -58,6 +68,14 @@ public final class MainActivity extends BaseActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    //todo replace with db
+    private void initUserAccounts() {
+        final AccountsDbStub stub = AccountsDbStub.getInstance();
+        stub.addAccount(new Account(0, "Кошелек", new BigDecimal("123541"), CurrencyType.RUR, AccountType.CASH));
+        stub.addAccount(new Account(1, "Кредитная карта", new BigDecimal("1678"), CurrencyType.USD, AccountType.CASH));
+        stub.addAccount(new Account(2, "Наличные", new BigDecimal("13463"), CurrencyType.RUR, AccountType.CREDIT));
     }
 
     private void initUI() {
