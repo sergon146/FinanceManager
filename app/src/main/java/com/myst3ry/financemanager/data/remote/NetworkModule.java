@@ -1,4 +1,4 @@
-package com.myst3ry.financemanager.network;
+package com.myst3ry.financemanager.data.remote;
 
 import javax.inject.Singleton;
 

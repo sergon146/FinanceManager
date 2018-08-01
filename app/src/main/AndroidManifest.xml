@@ -12,17 +12,17 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Toolbar">
-        <activity android:name=".ui.activity.MainActivity">
+        <activity android:name=".ui.activity.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.AboutActivity"
+            android:name=".ui.activity.about.AboutActivity"
             android:label="@string/title_about" />
         <activity
-            android:name=".ui.activity.SettingsActivity"
+            android:name=".ui.settings.SettingsActivity"
             android:label="@string/title_settings"
             android:theme="@style/AppTheme.Settings"
             android:configChanges="locale" />

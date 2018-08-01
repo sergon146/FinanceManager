@@ -1,4 +1,4 @@
-package com.myst3ry.financemanager.ui.fragment;
+package com.myst3ry.financemanager.ui.settings;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;

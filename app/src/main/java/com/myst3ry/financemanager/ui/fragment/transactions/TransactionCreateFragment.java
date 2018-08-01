@@ -1,4 +1,4 @@
-package com.myst3ry.financemanager.ui.fragment;
+package com.myst3ry.financemanager.ui.fragment.transactions;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -22,9 +22,10 @@ import com.myst3ry.calculations.model.Account;
 import com.myst3ry.calculations.model.Transaction;
 import com.myst3ry.financemanager.BuildConfig;
 import com.myst3ry.financemanager.R;
-import com.myst3ry.financemanager.db.AccountsDbStub;
-import com.myst3ry.financemanager.db.RatesStorage;
-import com.myst3ry.financemanager.ui.dialog.SelectionDialogFragment;
+import com.myst3ry.financemanager.data.local.AccountsDbStub;
+import com.myst3ry.financemanager.data.local.RatesStorage;
+import com.myst3ry.financemanager.ui.fragment.BaseFragment;
+import com.myst3ry.financemanager.ui.fragment.dialogs.SelectionDialogFragment;
 import com.myst3ry.financemanager.utils.Utils;
 
 import java.math.BigDecimal;
@@ -157,7 +158,6 @@ public final class TransactionCreateFragment extends BaseFragment {
         mCategoryTextView.setText(mCategoryTitles.get(mCategoryIndex));
     }
 
-    //todo replace with db
     private ArrayList<String> getAccountTitles() {
         final List<Account> accounts = AccountsDbStub.getInstance().getAccounts();
         final ArrayList<String> titles = new ArrayList<>();
@@ -249,8 +249,7 @@ public final class TransactionCreateFragment extends BaseFragment {
         } else if (transaction.getTransactionType() == TransactionType.INCOME) {
             calcModule.income(transaction);
         }
-
-        //save into db
+        //+ save into db
         mActivity.getSupportFragmentManager().popBackStackImmediate();
     }
 }

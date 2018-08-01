@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/padding_double"
-        tools:context=".ui.fragment.TransactionCreateFragment">
+        tools:context=".ui.fragment.transactions.TransactionCreateFragment">
 
         <TextView
             android:id="@+id/tv_account_type_title"

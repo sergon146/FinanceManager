@@ -1,4 +1,4 @@
-package com.myst3ry.financemanager.ui.fragment;
+package com.myst3ry.financemanager.ui.fragment.balance;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,9 +14,9 @@ import com.myst3ry.calculations.Calculations;
 import com.myst3ry.calculations.CurrencyType;
 import com.myst3ry.calculations.model.Account;
 import com.myst3ry.financemanager.R;
-import com.myst3ry.financemanager.db.AccountsDbStub;
-import com.myst3ry.financemanager.db.RatesStorage;
-import com.myst3ry.financemanager.ui.activity.MainActivity;
+import com.myst3ry.financemanager.data.local.AccountsDbStub;
+import com.myst3ry.financemanager.data.local.RatesStorage;
+import com.myst3ry.financemanager.ui.fragment.BaseFragment;
 import com.myst3ry.financemanager.ui.view.DiagramView;
 import com.myst3ry.financemanager.utils.formatter.balance.BalanceFormatterFactory;
 import com.myst3ry.financemanager.utils.formatter.rate.DefaultRateFormatter;
@@ -44,9 +44,9 @@ public final class BalanceFragment extends BaseFragment {
 
     private BalanceFormatterFactory mFormatterFactory = new BalanceFormatterFactory();
     private AppCompatActivity mActivity;
+    private OnCreateTransactionsListener mListener;
     private Account mAccount;
-
-    private int mAccountIndex = 1;
+    private int mAccountIndex;
     private double mUSDRate;
 
     public static BalanceFragment newInstance() {
@@ -60,6 +60,11 @@ public final class BalanceFragment extends BaseFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         this.mActivity = (AppCompatActivity) context;
+        if (context instanceof OnCreateTransactionsListener) {
+            mListener = (OnCreateTransactionsListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement OnCreateTransactionsListener");
+        }
     }
 
     @Override
@@ -90,7 +95,7 @@ public final class BalanceFragment extends BaseFragment {
     }
 
     private void setExchangeRates() {
-        mUSDRate = (double) RatesStorage.getInstance().getUSDRate(mActivity);
+        mUSDRate = (double) RatesStorage.getInstance().getUSDRate(getActivity());
         mUSDRateTextView.setText(new DefaultRateFormatter().formatRate(mUSDRate));
     }
 
@@ -109,6 +114,12 @@ public final class BalanceFragment extends BaseFragment {
 
     @OnClick(R.id.fab_add_new_transaction)
     void onFabClick() {
-        ((MainActivity) mActivity).switchContent(TransactionCreateFragment.newInstance(mAccountIndex), TransactionCreateFragment.TAG);
+        if (mListener != null) {
+            mListener.onCreateNewTransaction(mAccountIndex);
+        }
+    }
+
+    public interface OnCreateTransactionsListener {
+        void onCreateNewTransaction(final int index);
     }
 }

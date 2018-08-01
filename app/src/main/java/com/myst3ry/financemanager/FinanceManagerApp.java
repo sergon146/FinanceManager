@@ -3,9 +3,9 @@ package com.myst3ry.financemanager;
 import android.app.Application;
 import android.content.Context;
 
-import com.myst3ry.financemanager.network.DaggerNetworkComponent;
-import com.myst3ry.financemanager.network.NetworkComponent;
-import com.myst3ry.financemanager.network.NetworkModule;
+import com.myst3ry.financemanager.data.remote.DaggerNetworkComponent;
+import com.myst3ry.financemanager.data.remote.NetworkComponent;
+import com.myst3ry.financemanager.data.remote.NetworkModule;
 import com.myst3ry.financemanager.utils.LocaleManager;
 
 public final class FinanceManagerApp extends Application {

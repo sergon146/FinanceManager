@@ -1,4 +1,4 @@
-package com.myst3ry.financemanager.ui.dialog;
+package com.myst3ry.financemanager.ui.fragment.dialogs;
 
 import android.app.Dialog;
 import android.content.DialogInterface;

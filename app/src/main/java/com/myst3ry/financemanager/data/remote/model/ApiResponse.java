@@ -1,4 +1,4 @@
-package com.myst3ry.financemanager.network.model;
+package com.myst3ry.financemanager.data.remote.model;
 
 import com.google.gson.annotations.SerializedName;
 

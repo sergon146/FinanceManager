@@ -1,10 +1,11 @@
-package com.myst3ry.financemanager.db;
+package com.myst3ry.financemanager.data.local;
 
 import com.myst3ry.calculations.model.Account;
 
 import java.util.ArrayList;
 import java.util.List;
 
+//todo implement db
 public final class AccountsDbStub {
 
     private List<Account> mAccounts = new ArrayList<>();

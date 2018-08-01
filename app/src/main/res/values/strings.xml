@@ -32,7 +32,7 @@
     <string name="text_about_app_version">Version: %s</string>
     <string name="text_about_title">Finance Manager</string>
     <string name="text_about_desc">This application was developed in accordance with the home task of the Yandex School of Mobile Development in 2018.</string>
-    <string name="text_about_developer">Developed by Alexey Egorov</string>
+    <string name="text_about_developer">Contact with Developer</string>
 
     <!--Contact Info-->
     <string name="mail_address">test@yandex.ru</string>

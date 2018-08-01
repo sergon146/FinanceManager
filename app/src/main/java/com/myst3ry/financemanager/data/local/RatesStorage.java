@@ -1,4 +1,4 @@
-package com.myst3ry.financemanager.db;
+package com.myst3ry.financemanager.data.local;
 
 import android.content.Context;
 import android.support.v7.preference.PreferenceManager;

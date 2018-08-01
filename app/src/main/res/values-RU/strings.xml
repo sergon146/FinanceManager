@@ -32,7 +32,7 @@
     <string name="text_about_app_version">Версия: %s</string>
     <string name="text_about_title">Менеджер финансов</string>
     <string name="text_about_desc">Это приложение было разработано в соответствии с домашним заданием Школы мобильной разработки Яндекс в 2018 году.</string>
-    <string name="text_about_developer">Разработчик Алексей Егоров</string>
+    <string name="text_about_developer">Связаться с Разработчиком</string>
 
     <!--Contact Info-->
     <string name="mail_address">test@yandex.ru</string>
