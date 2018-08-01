@@ -1,4 +1,4 @@
-package com.myst3ry.financemanager.ui.dialog;
+package com.myst3ry.financemanager.ui.fragment.dialogs;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import com.myst3ry.financemanager.R;
 
 import java.util.Objects;
 
-public final class ChangeLangDialogFragment extends DialogFragment {
+public final class LanguageDialogFragment extends DialogFragment {
 
     @NonNull
     @Override

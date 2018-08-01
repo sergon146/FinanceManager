@@ -1,9 +1,7 @@
-package com.myst3ry.financemanager.ui.activity;
+package com.myst3ry.financemanager.ui.activity.about;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
@@ -11,19 +9,17 @@ import android.widget.TextView;
 
 import com.myst3ry.financemanager.BuildConfig;
 import com.myst3ry.financemanager.R;
+import com.myst3ry.financemanager.ui.activity.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public final class AboutActivity extends BaseActivity {
+public final class AboutActivity extends BaseActivity implements AboutView {
 
     @BindView(R.id.tv_about_app_version)
     TextView mAppVersionTextView;
 
-    @OnClick(R.id.tv_about_developer)
-    void onDeveloperClick() {
-        contactDeveloper();
-    }
+    private AboutPresenter mAboutPresenter;
 
     public static Intent newIntent(final Context context) {
         return new Intent(context, AboutActivity.class);
@@ -35,6 +31,8 @@ public final class AboutActivity extends BaseActivity {
         setContentView(R.layout.activity_about);
         setupActionBar();
         setAboutInfo();
+
+        initPresenter();
     }
 
     @Override
@@ -49,6 +47,11 @@ public final class AboutActivity extends BaseActivity {
         }
     }
 
+    private void initPresenter() {
+        mAboutPresenter = new AboutPresenter();
+        mAboutPresenter.attachView(this);
+    }
+
     private void setupActionBar() {
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -60,16 +63,23 @@ public final class AboutActivity extends BaseActivity {
         mAppVersionTextView.setText(String.format(getString(R.string.text_about_app_version), BuildConfig.VERSION_NAME));
     }
 
-    private void contactDeveloper() {
-        final String subject = String.format(getString(R.string.mail_subject), BuildConfig.VERSION_NAME);
-        final String body = String.format(getString(R.string.mail_body), Build.MANUFACTURER,
-                Build.MODEL, Build.DEVICE, Build.ID, Build.VERSION.RELEASE, Build.VERSION.SDK_INT);
+    @OnClick(R.id.tv_about_developer)
+    void onDeveloperClick() {
+        final String subject = getString(R.string.mail_subject);
+        final String body = getString(R.string.mail_body);
+        final String mail = getString(R.string.mail_address);
+        mAboutPresenter.contactDeveloper(subject, body, mail);
+    }
 
-        final Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
-        final String uriString = "mailto:" + Uri.encode(getString(R.string.mail_address)) +
-                "?subject=" + Uri.encode(subject) + "&body=" + Uri.encode(body);
+    public void contact(final Intent intent) {
+        startActivity(Intent.createChooser(intent, getString(R.string.mail_chooser_text)));
+    }
 
-        sendIntent.setData(Uri.parse(uriString));
-        startActivity(Intent.createChooser(sendIntent, getString(R.string.mail_chooser_text)));
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (isDestroyed()) {
+            mAboutPresenter.detachView();
+        }
     }
 }

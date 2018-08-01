@@ -2,6 +2,7 @@
 <resources>
 
     <dimen name="padding_standard">16dp</dimen>
+    <dimen name="padding_double">32dp</dimen>
 
     <dimen name="margin_half">8dp</dimen>
     <dimen name="margin_standard">16dp</dimen>
@@ -9,4 +10,7 @@
     <dimen name="margin_double_inc">48dp</dimen>
 
     <dimen name="div_height">1dp</dimen>
+    <dimen name="fab_elevation_standard">6dp</dimen>
+    <dimen name="diagram_view_size">120dp</dimen>
+
 </resources>

@@ -1,28 +1,34 @@
 package com.myst3ry.calculations.model;
 
 import com.myst3ry.calculations.CurrencyType;
-import com.myst3ry.calculations.OperationType;
+import com.myst3ry.calculations.TransactionType;
 
 import java.math.BigDecimal;
 
 public final class Transaction {
 
-    private OperationType mOperationType;
+    private TransactionType mTransactionType;
     private CurrencyType mCurrencyType;
     private BigDecimal mAmount;
+    private String mCategory;
 
-    public Transaction(OperationType operationType, CurrencyType currencyType, BigDecimal amount) {
-        this.mOperationType = operationType;
-        this.mCurrencyType = currencyType;
-        this.mAmount = amount;
+    private Transaction(final Builder builder) {
+        this.mTransactionType = builder.mTransactionType;
+        this.mCurrencyType = builder.mCurrencyType;
+        this.mAmount = builder.mAmount;
+        this.mCategory = builder.mCategory;
     }
 
-    public OperationType getOperationType() {
-        return mOperationType;
+    public static Builder newBuilder() {
+        return new Builder();
     }
 
-    public void setOperationType(final OperationType operationType) {
-        this.mOperationType = operationType;
+    public TransactionType getTransactionType() {
+        return mTransactionType;
+    }
+
+    public void setTransactionType(final TransactionType transactionType) {
+        this.mTransactionType = transactionType;
     }
 
     public CurrencyType getCurrencyType() {
@@ -39,5 +45,40 @@ public final class Transaction {
 
     public void setAmount(final BigDecimal amount) {
         this.mAmount = amount;
+    }
+
+    public static final class Builder {
+
+        private TransactionType mTransactionType;
+        private CurrencyType mCurrencyType;
+        private BigDecimal mAmount;
+        private String mCategory;
+
+        private Builder() {
+        }
+
+        public Builder setTransactionType(final TransactionType transactionType) {
+            this.mTransactionType = transactionType;
+            return this;
+        }
+
+        public Builder setCurrencyType(final CurrencyType currencyType) {
+            this.mCurrencyType = currencyType;
+            return this;
+        }
+
+        public Builder setAmount(final BigDecimal amount) {
+            this.mAmount = amount;
+            return this;
+        }
+
+        public Builder setCategory(final String category) {
+            this.mCategory = category;
+            return this;
+        }
+
+        public Transaction build() {
+            return new Transaction(this);
+        }
     }
 }

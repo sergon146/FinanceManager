@@ -1,4 +1,4 @@
-package com.myst3ry.financemanager.ui.activity;
+package com.myst3ry.financemanager.ui.settings;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,7 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
 import com.myst3ry.financemanager.R;
-import com.myst3ry.financemanager.ui.fragment.SettingsFragment;
+import com.myst3ry.financemanager.ui.activity.BaseActivity;
 
 public final class SettingsActivity extends BaseActivity {
 

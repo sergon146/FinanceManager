@@ -25,7 +25,7 @@ public final class LocaleManager {
                 .getString(context.getString(R.string.key_language), Locale.getDefault().getLanguage());
     }
 
-    //todo api 26
+    //todo api 26 conflict
     private static void updateResources(final Context context, final String language) {
         final Locale locale = new Locale(language);
         Locale.setDefault(locale);
