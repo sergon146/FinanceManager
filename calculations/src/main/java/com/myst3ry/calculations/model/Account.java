@@ -7,58 +7,74 @@ import java.math.BigDecimal;
 
 public final class Account {
 
-    private int mId;
     private String mTitle;
     private BigDecimal mBalance;
     private CurrencyType mCurrencyType;
     private AccountType mAccountType;
 
-    public Account(final int id, final String title, final BigDecimal balance,
-                   final CurrencyType currencyType, final AccountType accountType) {
-        this.mId = id;
-        this.mTitle = title;
-        this.mBalance = balance;
-        this.mCurrencyType = currencyType;
-        this.mAccountType = accountType;
+    private Account(final Builder builder) {
+        mTitle = builder.mTitle;
+        mBalance = builder.mBalance;
+        mCurrencyType = builder.mCurrencyType;
+        mAccountType = builder.mAccountType;
     }
 
-    public int getId() {
-        return mId;
-    }
-
-    public void setId(final int id) {
-        this.mId = id;
+    public static Builder newBuilder() {
+        return new Builder();
     }
 
     public String getTitle() {
         return mTitle;
     }
 
-    public void setTitle(final String title) {
-        this.mTitle = title;
-    }
-
     public BigDecimal getBalance() {
         return mBalance;
-    }
-
-    public void setBalance(final BigDecimal balance) {
-        this.mBalance = balance;
     }
 
     public CurrencyType getCurrencyType() {
         return mCurrencyType;
     }
 
-    public void setCurrencyType(final CurrencyType currencyType) {
-        this.mCurrencyType = currencyType;
-    }
-
     public AccountType getAccountType() {
         return mAccountType;
     }
 
-    public void setAccountType(final AccountType accountType) {
-        this.mAccountType = accountType;
+    public void setBalance(final BigDecimal balance) {
+        this.mBalance = balance;
+    }
+
+    public static final class Builder {
+
+        private String mTitle;
+        private BigDecimal mBalance;
+        private CurrencyType mCurrencyType;
+        private AccountType mAccountType;
+
+        private Builder() {
+        }
+
+        public Builder setTitle(final String title) {
+            this.mTitle = title;
+            return this;
+        }
+
+        public Builder setBalance(final BigDecimal balance) {
+            this.mBalance = balance;
+            return this;
+        }
+
+        public Builder setCurrencyType(final CurrencyType currencyType) {
+            this.mCurrencyType = currencyType;
+            return this;
+        }
+
+        public Builder setAccountType(final AccountType accountType) {
+            this.mAccountType = accountType;
+            return this;
+        }
+
+        public Account build() {
+            return new Account(this);
+        }
     }
 }

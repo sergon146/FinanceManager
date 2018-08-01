@@ -15,14 +15,19 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.myst3ry.calculations.Calculations;
 import com.myst3ry.calculations.CurrencyType;
+import com.myst3ry.calculations.TransactionType;
 import com.myst3ry.calculations.model.Account;
+import com.myst3ry.calculations.model.Transaction;
 import com.myst3ry.financemanager.BuildConfig;
 import com.myst3ry.financemanager.R;
 import com.myst3ry.financemanager.db.AccountsDbStub;
+import com.myst3ry.financemanager.db.RatesStorage;
 import com.myst3ry.financemanager.ui.dialog.SelectionDialogFragment;
 import com.myst3ry.financemanager.utils.Utils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -48,7 +53,12 @@ public final class TransactionCreateFragment extends BaseFragment {
     EditText mAmountEditText;
 
     @State
+    CurrencyType mCurrentCurrencyType;
+    @State
+    TransactionType mCurrentTransactionType;
+    @State
     int mAccountIndex, mTransactionIndex, mCurrencyIndex, mCategoryIndex;
+
     private ArrayList<String> mAccountTitles, mTransactionTitles, mCurrencyTitles, mCategoryTitles;
 
     private AppCompatActivity mActivity;
@@ -173,6 +183,7 @@ public final class TransactionCreateFragment extends BaseFragment {
     void selectTransactionType() {
         final SelectionDialogFragment dialog = SelectionDialogFragment.newInstance(mTransactionTitles, mTransactionIndex);
         dialog.setOnDialogSelectionListener(selectedIndex -> {
+            mCurrentTransactionType = TransactionType.values()[selectedIndex];
             final String type = mTransactionTitles.get(selectedIndex);
             replaceCategoryList(type);
             mTransactionTextView.setText(type);
@@ -185,7 +196,8 @@ public final class TransactionCreateFragment extends BaseFragment {
     void selectCurrencyType() {
         final SelectionDialogFragment dialog = SelectionDialogFragment.newInstance(mCurrencyTitles, mCurrencyIndex);
         dialog.setOnDialogSelectionListener(selectedIndex -> {
-            mCurrencyTextView.setText(CurrencyType.values()[selectedIndex].name());
+            mCurrentCurrencyType = CurrencyType.values()[selectedIndex];
+            mCurrencyTextView.setText(mCurrentCurrencyType.name());
             mCurrencyIndex = selectedIndex;
         });
         dialog.show(mActivity.getSupportFragmentManager(), null);
@@ -215,6 +227,30 @@ public final class TransactionCreateFragment extends BaseFragment {
     }
 
     private void createTransaction() {
-        //todo implement
+        final String amount = mAmountEditText.getText().toString();
+        if (!amount.isEmpty()) {
+            final Transaction transaction = Transaction.newBuilder()
+                    .setAmount(new BigDecimal(amount))
+                    .setCurrencyType(mCurrentCurrencyType)
+                    .setTransactionType(mCurrentTransactionType)
+                    .setCategory(mCategoryTextView.getText().toString())
+                    .build();
+            performTransaction(transaction);
+        } else {
+            showToast(getString(R.string.err_empty_field));
+        }
+    }
+
+    private void performTransaction(final Transaction transaction) {
+        final Account currentAccount = AccountsDbStub.getInstance().getAccount(mAccountIndex);
+        Calculations calcModule = Calculations.getInstance(currentAccount, RatesStorage.getInstance().getUSDRate(mActivity));
+        if (transaction.getTransactionType() == TransactionType.EXPENSE) {
+            calcModule.expense(transaction);
+        } else if (transaction.getTransactionType() == TransactionType.INCOME) {
+            calcModule.income(transaction);
+        }
+
+        //save into db
+        mActivity.getSupportFragmentManager().popBackStackImmediate();
     }
 }

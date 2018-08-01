@@ -68,6 +68,7 @@
     <!--Connection-->
     <string name="error">Ошибка %d (%s)</string>
     <string name="connection_error">Проверьте свое соединение с интернетом</string>
+    <string name="err_empty_field">Необходимо ввести сумму</string>
 
     <!--Transaction Categories-->
     <string-array name="arr_expense_categories">

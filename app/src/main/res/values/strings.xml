@@ -64,6 +64,7 @@
     <string name="dialog_title_usd">United States Dollar (USD)</string>
     <string name="title_accept">Add</string>
     <string name="new_transaction_title">New Transaction</string>
+    <string name="err_empty_field">You should enter amount first</string>
 
     <!--Connection-->
     <string name="http_error">Error Code#%d (%s)</string>

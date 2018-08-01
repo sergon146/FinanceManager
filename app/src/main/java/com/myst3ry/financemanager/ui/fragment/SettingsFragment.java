@@ -52,7 +52,6 @@ public final class SettingsFragment extends PreferenceFragmentCompat implements 
             preference.setSummary(index >= 0 ? listPreference.getEntries()[index] : null);
             listPreference.setValueIndex(index >= 0 ? index : 0);
 
-            //todo fix dialog
             if (key.equals(getString(R.string.key_language))) {
                 if (listPreference.getValue().equals(defLang)) {
                     //LocaleManager.setNewLocale(getActivity(), sharedPreferences.getString(key, defLang));

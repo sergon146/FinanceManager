@@ -4,6 +4,7 @@ import com.myst3ry.calculations.model.Account;
 import com.myst3ry.calculations.model.Transaction;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public final class Calculations {
 
@@ -20,9 +21,9 @@ public final class Calculations {
         if (instance == null) {
             synchronized (Calculations.class) {
                 instance = INSTANCE;
-            }
-            if (instance == null) {
-                instance = INSTANCE = new Calculations(account, rate);
+                if (instance == null) {
+                    instance = INSTANCE = new Calculations(account, rate);
+                }
             }
         }
         return instance;
@@ -34,7 +35,7 @@ public final class Calculations {
     }
 
     public void income(final Transaction transaction) {
-        if (transaction.getOperationType() == TransactionType.INCOME) {
+        if (transaction.getTransactionType() == TransactionType.INCOME) {
             if (transaction.getCurrencyType() == CurrencyType.RUR) {
                 mAccount.setBalance(mAccount.getBalance().add(transaction.getAmount()));
             } else if (transaction.getCurrencyType() == CurrencyType.USD) {
@@ -44,13 +45,25 @@ public final class Calculations {
     }
 
     public void expense(final Transaction transaction) {
-        if (transaction.getOperationType() == TransactionType.EXPENSE) {
+        if (transaction.getTransactionType() == TransactionType.EXPENSE) {
             if (transaction.getCurrencyType() == CurrencyType.RUR) {
                 mAccount.setBalance(mAccount.getBalance().subtract(transaction.getAmount()));
             } else if (transaction.getCurrencyType() == CurrencyType.USD) {
                 mAccount.setBalance(mAccount.getBalance().subtract(convertToRur(transaction.getAmount())));
             }
         }
+    }
+
+    public BigDecimal getTotalBalance(final List<Account> accounts) {
+        BigDecimal totalBalance = BigDecimal.ZERO;
+        for (final Account account : accounts) {
+            if (account.getCurrencyType() == CurrencyType.USD) {
+                totalBalance = totalBalance.add(convertToRur(account.getBalance()));
+            } else if (account.getCurrencyType() == CurrencyType.RUR) {
+                totalBalance = totalBalance.add(account.getBalance());
+            }
+        }
+        return totalBalance;
     }
 
     public BigDecimal getBalanceInRur() {

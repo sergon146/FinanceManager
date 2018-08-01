@@ -1,6 +1,5 @@
 package com.myst3ry.financemanager.utils;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -17,8 +16,6 @@ public final class LocaleManager {
         updateResources(context, language);
     }
 
-    //todo change language in runtime
-    @SuppressLint("unused")
     public static void setNewLocale(final Context context, final String language) {
         updateResources(context, language);
     }

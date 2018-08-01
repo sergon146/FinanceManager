@@ -16,9 +16,9 @@ public final class AccountsDbStub {
         if (instance == null) {
             synchronized (AccountsDbStub.class) {
                 instance = INSTANCE;
-            }
-            if (instance == null) {
-                instance = INSTANCE = new AccountsDbStub();
+                if (instance == null) {
+                    instance = INSTANCE = new AccountsDbStub();
+                }
             }
         }
         return instance;
@@ -28,15 +28,11 @@ public final class AccountsDbStub {
         this.mAccounts.add(account);
     }
 
-    public void removeAccount(final int accountId) {
-        for (final Account account : mAccounts) {
-            if (account.getId() == accountId) {
-                mAccounts.remove(account);
-            }
-        }
-    }
-
     public List<Account> getAccounts() {
         return mAccounts;
+    }
+
+    public Account getAccount(final int index) {
+        return mAccounts.get(index);
     }
 }

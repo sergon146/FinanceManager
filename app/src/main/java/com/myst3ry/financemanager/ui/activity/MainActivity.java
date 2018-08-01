@@ -1,6 +1,8 @@
 package com.myst3ry.financemanager.ui.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +14,7 @@ import com.myst3ry.calculations.model.Account;
 import com.myst3ry.financemanager.FinanceManagerApp;
 import com.myst3ry.financemanager.R;
 import com.myst3ry.financemanager.db.AccountsDbStub;
+import com.myst3ry.financemanager.db.RatesStorage;
 import com.myst3ry.financemanager.network.CBRApi;
 import com.myst3ry.financemanager.network.model.Valute;
 import com.myst3ry.financemanager.ui.fragment.BalanceFragment;
@@ -25,10 +28,6 @@ import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.HttpException;
-
-//TODO 1. MVP + Clean Architecture
-//TODO 2. Realm
-//TODO 3. Tests
 
 public final class MainActivity extends BaseActivity {
 
@@ -70,12 +69,20 @@ public final class MainActivity extends BaseActivity {
         }
     }
 
-    //todo replace with db
     private void initUserAccounts() {
         final AccountsDbStub stub = AccountsDbStub.getInstance();
-        stub.addAccount(new Account(0, "Кошелек", new BigDecimal("123541"), CurrencyType.RUR, AccountType.CASH));
-        stub.addAccount(new Account(1, "Кредитная карта", new BigDecimal("1678"), CurrencyType.USD, AccountType.CASH));
-        stub.addAccount(new Account(2, "Наличные", new BigDecimal("13463"), CurrencyType.RUR, AccountType.CREDIT));
+        stub.addAccount(Account.newBuilder()
+                .setTitle("Наличные")
+                .setBalance(new BigDecimal(50000))
+                .setCurrencyType(CurrencyType.RUR)
+                .setAccountType(AccountType.CASH)
+                .build());
+        stub.addAccount(Account.newBuilder()
+                .setTitle("Кредитная карта")
+                .setBalance(new BigDecimal(60000))
+                .setCurrencyType(CurrencyType.RUR)
+                .setAccountType(AccountType.CREDIT)
+                .build());
     }
 
     private void initUI() {
@@ -118,7 +125,16 @@ public final class MainActivity extends BaseActivity {
         );
     }
 
+    public void switchContent(final Fragment fragment, final String tag) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content_frame_main, fragment, tag)
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                .addToBackStack(tag)
+                .commit();
+    }
+
     private void saveActualExchangeRates(final Valute valutes) {
-        ((FinanceManagerApp) getApplication()).saveRates(valutes != null ? valutes.getUSD().getValue() : 0f);
+        RatesStorage.getInstance().saveUSDRate(this, valutes != null ? valutes.getUSD().getValue() : 0f);
     }
 }

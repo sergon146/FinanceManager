@@ -3,7 +3,6 @@ package com.myst3ry.financemanager.ui.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -14,15 +13,15 @@ import android.widget.TextView;
 import com.myst3ry.calculations.Calculations;
 import com.myst3ry.calculations.CurrencyType;
 import com.myst3ry.calculations.model.Account;
-import com.myst3ry.financemanager.FinanceManagerApp;
 import com.myst3ry.financemanager.R;
 import com.myst3ry.financemanager.db.AccountsDbStub;
+import com.myst3ry.financemanager.db.RatesStorage;
+import com.myst3ry.financemanager.ui.activity.MainActivity;
 import com.myst3ry.financemanager.ui.view.DiagramView;
 import com.myst3ry.financemanager.utils.formatter.balance.BalanceFormatterFactory;
 import com.myst3ry.financemanager.utils.formatter.rate.DefaultRateFormatter;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -47,7 +46,7 @@ public final class BalanceFragment extends BaseFragment {
     private AppCompatActivity mActivity;
     private Account mAccount;
 
-    private int mAccountIndex = 2;
+    private int mAccountIndex = 1;
     private double mUSDRate;
 
     public static BalanceFragment newInstance() {
@@ -91,7 +90,7 @@ public final class BalanceFragment extends BaseFragment {
     }
 
     private void setExchangeRates() {
-        mUSDRate = (double) ((FinanceManagerApp) mActivity.getApplication()).getSavedUSDRate();
+        mUSDRate = (double) RatesStorage.getInstance().getUSDRate(mActivity);
         mUSDRateTextView.setText(new DefaultRateFormatter().formatRate(mUSDRate));
     }
 
@@ -99,25 +98,10 @@ public final class BalanceFragment extends BaseFragment {
         final Calculations calcModule = Calculations.getInstance(mAccount, mUSDRate);
         final BigDecimal balanceRUR = calcModule.getBalanceInRur();
         final BigDecimal balanceUSD = calcModule.getBalanceInUsd();
+        final BigDecimal totalBalance = calcModule.getTotalBalance(AccountsDbStub.getInstance().getAccounts());
 
-        final List<Account> accounts = AccountsDbStub.getInstance().getAccounts();
-        BigDecimal totalBalance = new BigDecimal(0);
-        for (final Account account : accounts) {
-            if (account.getCurrencyType() == CurrencyType.USD) {
-                totalBalance = totalBalance.add(calcModule.convertToRur(account.getBalance()));
-            } else if (account.getCurrencyType() == CurrencyType.RUR) {
-                totalBalance = totalBalance.add(account.getBalance());
-            }
-
-        }
-
-        if (mAccount.getCurrencyType() == CurrencyType.RUR) {
-            mMainCurBalanceTextView.setText(mFormatterFactory.create(CurrencyType.RUR).formatBalance(balanceRUR));
-            mSecondCurBalanceTextView.setText(mFormatterFactory.create(CurrencyType.USD).formatBalance(balanceUSD));
-        } else {
-            mMainCurBalanceTextView.setText(mFormatterFactory.create(CurrencyType.USD).formatBalance(balanceUSD));
-            mSecondCurBalanceTextView.setText(mFormatterFactory.create(CurrencyType.RUR).formatBalance(balanceRUR));
-        }
+        mMainCurBalanceTextView.setText(mFormatterFactory.create(CurrencyType.RUR).formatBalance(balanceRUR));
+        mSecondCurBalanceTextView.setText(mFormatterFactory.create(CurrencyType.USD).formatBalance(balanceUSD));
 
         mDiagramView.update(balanceRUR.longValue(), totalBalance.longValue() - balanceRUR.longValue());
         mCurrentAccountTextView.setText(String.format(getString(R.string.text_current_account), mAccount.getTitle()));
@@ -125,15 +109,6 @@ public final class BalanceFragment extends BaseFragment {
 
     @OnClick(R.id.fab_add_new_transaction)
     void onFabClick() {
-        onNewTransactionRequest();
-    }
-
-    private void onNewTransactionRequest() {
-        mActivity.getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.content_frame_main, TransactionCreateFragment.newInstance(mAccountIndex), TransactionCreateFragment.TAG)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .addToBackStack(TransactionCreateFragment.TAG)
-                .commit();
+        ((MainActivity) mActivity).switchContent(TransactionCreateFragment.newInstance(mAccountIndex), TransactionCreateFragment.TAG);
     }
 }
