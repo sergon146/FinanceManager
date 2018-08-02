@@ -10,7 +10,11 @@ import com.myst3ry.financemanager.utils.LocaleManager;
 
 public final class FinanceManagerApp extends Application {
 
-    private NetworkComponent mNetworkComponent;
+    private NetworkComponent networkComponent;
+
+    public static NetworkComponent getNetworkComponent(final Context context) {
+        return ((FinanceManagerApp) context.getApplicationContext()).networkComponent;
+    }
 
     @Override
     public void onCreate() {
@@ -21,12 +25,8 @@ public final class FinanceManagerApp extends Application {
 
     private void prepareDaggerComponents() {
         final NetworkModule networkModule = new NetworkModule();
-        mNetworkComponent = DaggerNetworkComponent.builder()
+        networkComponent = DaggerNetworkComponent.builder()
                 .networkModule(networkModule)
                 .build();
-    }
-
-    public static NetworkComponent getNetworkComponent(final Context context) {
-        return ((FinanceManagerApp) context.getApplicationContext()).mNetworkComponent;
     }
 }

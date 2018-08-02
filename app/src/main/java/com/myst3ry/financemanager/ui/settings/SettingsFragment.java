@@ -9,6 +9,7 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceManager;
 
 import com.myst3ry.financemanager.R;
+import com.myst3ry.financemanager.ui.base.BaseActivity;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -27,6 +28,8 @@ public final class SettingsFragment extends PreferenceFragmentCompat implements 
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(getActivity()));
         onSharedPreferenceChanged(prefs, getString(R.string.key_language));
+
+        ((BaseActivity) getActivity()).setScreenTitle(R.string.tab_settings);
     }
 
     @Override

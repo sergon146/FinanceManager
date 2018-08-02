@@ -1,6 +1,6 @@
 package com.myst3ry.financemanager.data.remote;
 
-import com.myst3ry.financemanager.ui.activity.main.MainModel;
+import com.myst3ry.financemanager.ui.main.MainModel;
 
 import javax.inject.Singleton;
 

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <path
+        android:pathData="M 12 0.5 C 18.3512746231 0.5 23.5 5.64872537695 23.5 12 C 23.5 18.3512746231 18.3512746231 23.5 12 23.5 C 5.64872537695 23.5 0.5 18.3512746231 0.5 12 C 0.5 5.64872537695 5.64872537695 0.5 12 0.5 Z"
+        android:strokeWidth="1"
+        android:strokeColor="@color/tab_icon"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeMiterLimit="10" />
+    <path
+        android:pathData="M 12 0.5 L 12 2.5"
+        android:strokeWidth="1"
+        android:strokeColor="@color/tab_icon"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeMiterLimit="10" />
+    <path
+        android:pathData="M 12 21.5 L 12 23.5"
+        android:strokeWidth="1"
+        android:strokeColor="@color/tab_icon"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeMiterLimit="10" />
+    <path
+        android:pathData="M 20.0564575 6.9657593 L 21.7206116 5.8524065"
+        android:strokeWidth="1"
+        android:strokeColor="@color/tab_icon"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeMiterLimit="10" />
+    <path
+        android:pathData="M 3.9435425 17.0342407 L 2.2793858 18.1475945"
+        android:strokeWidth="1"
+        android:strokeColor="@color/tab_icon"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeMiterLimit="10" />
+    <path
+        android:pathData="M 20.3880005 16.4599609 L 22.1019497 17.5"
+        android:strokeWidth="1"
+        android:strokeColor="@color/tab_icon"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeMiterLimit="10" />
+    <path
+        android:pathData="M 3.6119995 7.539978 L 1.8670549 6.5573778"
+        android:strokeWidth="1"
+        android:strokeColor="@color/tab_icon"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeMiterLimit="10" />
+    <path
+        android:pathData="M21.1201782,14.0178833l-1.3294067-0.223999C19.9232788,13.2164307,20,12.6176758,20,12 c0-0.8123169-0.1231079-1.59552-0.3481445-2.3342285l1.3053589-0.3149414c0,0,0.1590576-0.6889648-0.9007568-2.3850708 s-1.7488403-1.8551636-1.7488403-1.8551636l-0.8607178,1.041748c-0.9418335-0.8775635-2.0933228-1.5281372-3.3739014-1.8713379 L14.5,3c0,0-0.5-0.5-2.5-0.5S9.5,3,9.5,3l0.427002,1.2810059C8.4612427,4.6738892,7.1641235,5.4696045,6.1583862,6.5464478 L5.2271729,5.5673828c0,0-0.6762085,0.2067261-1.6151733,1.9725952C2.6730347,9.3059082,2.8798218,9.9821167,2.8798218,9.9821167 l1.3294067,0.223999C4.0767212,10.7835693,4,11.3823242,4,12c0,0.8122559,0.1231079,1.595459,0.3481445,2.3341675 l-1.3053589,0.3149414c0,0-0.1590576,0.6890259,0.9007568,2.3851318c1.0598145,1.6960449,1.7488403,1.8551636,1.7488403,1.8551636 l0.8607178-1.041748c0.9418335,0.8775635,2.0933228,1.5281372,3.3739014,1.8713379L9.5,21c0,0,0.5,0.5,2.5,0.5s2.5-0.5,2.5-0.5 l-0.427002-1.2810059c1.4657593-0.3928833,2.7628784-1.1885986,3.7686157-2.2654419l0.9312134,0.9790649 c0,0,0.6762085-0.2067871,1.6151733-1.9726563S21.1201782,14.0178833,21.1201782,14.0178833z"
+        android:strokeWidth="1"
+        android:strokeColor="@color/tab_icon"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeMiterLimit="10" />
+    <path
+        android:pathData="M15.5,12 c0-0.2738037-0.0388184-0.5371704-0.0982666-0.7929077l2.977417-1.1580811l-1.5-2.5980835l-2.4932861,2.0007935 c-0.3858032-0.3613281-0.8543091-0.6273804-1.3730469-0.7851563L13.5,5.5h-3l0.4871826,3.1665649 C10.4684448,8.8243408,9.999939,9.0903931,9.6141357,9.4517212L7.1208496,7.4509277l-1.5,2.5980835l2.977417,1.1580811 C8.5388184,11.4628296,8.5,11.7261963,8.5,12s0.0388184,0.5371704,0.0982666,0.7928467l-2.977417,1.1580811l1.5,2.5980835 l2.4932251-2.0007935c0.3858032,0.3613281,0.8543701,0.6274414,1.3731079,0.7852173L10.5,18.5h3l-0.4871826-3.1665649 c0.5187378-0.1577759,0.9873047-0.4238892,1.3731079-0.7852173l2.4932251,2.0007935l1.5-2.5980835l-2.977417-1.1580811 C15.4611816,12.5371704,15.5,12.2738037,15.5,12z"
+        android:strokeWidth="1"
+        android:strokeColor="@color/tab_icon"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeMiterLimit="10" />
+</vector>

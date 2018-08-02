@@ -5,12 +5,10 @@ import com.myst3ry.calculations.model.Account;
 import java.util.ArrayList;
 import java.util.List;
 
-//todo implement db
 public final class AccountsDbStub {
 
-    private List<Account> mAccounts = new ArrayList<>();
-
     private static volatile AccountsDbStub INSTANCE;
+    private List<Account> mAccounts = new ArrayList<>();
 
     public static AccountsDbStub getInstance() {
         AccountsDbStub instance = INSTANCE;

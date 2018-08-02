@@ -15,6 +15,28 @@
         <item>en</item>
     </string-array>
 
+    <!--Tab bar-->
+    <string name="tab_main">Главная</string>
+    <string name="tab_feed">Лента</string>
+    <string name="tab_report">Отчёт</string>
+    <string name="tab_settings">Настройки</string>
+    <string name="empty"> </string>
+    <!--Tab bar-->
+
+    <!--Account screen-->
+    <string name="add_wallet">Добавить счёт</string>
+    <!--Account screen-->
+
+    <!--Currency type-->
+    <string name="rub_symbol">₽</string>
+    <string name="usd_symbol">$</string>
+    <!--Currency type-->
+
+    <!--Account type-->
+    <string name="cash_type">Наличные</string>
+    <string name="card_type">Карта</string>
+    <!--Account type-->
+
     <!--Titles-->
     <string name="title_balance">Баланс</string>
     <string name="title_settings">Настройки</string>

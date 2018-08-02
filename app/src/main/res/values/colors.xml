@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_primary">#4CAF50</color>
-    <color name="color_primary_dark">#388E3C</color>
-    <color name="color_accent">#CDDC39</color>
+
+    <color name="color_primary">#4982f3</color>
+    <color name="color_primary_dark">#e19f25</color>
+    <color name="color_accent">@color/color_primary_dark</color>
 
     <color name="color_primary_text">#212121</color>
     <color name="color_secondary_text">#FFFFFF</color>
@@ -10,4 +11,15 @@
     <color name="color_primary_background">#FFFFFF</color>
     <color name="color_secondary_background">#212121</color>
 
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="white_50">#80ffffff</color>
+    <color name="transparent">#0000</color>
+
+    <color name="gradient_top">@color/color_primary_dark</color>
+    <color name="gradient_bottom">#fccd73</color>
+
+    <color name="charcoal_grey">#404b50</color>
+
+    <color name="tab_icon">@color/white</color>
 </resources>
