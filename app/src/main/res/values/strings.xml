@@ -15,6 +15,10 @@
         <item>en</item>
     </string-array>
 
+
+    <string name="accept">Add</string>
+    <string name="decline">Cancel</string>
+
     <!--Tab bar-->
     <string name="tab_main">Main</string>
     <string name="tab_feed">Feed</string>
@@ -46,7 +50,7 @@
     <string name="text_currency_usd">USD</string>
     <string name="text_currency_rur">RUR</string>
     <string name="usd_exchange_rate">United States Dollar (USD)</string>
-    <string name="text_sell_title">Rate</string>
+    <string name="text_usd_rate_title">Rate</string>
     <string name="text_exchange_rates_title">Exchange rates</string>
     <string name="text_current_account">Account: %s</string>
 
@@ -58,7 +62,7 @@
 
     <!--Contact Info-->
     <string name="mail_address">test@yandex.ru</string>
-    <string name="mail_subject">Feedback: Finance Manager version.%s</string>
+    <string name="mail_subject">Feedback: Star Coin version.%s</string>
     <string name="mail_body">Device: %s %s (%s)\nBuild: %s\nVersion: %s (%d)\n\nMessage:\u0020\u0013</string>
     <string name="mail_chooser_text">Choose app:</string>
 
@@ -77,16 +81,16 @@
     <string name="dialog_title_expense">Expense</string>
     <string name="dialog_title_income">Income</string>
     <string name="text_select_account">Select account</string>
-    <string name="text_transaction_type">Transaction type</string>
+    <string name="text_transaction_type">Select transaction type</string>
     <string name="hint_enter_amount">Enter amount</string>
     <string name="text_select_currency">Select currency</string>
-    <string name="text_add_category_label">Label</string>
+    <string name="text_add_category_label">Select category</string>
     <string name="text_current_category">None</string>
     <string name="dialog_title_rur">Russian Ruble (RUR)</string>
     <string name="dialog_title_usd">United States Dollar (USD)</string>
-    <string name="title_accept">Add</string>
     <string name="new_transaction_title">New Transaction</string>
     <string name="err_empty_field">You should enter amount first</string>
+    <string name="error_create_transaction">Something went wrong! The transaction was not added</string>
 
     <!--Connection-->
     <string name="http_error">Error Code#%d (%s)</string>

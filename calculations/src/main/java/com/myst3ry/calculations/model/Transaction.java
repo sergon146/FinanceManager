@@ -7,16 +7,16 @@ import java.math.BigDecimal;
 
 public final class Transaction {
 
-    private TransactionType mTransactionType;
-    private CurrencyType mCurrencyType;
-    private BigDecimal mAmount;
-    private String mCategory;
+    private TransactionType transactionType;
+    private CurrencyType currencyType;
+    private BigDecimal amount;
+    private String category;
 
     private Transaction(final Builder builder) {
-        this.mTransactionType = builder.mTransactionType;
-        this.mCurrencyType = builder.mCurrencyType;
-        this.mAmount = builder.mAmount;
-        this.mCategory = builder.mCategory;
+        this.transactionType = builder.transactionType;
+        this.currencyType = builder.currencyType;
+        this.amount = builder.amount;
+        this.category = builder.category;
     }
 
     public static Builder newBuilder() {
@@ -24,56 +24,56 @@ public final class Transaction {
     }
 
     public TransactionType getTransactionType() {
-        return mTransactionType;
+        return transactionType;
     }
 
     public void setTransactionType(final TransactionType transactionType) {
-        this.mTransactionType = transactionType;
+        this.transactionType = transactionType;
     }
 
     public CurrencyType getCurrencyType() {
-        return mCurrencyType;
+        return currencyType;
     }
 
     public void setCurrencyType(final CurrencyType currencyType) {
-        this.mCurrencyType = currencyType;
+        this.currencyType = currencyType;
     }
 
     public BigDecimal getAmount() {
-        return mAmount;
+        return amount;
     }
 
     public void setAmount(final BigDecimal amount) {
-        this.mAmount = amount;
+        this.amount = amount;
     }
 
     public static final class Builder {
 
-        private TransactionType mTransactionType;
-        private CurrencyType mCurrencyType;
-        private BigDecimal mAmount;
-        private String mCategory;
+        private TransactionType transactionType;
+        private CurrencyType currencyType;
+        private BigDecimal amount;
+        private String category;
 
         private Builder() {
         }
 
         public Builder setTransactionType(final TransactionType transactionType) {
-            this.mTransactionType = transactionType;
+            this.transactionType = transactionType;
             return this;
         }
 
         public Builder setCurrencyType(final CurrencyType currencyType) {
-            this.mCurrencyType = currencyType;
+            this.currencyType = currencyType;
             return this;
         }
 
         public Builder setAmount(final BigDecimal amount) {
-            this.mAmount = amount;
+            this.amount = amount;
             return this;
         }
 
         public Builder setCategory(final String category) {
-            this.mCategory = category;
+            this.category = category;
             return this;
         }
 

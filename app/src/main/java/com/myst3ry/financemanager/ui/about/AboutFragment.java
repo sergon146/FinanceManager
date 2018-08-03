@@ -7,13 +7,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.myst3ry.financemanager.R;
 import com.myst3ry.financemanager.ui.base.BaseFragment;
 import com.myst3ry.financemanager.utils.Utils;
 
+import javax.inject.Inject;
+
 import butterknife.OnClick;
 
-public final class AboutFragment extends BaseFragment {
+public final class AboutFragment extends BaseFragment<AboutPresenter> implements AboutView {
+
+    @Inject
+    @InjectPresenter
+    AboutPresenter presenter;
+
+    @Override
+    @ProvidePresenter
+    public AboutPresenter providePresenter() {
+        return presenter;
+    }
 
     public static AboutFragment newInstance() {
         return new AboutFragment();

@@ -1,8 +1,9 @@
 package com.myst3ry.financemanager.ui.main;
 
+import com.myst3ry.financemanager.ui.base.BaseView;
 import com.myst3ry.financemanager.ui.main.screens.Screens;
 
-public interface MainView {
+public interface MainView extends BaseView {
     void showProgressBar();
 
     void hideProgressBar();

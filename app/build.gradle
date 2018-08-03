@@ -49,6 +49,8 @@ dependencies {
     //dagger2
     implementation "com.google.dagger:dagger:$dagger_ver"
     annotationProcessor "com.google.dagger:dagger-compiler:$dagger_ver"
+    implementation "com.google.dagger:dagger-android-support:$dagger_ver"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_ver"
 
     //retrofit2
     implementation "com.squareup.retrofit2:retrofit:$retrofit_ver"
@@ -62,6 +64,12 @@ dependencies {
     //rxJava2
     implementation "io.reactivex.rxjava2:rxjava:$rxjava_ver"
     implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_ver"
+
+    //moxy
+    implementation "com.arello-mobile:moxy:$moxy_ver"
+    annotationProcessor "com.arello-mobile:moxy-compiler:$moxy_ver"
+    implementation "com.arello-mobile:moxy-android:$moxy_ver"
+    implementation "com.arello-mobile:moxy-app-compat:$moxy_ver"
 
     //pretty views
     implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'

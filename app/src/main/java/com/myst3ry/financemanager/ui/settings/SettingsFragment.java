@@ -14,7 +14,9 @@ import com.myst3ry.financemanager.ui.base.BaseActivity;
 import java.util.Locale;
 import java.util.Objects;
 
-public final class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
+public final class SettingsFragment extends PreferenceFragmentCompat
+        implements SharedPreferences.OnSharedPreferenceChangeListener
+{
 
     public static final String TAG = SettingsFragment.class.getSimpleName();
 

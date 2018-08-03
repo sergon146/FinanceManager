@@ -15,9 +15,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHolder> {
     private List<Account> accounts = new ArrayList<>();
+    private OnAccountClick listener;
+
+    public AccountAdapter(OnAccountClick listener) {
+        this.listener = listener;
+    }
 
     @NonNull
     @Override
@@ -59,14 +65,20 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
 
         public ViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
         }
 
         public void bind(Account account) {
+            itemView.setOnClickListener(v -> listener.onAccountClick(account));
             title.setText(account.getTitle());
-            amount.setText(Utils.Currency.getAmountTitle(itemView.getContext(),
-                    account.getBalance(), account.getCurrencyType()));
+            amount.setText(Utils.Currency.getAmountTitle(account.getBalance(),
+                    account.getCurrencyType()));
             type.setText(Utils.getAccountTypeTitle(itemView.getContext(),
                     account.getAccountType()));
         }
+    }
+
+    public interface OnAccountClick {
+        void onAccountClick(Account account);
     }
 }

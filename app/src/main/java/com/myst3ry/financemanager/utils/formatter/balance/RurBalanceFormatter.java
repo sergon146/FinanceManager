@@ -5,7 +5,7 @@ import java.text.DecimalFormat;
 
 public final class RurBalanceFormatter implements BalanceFormatter {
 
-    private static final String RUR_FORMAT_PATTERN = "#,##0.00 \u20BD";
+    private static final String RUR_FORMAT_PATTERN = "\u20BD #,##0.00";
 
     @Override
     public String formatBalance(final BigDecimal balance) {

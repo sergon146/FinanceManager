@@ -7,6 +7,8 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.myst3ry.financemanager.R;
@@ -21,11 +23,14 @@ import com.myst3ry.financemanager.ui.transactions.TransactionCreateFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public final class MainActivity extends BaseActivity
+public final class MainActivity extends BaseActivity<MainPresenter>
         implements MainView, FragmentManager.OnBackStackChangedListener {
 
     @BindView(R.id.progress_bar)
@@ -36,14 +41,21 @@ public final class MainActivity extends BaseActivity
     @BindView(R.id.back)
     View back;
 
-    private MainPresenter presenter;
+    @Inject
+    @InjectPresenter
+    public MainPresenter presenter;
     private FragmentManager fragmentManager;
+
+    @Override
+    @ProvidePresenter
+    protected MainPresenter providePresenter() {
+        return presenter;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initPresenter();
     }
 
     @Override
@@ -57,7 +69,7 @@ public final class MainActivity extends BaseActivity
     private void prepareTabBar() {
         List<AHBottomNavigationItem> items = new ArrayList<>();
 
-        for (TabBarScreens screen : TabBarScreens.values()) {
+        for (TabBarScreens screen: TabBarScreens.values()) {
             items.add(new AHBottomNavigationItem(getString(screen.getTitle()), screen.getIcon()));
         }
 
@@ -69,7 +81,7 @@ public final class MainActivity extends BaseActivity
         tabBar.setInactiveColor(ContextCompat.getColor(this, R.color.white_50));
         tabBar.setNotificationBackgroundColorResource(R.color.color_primary_dark);
         tabBar.setOnTabSelectedListener((position, wasSelected) -> {
-            presenter.onTabClicked(position, wasSelected);
+            presenter.onTabClicked(position);
             return false;
         });
 
@@ -82,18 +94,19 @@ public final class MainActivity extends BaseActivity
         int pos = tab.ordinal();
         tabBar.setCurrentItem(pos, false);
         tabBar.invalidate();
-        openScreen(screen, true);
+        openScreen(screen, null, true);
     }
 
     @Override
-    public void openScreen(Screens screen, boolean isRoot) {
+    public void openScreen(Screens screen, Object data, boolean isRoot) {
         Fragment fragment;
         switch (screen) {
             case MAIN_SCREEN:
                 fragment = AccountFragment.newInstance();
                 break;
-            case FEED_SCREEN:
-                fragment = BalanceFragment.newInstance();
+            case BALANCE_SCREEN:
+                UUID uuid = (UUID) data;
+                fragment = BalanceFragment.newInstance(uuid);
                 break;
             case REPORT_SCREEN:
                 fragment = AboutFragment.newInstance();
@@ -102,7 +115,8 @@ public final class MainActivity extends BaseActivity
                 fragment = SettingsFragment.newInstance();
                 break;
             case TRANSACTIONS_SCREEN:
-                fragment = TransactionCreateFragment.newInstance(0);
+                UUID accountUuid = (UUID) data;
+                fragment = TransactionCreateFragment.newInstance(accountUuid);
                 break;
             default:
                 throw new RuntimeException("Unknown screen");
@@ -117,12 +131,6 @@ public final class MainActivity extends BaseActivity
                 .replace(R.id.container, fragment)
                 .addToBackStack(fragment.getTag())
                 .commit();
-    }
-
-    private void initPresenter() {
-        presenter = new MainPresenter(new MainModel(this));
-        presenter.attachView(this);
-        presenter.initAccounts();
     }
 
     public void showProgressBar() {
@@ -143,14 +151,6 @@ public final class MainActivity extends BaseActivity
 
     public void showConnectionError() {
         showToast(getString(R.string.connection_error));
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (isDestroyed()) {
-            presenter.detachView();
-        }
     }
 
     @Override

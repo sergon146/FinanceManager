@@ -1,15 +1,23 @@
 package com.myst3ry.financemanager.ui.accounts;
 
+import com.arellomobile.mvp.InjectViewState;
 import com.myst3ry.financemanager.ui.base.BasePresenter;
+import com.myst3ry.financemanager.usecase.AccountUseCase;
 
+@InjectViewState
 public class AccountPresenter extends BasePresenter<AccountView> {
-    @Override
-    public void attachView(AccountView view) {
-        super.attachView(view);
+    private final AccountUseCase useCase;
+
+    public AccountPresenter(AccountUseCase useCase) {
+        this.useCase = useCase;
     }
 
     @Override
-    public void detachView() {
-        super.detachView();
+    public void onFirstViewAttach() {
+        super.onFirstViewAttach();
+        bind(onUi(useCase.getAccounts())
+                .subscribe(getViewState()::showAccounts));
     }
+
+
 }

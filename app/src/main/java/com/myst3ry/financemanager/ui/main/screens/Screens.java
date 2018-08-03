@@ -1,11 +1,17 @@
 package com.myst3ry.financemanager.ui.main.screens;
 
 public enum Screens {
-    MAIN_SCREEN,
-    FEED_SCREEN(TabBarScreens.FEED),
+    MAIN_SCREEN(TabBarScreens.MAIN),
     REPORT_SCREEN(TabBarScreens.REPORT),
     SETTINGS_SCREEN(TabBarScreens.SETTINGS),
+    BALANCE_SCREEN,
     TRANSACTIONS_SCREEN;
+
+    /**
+     * todo will be added later
+     *
+     * FEED_SCREEN(TabBarScreens.FEED);
+     */
 
     public final TabBarScreens tab;
 
@@ -22,7 +28,7 @@ public enum Screens {
     }
 
     public static Screens getEnum(String value) {
-        for (Screens c : Screens.values()) {
+        for (Screens c: Screens.values()) {
             if (c.name().equals(value)) {
                 return c;
             }

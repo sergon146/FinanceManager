@@ -1,52 +1,30 @@
 package com.myst3ry.financemanager.ui.main;
 
+import com.arellomobile.mvp.InjectViewState;
 import com.myst3ry.financemanager.ui.base.BasePresenter;
+import com.myst3ry.financemanager.ui.base.BaseView;
 import com.myst3ry.financemanager.ui.main.screens.Screens;
 import com.myst3ry.financemanager.ui.main.screens.TabBarScreens;
 
 import io.reactivex.disposables.CompositeDisposable;
 import retrofit2.HttpException;
 
+@InjectViewState
 public final class MainPresenter extends BasePresenter<MainView> {
 
-    private MainModel mMainModel;
-
-    public MainPresenter(final MainModel model) {
-        this.mMainModel = model;
+    public MainPresenter() {
     }
 
-    public void getActualExchangeRates(final CompositeDisposable disposables) {
-        view.showProgressBar();
-        mMainModel.requestActualExchangeRates(disposables, this::onError);
-        view.hideProgressBar();
-    }
 
-    public void onError(final Throwable throwable) {
-        if (throwable instanceof HttpException) {
-            final HttpException http = ((HttpException) throwable);
-            view.showError(http.code(), http.getLocalizedMessage());
-        } else {
-            view.showConnectionError();
-        }
-    }
-
-    public void initAccounts() {
-        mMainModel.initAccounts();
-    }
-
-    public void onTabClicked(int position, boolean wasSelected) {
-        if (wasSelected) {
-            //            getRouter().goBackToRoot();
-            return;
-        }
+    public void onTabClicked(int position) {
         Screens screen;
         switch (TabBarScreens.values()[position]) {
             case MAIN:
                 screen = Screens.MAIN_SCREEN;
                 break;
-            case FEED:
-                screen = Screens.FEED_SCREEN;
-                break;
+//            case FEED:
+//                screen = Screens.FEED_SCREEN;
+//                break;
             case REPORT:
                 screen = Screens.REPORT_SCREEN;
                 break;
@@ -58,6 +36,6 @@ public final class MainPresenter extends BasePresenter<MainView> {
                 break;
         }
 
-        view.activateTab(screen);
+        getViewState().activateTab(screen);
     }
 }

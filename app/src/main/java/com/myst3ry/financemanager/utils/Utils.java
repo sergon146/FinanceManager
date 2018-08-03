@@ -10,6 +10,7 @@ import com.myst3ry.calculations.CurrencyType;
 import com.myst3ry.calculations.TransactionType;
 import com.myst3ry.financemanager.BuildConfig;
 import com.myst3ry.financemanager.R;
+import com.myst3ry.financemanager.utils.formatter.balance.BalanceFormatterFactory;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public final class Utils {
     public static ArrayList<String> getCurrencyTitles(final Context context) {
         final ArrayList<String> currencies = new ArrayList<>();
         for (final CurrencyType currency : CurrencyType.values()) {
-            currencies.add(Currency.getTitle(context, currency));
+            currencies.add(Currency.getSymbol(context, currency));
         }
         return currencies;
     }
@@ -108,21 +109,19 @@ public final class Utils {
 
     public static class Currency {
 
-        public static String getAmountTitle(final Context context,
-                                            final BigDecimal amount,
-                                            final CurrencyType type) {
-            return getTitle(context, type) + " " + amount.toString();
+        public static String getAmountTitle(final BigDecimal amount, final CurrencyType type) {
+            return new BalanceFormatterFactory().create(type).formatBalance(amount);
         }
 
 
-        private static String getTitle(final Context context, final CurrencyType currency) {
+        private static String getSymbol(final Context context, final CurrencyType currency) {
             int resId;
             switch (currency) {
                 case RUR:
-                    resId = R.string.dialog_title_rur;
+                    resId = R.string.rub_symbol;
                     break;
                 case USD:
-                    resId = R.string.dialog_title_usd;
+                    resId = R.string.usd_symbol;
                     break;
                 default:
                     throw new RuntimeException("Unknown type");

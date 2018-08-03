@@ -3,44 +3,46 @@ package com.myst3ry.financemanager.ui.transactions;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.myst3ry.calculations.Calculations;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.myst3ry.calculations.CurrencyType;
 import com.myst3ry.calculations.TransactionType;
 import com.myst3ry.calculations.model.Account;
 import com.myst3ry.calculations.model.Transaction;
-import com.myst3ry.financemanager.BuildConfig;
 import com.myst3ry.financemanager.R;
-import com.myst3ry.financemanager.data.local.AccountsDbStub;
 import com.myst3ry.financemanager.data.local.RatesStorage;
 import com.myst3ry.financemanager.ui.base.BaseFragment;
 import com.myst3ry.financemanager.ui.dialogs.SelectionDialogFragment;
 import com.myst3ry.financemanager.utils.Utils;
+import com.myst3ry.financemanager.utils.formatter.balance.BalanceFormatterFactory;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.UUID;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import icepick.State;
 
-public final class TransactionCreateFragment extends BaseFragment {
+public final class TransactionCreateFragment extends BaseFragment<TransactionCratePresenter>
+        implements TransactionCreateView {
 
-    public static final String TAG = TransactionCreateFragment.class.getSimpleName();
-    private static final String ARG_ACCOUNT_INDEX = BuildConfig.APPLICATION_ID + "arg.ACCOUNT_INDEX";
+    private static final String ARG_ACCOUNT_UUID = "ARG_ACCOUNT_UUID";
 
-    @BindView(R.id.account_type)
-    TextView accountTextView;
+    @BindView(R.id.account_title)
+    TextView title;
+    @BindView(R.id.amount)
+    TextView amount;
     @BindView(R.id.transaction_type)
     TextView transactionTextView;
     @BindView(R.id.currency_type)
@@ -50,21 +52,33 @@ public final class TransactionCreateFragment extends BaseFragment {
     @BindView(R.id.et_amount)
     EditText amountEditText;
 
+    @Inject
+    @InjectPresenter
+    TransactionCratePresenter presenter;
+
+    private BalanceFormatterFactory formatterFactory = new BalanceFormatterFactory();
+
     @State
     CurrencyType currentCurrencyType;
     @State
     TransactionType currentTransactionType;
     @State
-    int accountIndex, transactionIndex, currencyIndex, categoryIndex;
+    int transactionIndex, currencyIndex, categoryIndex;
 
     private ArrayList<String> accountTitles, transactionTitles, currencyTitles, categoryTitles;
 
-    public static TransactionCreateFragment newInstance(final int accountIndex) {
+    public static TransactionCreateFragment newInstance(UUID accountUuid) {
         final TransactionCreateFragment fragment = new TransactionCreateFragment();
         final Bundle args = new Bundle();
-        args.putInt(ARG_ACCOUNT_INDEX, accountIndex);
+        args.putSerializable(ARG_ACCOUNT_UUID, accountUuid);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    @ProvidePresenter
+    protected TransactionCratePresenter providePresenter() {
+        return presenter;
     }
 
     @Override
@@ -75,14 +89,16 @@ public final class TransactionCreateFragment extends BaseFragment {
         setScreenTitle(R.string.new_transaction_title);
 
         if (getArguments() != null) {
-            accountIndex = getArguments().getInt(ARG_ACCOUNT_INDEX, 0);
+            getPresenter().setUuid((UUID) getArguments().getSerializable(ARG_ACCOUNT_UUID));
         }
 
         initTitlesLists();
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_transaction_create, container, false);
     }
 
@@ -94,62 +110,21 @@ public final class TransactionCreateFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setDefaultValues();
-    }
-
-    @Override
-    public String getScreenTag() {
-        return "TransactionCreateFragment";
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        final MenuItem itemSettings = menu.findItem(R.id.action_settings);
-        final MenuItem itemAbout = menu.findItem(R.id.action_about);
-        itemSettings.setVisible(false);
-        itemAbout.setVisible(false);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_create_transaction, menu);
+        //        setDefaultValues();
     }
 
 
     private void initTitlesLists() {
-        accountTitles = getAccountTitles();
         transactionTitles = Utils.getTransactionTitles(activity);
         currencyTitles = Utils.getCurrencyTitles(activity);
         categoryTitles = new ArrayList<>(Arrays.asList(getResources()
                 .getStringArray(R.array.arr_expense_categories)));
     }
 
-    private void setDefaultValues() {
-        accountTextView.setText(accountTitles.get(accountIndex));
+    private void setDefaultValues(Account account) {
         transactionTextView.setText(transactionTitles.get(transactionIndex));
         currencyTextView.setText(CurrencyType.values()[currencyIndex].name());
         categoryTextView.setText(categoryTitles.get(categoryIndex));
-    }
-
-    private ArrayList<String> getAccountTitles() {
-        final List<Account> accounts = AccountsDbStub.getInstance().getAccounts();
-        final ArrayList<String> titles = new ArrayList<>();
-
-        for (final Account account : accounts) {
-            titles.add(account.getTitle());
-        }
-
-        return titles;
-    }
-
-    @OnClick( {R.id.account_type_title, R.id.account_type})
-    void selectAccountType() {
-        final SelectionDialogFragment dialog = SelectionDialogFragment.newInstance(accountTitles, accountIndex);
-        dialog.setOnDialogSelectionListener(selectedIndex -> {
-            accountTextView.setText(accountTitles.get(selectedIndex));
-            accountIndex = selectedIndex;
-        });
-        dialog.show(activity.getSupportFragmentManager(), null);
     }
 
     @OnClick( {R.id.transaction_type_title, R.id.transaction_type})
@@ -201,6 +176,19 @@ public final class TransactionCreateFragment extends BaseFragment {
         categoryTextView.setText(categoryTitles.get(categoryIndex));
     }
 
+    @OnClick(R.id.add)
+    void onAddClick() {
+        createTransaction();
+    }
+
+    @OnClick(R.id.cancel)
+    void onCancelClick() {
+        FragmentManager manager = getFragmentManager();
+        if (manager != null) {
+            manager.popBackStack();
+        }
+    }
+
     private void createTransaction() {
         final String amount = amountEditText.getText().toString();
         if (!amount.isEmpty()) {
@@ -210,22 +198,28 @@ public final class TransactionCreateFragment extends BaseFragment {
                     .setTransactionType(currentTransactionType)
                     .setCategory(categoryTextView.getText().toString())
                     .build();
-            performTransaction(transaction);
+            getPresenter().performTransaction(transaction,
+                    RatesStorage.getInstance().getUsdRate(activity));
         } else {
             showToast(getString(R.string.err_empty_field));
         }
     }
 
-    private void performTransaction(final Transaction transaction) {
-        final Account currentAccount = AccountsDbStub.getInstance().getAccount(accountIndex);
-        Calculations calcModule = Calculations.getInstance(currentAccount,
-                RatesStorage.getInstance().getUsdRate(activity));
-        if (transaction.getTransactionType() == TransactionType.EXPENSE) {
-            calcModule.expense(transaction);
-        } else if (transaction.getTransactionType() == TransactionType.INCOME) {
-            calcModule.income(transaction);
-        }
-        //+ save into db
+    @Override
+    public String getScreenTag() {
+        return "TransactionCreateFragment";
+    }
+
+    @Override
+    public void showAccountData(Account account) {
+        title.setText(account.getTitle());
+        amount.setText(formatterFactory.create(account.getCurrencyType())
+                .formatBalance(account.getBalance()));
+        setDefaultValues(account);
+    }
+
+    @Override
+    public void successPerform() {
         activity.getSupportFragmentManager().popBackStackImmediate();
     }
 }

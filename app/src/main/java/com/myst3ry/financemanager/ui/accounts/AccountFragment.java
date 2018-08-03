@@ -2,28 +2,34 @@ package com.myst3ry.financemanager.ui.accounts;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.myst3ry.calculations.model.Account;
 import com.myst3ry.financemanager.R;
 import com.myst3ry.financemanager.ui.accounts.adapter.AccountAdapter;
 import com.myst3ry.financemanager.ui.base.BaseFragment;
+import com.myst3ry.financemanager.ui.main.screens.Screens;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 
-public class AccountFragment extends BaseFragment implements AccountView {
+public class AccountFragment extends BaseFragment<AccountPresenter> implements AccountView {
 
     @BindView(R.id.account_rv)
     RecyclerView accountRecycler;
 
-    private AccountPresenter presenter;
+    @Inject
+    @InjectPresenter
+    public AccountPresenter presenter;
     private AccountAdapter accountAdapter;
 
     public static AccountFragment newInstance() {
@@ -31,9 +37,9 @@ public class AccountFragment extends BaseFragment implements AccountView {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        initPresenter();
+    @ProvidePresenter
+    protected AccountPresenter providePresenter() {
+        return presenter;
     }
 
     @Override
@@ -43,18 +49,14 @@ public class AccountFragment extends BaseFragment implements AccountView {
         return inflater.inflate(R.layout.fragment_account, container, false);
     }
 
-    private void initPresenter() {
-        presenter = new AccountPresenter();
-        presenter.attachView(this);
-    }
-
     @Override
     protected void prepareViews() {
         hideScreenTitle();
 
-        accountRecycler.setHasFixedSize(true);
         accountRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        accountAdapter = new AccountAdapter();
+        accountAdapter = new AccountAdapter(ac ->
+                openScreen(Screens.BALANCE_SCREEN, ac.getUuid()));
+        accountRecycler.setAdapter(accountAdapter);
     }
 
     @Override

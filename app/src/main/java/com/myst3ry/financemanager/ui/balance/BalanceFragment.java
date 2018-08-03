@@ -7,41 +7,48 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.myst3ry.calculations.Calculations;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.myst3ry.calculations.CurrencyType;
 import com.myst3ry.calculations.model.Account;
 import com.myst3ry.financemanager.R;
-import com.myst3ry.financemanager.data.local.AccountsDbStub;
-import com.myst3ry.financemanager.data.local.RatesStorage;
 import com.myst3ry.financemanager.ui.base.BaseFragment;
 import com.myst3ry.financemanager.ui.main.screens.Screens;
 import com.myst3ry.financemanager.utils.formatter.balance.BalanceFormatterFactory;
-import com.myst3ry.financemanager.utils.formatter.rate.DefaultRateFormatter;
 
 import java.math.BigDecimal;
+import java.util.UUID;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public final class BalanceFragment extends BaseFragment {
+public final class BalanceFragment extends BaseFragment<BalancePresenter>
+        implements BalanceView {
+    private static final String UUID_KEY = "UUID_KEY";
 
-    @BindView(R.id.current_account)
-    TextView currentAccountTextView;
     @BindView(R.id.rur_balance)
     TextView mainCurBalanceTextView;
     @BindView(R.id.usd_balance)
     TextView secondCurBalanceTextView;
-    @BindView(R.id.rate_usd)
-    TextView UsdRateTextView;
 
+    @Inject
+    @InjectPresenter
+    public BalancePresenter presenter;
     private BalanceFormatterFactory formatterFactory = new BalanceFormatterFactory();
-    private Account account;
-    private int accountIndex;
-    private double usdRate;
+    private UUID accountUUid;
 
-    public static BalanceFragment newInstance() {
+    @Override
+    @ProvidePresenter
+    protected BalancePresenter providePresenter() {
+        return presenter;
+    }
+
+    public static BalanceFragment newInstance(UUID accountUuid) {
         final BalanceFragment fragment = new BalanceFragment();
         final Bundle args = new Bundle();
+        args.putSerializable(UUID_KEY, accountUuid);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,41 +57,28 @@ public final class BalanceFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
+        if (getArguments() != null) {
+            accountUUid = (UUID) getArguments().getSerializable(UUID_KEY);
+            getPresenter().setCurrentUuid(accountUUid);
+        }
         return inflater.inflate(R.layout.fragment_balance, container, false);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        initUI(accountIndex);
-    }
-
-    private void initUI(final int accountIndex) {
-        account = AccountsDbStub.getInstance().getAccounts().get(accountIndex);
-        setExchangeRates();
-        setAccountInfo();
-    }
-
-    private void setExchangeRates() {
-        usdRate = (double) RatesStorage.getInstance().getUsdRate(getActivity());
-        UsdRateTextView.setText(new DefaultRateFormatter().formatRate(usdRate));
-    }
-
-    private void setAccountInfo() {
-        final Calculations calcModule = Calculations.getInstance(account, usdRate);
-        final BigDecimal balanceRUR = calcModule.getBalanceInRur();
-        final BigDecimal balanceUSD = calcModule.getBalanceInUsd();
-        final BigDecimal totalBalance = calcModule.getTotalBalance(AccountsDbStub.getInstance().getAccounts());
-
-        mainCurBalanceTextView.setText(formatterFactory.create(CurrencyType.RUR).formatBalance(balanceRUR));
-        secondCurBalanceTextView.setText(formatterFactory.create(CurrencyType.USD).formatBalance(balanceUSD));
-
-        currentAccountTextView.setText(String.format(getString(R.string.text_current_account), account.getTitle()));
-    }
-
-    @OnClick(R.id.fab_add_new_transaction)
+    @OnClick(R.id.fab_add)
     void onFabClick() {
-        activity.openScreen(Screens.TRANSACTIONS_SCREEN, false);
+        activity.openScreen(Screens.TRANSACTIONS_SCREEN, accountUUid, false);
+    }
+
+    @Override
+    public void showTotalBalance(Account account) {
+        setScreenTitle(account.getTitle());
+        mainCurBalanceTextView.setText(formatterFactory.create(account.getCurrencyType())
+                .formatBalance(account.getBalance()));
+    }
+
+    @Override
+    public void showExchangedBalance(BigDecimal amount, CurrencyType type) {
+        secondCurBalanceTextView.setText(formatterFactory.create(type).formatBalance(amount));
     }
 
     @Override

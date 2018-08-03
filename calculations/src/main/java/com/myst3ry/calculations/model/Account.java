@@ -4,15 +4,18 @@ import com.myst3ry.calculations.AccountType;
 import com.myst3ry.calculations.CurrencyType;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public final class Account {
 
+    private UUID uuid;
     private String mTitle;
     private BigDecimal mBalance;
     private CurrencyType mCurrencyType;
     private AccountType mAccountType;
 
     private Account(final Builder builder) {
+        uuid = UUID.randomUUID();
         mTitle = builder.mTitle;
         mBalance = builder.mBalance;
         mCurrencyType = builder.mCurrencyType;
@@ -41,6 +44,10 @@ public final class Account {
 
     public void setBalance(final BigDecimal balance) {
         this.mBalance = balance;
+    }
+
+    public UUID getUuid() {
+        return uuid;
     }
 
     public static final class Builder {

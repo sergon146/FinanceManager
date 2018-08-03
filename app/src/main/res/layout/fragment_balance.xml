@@ -1,85 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp"
     >
 
     <TextView
-        android:id="@+id/current_account"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_standard"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.7"
-        />
-
-    <TextView
         android:id="@+id/rur"
+        style="@style/TextStyleDark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_half"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
         android:text="@string/text_currency_rur"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/div1"
-        app:layout_constraintStart_toStartOf="@+id/div1"
-        app:layout_constraintTop_toTopOf="@id/current_account"
-        />
-
-    <TextView
-        android:id="@+id/usd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_half"
-        android:text="@string/text_currency_usd"
-        android:textAlignment="textEnd"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/div2"
-        app:layout_constraintStart_toStartOf="@+id/div2"
-        app:layout_constraintTop_toBottomOf="@+id/div1"
-        />
-
-    <View
-        android:id="@+id/div1"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/div_height"
-        android:layout_margin="@dimen/margin_standard"
-        android:background="@color/color_primary_text"
-        app:layout_constraintBottom_toTopOf="@+id/div2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/current_account"
-        />
-
-    <View
-        android:id="@+id/div2"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/div_height"
-        android:layout_margin="@dimen/margin_standard"
-        android:background="@color/color_primary_text"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.5"
+        app:layout_constraintTop_toTopOf="parent"
         />
 
     <TextView
         android:id="@+id/rur_balance"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_standard"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
@@ -90,11 +34,25 @@
         app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toEndOf="@+id/rur"
         app:layout_constraintTop_toTopOf="@+id/rur"
+        tools:text="P 2342.00 "
+        />
+
+    <TextView
+        android:id="@+id/usd"
+        style="@style/TextStyleDark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/text_currency_usd"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rur"
         />
 
     <TextView
         android:id="@+id/usd_balance"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_standard"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
@@ -105,62 +63,12 @@
         app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toEndOf="@+id/usd"
         app:layout_constraintTop_toTopOf="@+id/usd"
-        />
-
-    <TextView
-        android:id="@+id/exchange_rates_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_standard"
-        android:text="@string/text_exchange_rates_title"
-        android:textColor="@color/color_primary_text"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline"
-        />
-
-    <TextView
-        android:id="@+id/sell_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_standard"
-        android:layout_marginEnd="@dimen/margin_double"
-        android:text="@string/text_sell_title"
-        app:layout_constraintBaseline_toBaselineOf="@id/exchange_rates_title"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline"
-        />
-
-    <TextView
-        android:id="@+id/exchange_usd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_standard"
-        android:text="@string/usd_exchange_rate"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:textColor="@color/color_primary_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/exchange_rates_title"
-        />
-
-    <TextView
-        android:id="@+id/rate_usd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_half"
-        android:layout_marginTop="@dimen/margin_standard"
-        android:layout_marginEnd="@dimen/margin_half"
-        android:textColor="@color/color_primary_text"
-        android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@id/exchange_usd"
-        app:layout_constraintEnd_toEndOf="@+id/sell_title"
-        app:layout_constraintStart_toStartOf="@+id/sell_title"
-        app:layout_constraintTop_toBottomOf="@+id/sell_title"
+        tools:text="$ 321.12"
         />
 
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_add_new_transaction"
+        android:id="@+id/fab_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

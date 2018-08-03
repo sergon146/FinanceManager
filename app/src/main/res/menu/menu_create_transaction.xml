@@ -5,7 +5,7 @@
     <item
         android:id="@+id/action_accept"
         android:orderInCategory="1"
-        android:title="@string/title_accept"
+        android:title="@string/accept"
         android:icon="@drawable/ic_check_white_24dp"
         app:showAsAction="ifRoom" />
 

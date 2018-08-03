@@ -10,11 +10,34 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.myst3ry.financemanager.di.base.Injectable;
+import com.myst3ry.financemanager.ui.main.screens.Screens;
+
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 import icepick.Icepick;
 
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment<Presenter extends BasePresenter> extends MvpAppCompatFragment
+        implements BaseView, HasSupportFragmentInjector, Injectable {
+    @Inject
+    DispatchingAndroidInjector<Fragment> fragmentInjector;
+
     protected BaseActivity activity;
+
+    protected Presenter presenter;
+
+    protected Presenter providePresenter() {
+        return null;
+    }
+
+    protected Presenter getPresenter() {
+        return presenter;
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -25,6 +48,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        presenter = providePresenter();
         Icepick.restoreInstanceState(this, savedInstanceState);
     }
 
@@ -36,6 +60,14 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected void prepareViews() {
+    }
+
+    protected void openScreen(Screens screen, Object data) {
+        activity.openScreen(screen, data, false);
+    }
+
+    protected void openScreen(Screens screen, Object data, boolean isRoot) {
+        activity.openScreen(screen, data, isRoot);
     }
 
     @Override
@@ -53,13 +85,23 @@ public abstract class BaseFragment extends Fragment {
         }
     }
 
-    @SuppressWarnings("unused")
-    protected void showToast(final String message) {
+    @Override
+    public void showToast(int resId) {
+        showToast(getString(resId));
+    }
+
+    @Override
+    public void showToast(final String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
-    @SuppressWarnings("unused")
-    protected void showLongToast(final String message) {
+    @Override
+    public void showLongToast(int resId) {
+        showLongToast(getString(resId));
+    }
+
+    @Override
+    public void showLongToast(final String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
     }
 
@@ -76,4 +118,9 @@ public abstract class BaseFragment extends Fragment {
     }
 
     public abstract String getScreenTag();
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return fragmentInjector;
+    }
 }
