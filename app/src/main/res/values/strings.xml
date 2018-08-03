@@ -91,6 +91,7 @@
     <string name="new_transaction_title">New Transaction</string>
     <string name="err_empty_field">You should enter amount first</string>
     <string name="error_create_transaction">Something went wrong! The transaction was not added</string>
+    <string name="transaction_success">Transaction added!</string>
 
     <!--Connection-->
     <string name="http_error">Error Code#%d (%s)</string>

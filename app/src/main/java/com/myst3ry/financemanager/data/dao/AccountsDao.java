@@ -13,7 +13,6 @@ import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.Subject;
 
-
 public final class AccountsDao {
 
     private List<Account> accounts = new ArrayList<>();

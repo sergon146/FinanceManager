@@ -110,9 +110,8 @@ public final class TransactionCreateFragment extends BaseFragment<TransactionCra
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //        setDefaultValues();
+                setDefaultValues();
     }
-
 
     private void initTitlesLists() {
         transactionTitles = Utils.getTransactionTitles(activity);
@@ -121,7 +120,7 @@ public final class TransactionCreateFragment extends BaseFragment<TransactionCra
                 .getStringArray(R.array.arr_expense_categories)));
     }
 
-    private void setDefaultValues(Account account) {
+    private void setDefaultValues() {
         transactionTextView.setText(transactionTitles.get(transactionIndex));
         currencyTextView.setText(CurrencyType.values()[currencyIndex].name());
         categoryTextView.setText(categoryTitles.get(categoryIndex));
@@ -206,20 +205,20 @@ public final class TransactionCreateFragment extends BaseFragment<TransactionCra
     }
 
     @Override
-    public String getScreenTag() {
-        return "TransactionCreateFragment";
-    }
-
-    @Override
     public void showAccountData(Account account) {
         title.setText(account.getTitle());
         amount.setText(formatterFactory.create(account.getCurrencyType())
                 .formatBalance(account.getBalance()));
-        setDefaultValues(account);
     }
 
     @Override
     public void successPerform() {
-        activity.getSupportFragmentManager().popBackStackImmediate();
+        getFragmentManager().popBackStack();
+        showToast(R.string.transaction_success);
+    }
+
+    @Override
+    public String getScreenTag() {
+        return "TransactionCreateFragment";
     }
 }

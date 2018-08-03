@@ -37,6 +37,7 @@ public final class AboutFragment extends BaseFragment<AboutPresenter> implements
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
+        setScreenTitle(R.string.title_about);
         return inflater.inflate(R.layout.fragment_about, container, false);
     }
 

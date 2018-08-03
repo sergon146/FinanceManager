@@ -30,6 +30,7 @@
         android:paddingEnd="36dp"
         android:paddingBottom="24dp"
         android:text="@string/add_wallet"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/account_rv"

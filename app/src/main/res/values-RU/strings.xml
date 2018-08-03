@@ -90,6 +90,7 @@
     <string name="dialog_title_usd">Доллар США (USD)</string>
     <string name="new_transaction_title">Новая операция</string>
     <string name="error_create_transaction">Что-то пошло не так! Транзакция не была добавлена!</string>
+    <string name="transaction_success">Транзакция добавлена!</string>
 
     <!--Connection-->
     <string name="http_error">Ошибка %d (%s)</string>
