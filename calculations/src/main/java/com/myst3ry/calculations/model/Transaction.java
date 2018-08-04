@@ -1,19 +1,16 @@
 package com.myst3ry.calculations.model;
 
-import com.myst3ry.calculations.CurrencyType;
-import com.myst3ry.calculations.TransactionType;
-
 import java.math.BigDecimal;
 
 public final class Transaction {
 
-    private TransactionType transactionType;
+    private TransactionType type;
     private CurrencyType currencyType;
     private BigDecimal amount;
     private String category;
 
     private Transaction(final Builder builder) {
-        this.transactionType = builder.transactionType;
+        this.type = builder.transactionType;
         this.currencyType = builder.currencyType;
         this.amount = builder.amount;
         this.category = builder.category;
@@ -23,12 +20,12 @@ public final class Transaction {
         return new Builder();
     }
 
-    public TransactionType getTransactionType() {
-        return transactionType;
+    public TransactionType getType() {
+        return type;
     }
 
-    public void setTransactionType(final TransactionType transactionType) {
-        this.transactionType = transactionType;
+    public void setType(final TransactionType type) {
+        this.type = type;
     }
 
     public CurrencyType getCurrencyType() {
@@ -45,6 +42,14 @@ public final class Transaction {
 
     public void setAmount(final BigDecimal amount) {
         this.amount = amount;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public static final class Builder {

@@ -1,8 +1,5 @@
 package com.myst3ry.calculations.model;
 
-import com.myst3ry.calculations.AccountType;
-import com.myst3ry.calculations.CurrencyType;
-
 import java.math.BigDecimal;
 import java.util.UUID;
 

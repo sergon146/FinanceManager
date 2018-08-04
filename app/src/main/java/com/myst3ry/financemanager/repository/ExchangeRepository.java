@@ -1,6 +1,6 @@
 package com.myst3ry.financemanager.repository;
 
-import com.myst3ry.calculations.CurrencyType;
+import com.myst3ry.calculations.model.CurrencyType;
 import com.myst3ry.financemanager.data.remote.ExchangeApi;
 import com.myst3ry.financemanager.data.remote.model.ApiResponse;
 import com.myst3ry.financemanager.data.remote.model.Valute;

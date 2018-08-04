@@ -1,8 +1,8 @@
 package com.myst3ry.financemanager.data.dao;
 
-import com.myst3ry.calculations.AccountType;
-import com.myst3ry.calculations.CurrencyType;
 import com.myst3ry.calculations.model.Account;
+import com.myst3ry.calculations.model.AccountType;
+import com.myst3ry.calculations.model.CurrencyType;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -10,13 +10,10 @@ import java.util.List;
 import java.util.UUID;
 
 import io.reactivex.Observable;
-import io.reactivex.subjects.BehaviorSubject;
-import io.reactivex.subjects.Subject;
 
 public final class AccountsDao {
 
     private List<Account> accounts = new ArrayList<>();
-    private Subject<List<Account>> accountSubj = BehaviorSubject.create();
 
     public AccountsDao() {
         initStubAccounts();
@@ -34,17 +31,16 @@ public final class AccountsDao {
                 .setTitle("Сбербанк")
                 .setBalance(new BigDecimal(3023.55))
                 .setCurrencyType(CurrencyType.USD)
-                .setAccountType(AccountType.CREDIT)
+                .setAccountType(AccountType.DEBIT_CARD)
                 .build());
     }
 
     public void addAccount(final Account account) {
         this.accounts.add(account);
-        accountSubj.onNext(accounts);
     }
 
     public Observable<List<Account>> getAccounts() {
-        return accountSubj;
+        return Observable.just(accounts);
     }
 
     public Account getAccount(final int index) {
@@ -52,7 +48,7 @@ public final class AccountsDao {
     }
 
     public Observable<Account> getAccount(UUID uuid) {
-        return accountSubj.flatMap(Observable::fromIterable)
+        return Observable.just(accounts).flatMap(Observable::fromIterable)
                 .filter(account -> account.getUuid().equals(uuid));
     }
 }

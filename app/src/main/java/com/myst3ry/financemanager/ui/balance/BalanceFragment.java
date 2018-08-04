@@ -2,6 +2,8 @@ package com.myst3ry.financemanager.ui.balance;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,14 +11,16 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.myst3ry.calculations.CurrencyType;
+import com.myst3ry.calculations.model.CurrencyType;
 import com.myst3ry.calculations.model.Account;
+import com.myst3ry.calculations.model.Transaction;
 import com.myst3ry.financemanager.R;
 import com.myst3ry.financemanager.ui.base.BaseFragment;
 import com.myst3ry.financemanager.ui.main.screens.Screens;
 import com.myst3ry.financemanager.utils.formatter.balance.BalanceFormatterFactory;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 import javax.inject.Inject;
@@ -32,12 +36,15 @@ public final class BalanceFragment extends BaseFragment<BalancePresenter>
     TextView mainCurBalanceTextView;
     @BindView(R.id.usd_balance)
     TextView secondCurBalanceTextView;
+    @BindView(R.id.transaction_recycler)
+    RecyclerView transactionRecycler;
 
     @Inject
     @InjectPresenter
     public BalancePresenter presenter;
     private BalanceFormatterFactory formatterFactory = new BalanceFormatterFactory();
     private UUID accountUUid;
+    private TransactionAdapter adapter;
 
     @Override
     @ProvidePresenter
@@ -64,6 +71,13 @@ public final class BalanceFragment extends BaseFragment<BalancePresenter>
         return inflater.inflate(R.layout.fragment_balance, container, false);
     }
 
+    @Override
+    protected void prepareViews() {
+        adapter = new TransactionAdapter();
+        transactionRecycler.setAdapter(adapter);
+        transactionRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
     @OnClick(R.id.fab_add)
     void onFabClick() {
         activity.openScreen(Screens.TRANSACTIONS_SCREEN, accountUUid, false);
@@ -79,6 +93,11 @@ public final class BalanceFragment extends BaseFragment<BalancePresenter>
     @Override
     public void showExchangedBalance(BigDecimal amount, CurrencyType type) {
         secondCurBalanceTextView.setText(formatterFactory.create(type).formatBalance(amount));
+    }
+
+    @Override
+    public void showTransactions(List<Transaction> transactions) {
+        adapter.setTransactions(transactions);
     }
 
     @Override

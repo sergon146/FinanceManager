@@ -78,8 +78,8 @@
     <string name="dialog_lang_message">The changes will be applied next time you open the app</string>
 
     <!--Create Transaction-->
-    <string name="dialog_title_expense">Expense</string>
-    <string name="dialog_title_income">Income</string>
+    <string name="expense">Expense</string>
+    <string name="income">Income</string>
     <string name="text_select_account">Select account</string>
     <string name="text_transaction_type">Select transaction type</string>
     <string name="hint_enter_amount">Enter amount</string>
@@ -113,4 +113,16 @@
         <item name="item_shopping">Salary</item>
         <item name="item_payments">Bank Transfer</item>
     </string-array>
+    
+    <string name="food">Food</string>
+    <string name="clothes">Clothes</string>
+    <string name="communal_payments">Communal payments</string>
+    <string name="rest">Rest</string>
+    <string name="education">Education</string>
+    <string name="home">Home</string>
+    <string name="family">Family</string>
+    <string name="auto">Auto</string>
+    <string name="treatment">Treatment</string>
+    <string name="salary">Salary</string>
+    <string name="other">Other</string>
 </resources>

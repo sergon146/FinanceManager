@@ -13,7 +13,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.myst3ry.financemanager.R;
 import com.myst3ry.financemanager.ui.about.AboutFragment;
-import com.myst3ry.financemanager.ui.accounts.AccountFragment;
+import com.myst3ry.financemanager.ui.accounts.AccountsFragment;
 import com.myst3ry.financemanager.ui.balance.BalanceFragment;
 import com.myst3ry.financemanager.ui.base.BaseActivity;
 import com.myst3ry.financemanager.ui.main.screens.Screens;
@@ -102,7 +102,7 @@ public final class MainActivity extends BaseActivity<MainPresenter>
         Fragment fragment;
         switch (screen) {
             case MAIN_SCREEN:
-                fragment = AccountFragment.newInstance();
+                fragment = AccountsFragment.newInstance();
                 break;
             case BALANCE_SCREEN:
                 UUID uuid = (UUID) data;

@@ -1,7 +1,7 @@
 package com.myst3ry.financemanager.di.modules;
 
 import com.myst3ry.financemanager.ui.about.AboutFragment;
-import com.myst3ry.financemanager.ui.accounts.AccountFragment;
+import com.myst3ry.financemanager.ui.accounts.AccountsFragment;
 import com.myst3ry.financemanager.ui.balance.BalanceFragment;
 import com.myst3ry.financemanager.ui.dialogs.SelectionDialogFragment;
 import com.myst3ry.financemanager.ui.main.MainPresenter;
@@ -20,7 +20,7 @@ public abstract class MainModule {
     }
 
     @ContributesAndroidInjector(modules = AccountModule.class)
-    abstract AccountFragment contributeAccountFragment();
+    abstract AccountsFragment contributeAccountFragment();
 
     @ContributesAndroidInjector(modules = BalanceModule.class)
     abstract BalanceFragment contributeBalanceFragment();

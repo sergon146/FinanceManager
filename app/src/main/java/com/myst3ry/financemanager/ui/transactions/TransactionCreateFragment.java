@@ -12,10 +12,10 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.myst3ry.calculations.CurrencyType;
-import com.myst3ry.calculations.TransactionType;
 import com.myst3ry.calculations.model.Account;
+import com.myst3ry.calculations.model.CurrencyType;
 import com.myst3ry.calculations.model.Transaction;
+import com.myst3ry.calculations.model.TransactionType;
 import com.myst3ry.financemanager.R;
 import com.myst3ry.financemanager.data.local.RatesStorage;
 import com.myst3ry.financemanager.ui.base.BaseFragment;
@@ -65,7 +65,7 @@ public final class TransactionCreateFragment extends BaseFragment<TransactionCra
     @State
     int transactionIndex, currencyIndex, categoryIndex;
 
-    private ArrayList<String> accountTitles, transactionTitles, currencyTitles, categoryTitles;
+    private ArrayList<String> transactionTitles, currencyTitles, categoryTitles;
 
     public static TransactionCreateFragment newInstance(UUID accountUuid) {
         final TransactionCreateFragment fragment = new TransactionCreateFragment();
@@ -110,7 +110,7 @@ public final class TransactionCreateFragment extends BaseFragment<TransactionCra
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-                setDefaultValues();
+        setDefaultValues();
     }
 
     private void initTitlesLists() {
@@ -124,6 +124,9 @@ public final class TransactionCreateFragment extends BaseFragment<TransactionCra
         transactionTextView.setText(transactionTitles.get(transactionIndex));
         currencyTextView.setText(CurrencyType.values()[currencyIndex].name());
         categoryTextView.setText(categoryTitles.get(categoryIndex));
+
+        currentTransactionType = TransactionType.values()[0];
+        currentCurrencyType = CurrencyType.values()[currencyIndex];
     }
 
     @OnClick( {R.id.transaction_type_title, R.id.transaction_type})
@@ -163,10 +166,10 @@ public final class TransactionCreateFragment extends BaseFragment<TransactionCra
     }
 
     private void replaceCategoryList(final String type) {
-        if (type.equalsIgnoreCase(getString(R.string.dialog_title_expense))) {
+        if (type.equalsIgnoreCase(getString(R.string.expense))) {
             categoryTitles = new ArrayList<>(Arrays.asList(getResources()
                     .getStringArray(R.array.arr_expense_categories)));
-        } else if (type.equalsIgnoreCase(getString(R.string.dialog_title_income))) {
+        } else if (type.equalsIgnoreCase(getString(R.string.income))) {
             categoryTitles = new ArrayList<>(Arrays.asList(getResources()
                     .getStringArray(R.array.arr_income_categories)));
         }

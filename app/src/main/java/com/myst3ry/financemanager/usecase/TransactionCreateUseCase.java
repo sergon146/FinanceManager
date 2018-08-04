@@ -24,7 +24,7 @@ public class TransactionCreateUseCase {
         return accountRepository.getAccount(uuid);
     }
 
-    public Completable addTransaction(Transaction transaction) {
+    public Completable addTransaction(Account account, Transaction transaction) {
         return transactionRepository.addTransaction(transaction);
     }
 }

@@ -22,7 +22,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 
-public class AccountFragment extends BaseFragment<AccountPresenter> implements AccountView {
+public class AccountsFragment extends BaseFragment<AccountPresenter> implements AccountView {
 
     @BindView(R.id.account_rv)
     RecyclerView accountRecycler;
@@ -32,8 +32,8 @@ public class AccountFragment extends BaseFragment<AccountPresenter> implements A
     public AccountPresenter presenter;
     private AccountAdapter accountAdapter;
 
-    public static AccountFragment newInstance() {
-        return new AccountFragment();
+    public static AccountsFragment newInstance() {
+        return new AccountsFragment();
     }
 
     @Override
@@ -61,7 +61,7 @@ public class AccountFragment extends BaseFragment<AccountPresenter> implements A
 
     @Override
     public String getScreenTag() {
-        return "AccountFragment";
+        return "AccountsFragment";
     }
 
     @Override

@@ -1,7 +1,9 @@
 package com.myst3ry.calculations;
 
 import com.myst3ry.calculations.model.Account;
+import com.myst3ry.calculations.model.CurrencyType;
 import com.myst3ry.calculations.model.Transaction;
+import com.myst3ry.calculations.model.TransactionType;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -35,7 +37,7 @@ public final class Calculations {
     }
 
     public void income(final Transaction transaction) {
-        if (transaction.getTransactionType() == TransactionType.INCOME) {
+        if (transaction.getType() == TransactionType.INCOME) {
             if (transaction.getCurrencyType() == CurrencyType.RUR) {
                 mAccount.setBalance(mAccount.getBalance().add(transaction.getAmount()));
             } else if (transaction.getCurrencyType() == CurrencyType.USD) {
@@ -45,7 +47,7 @@ public final class Calculations {
     }
 
     public void expense(final Transaction transaction) {
-        if (transaction.getTransactionType() == TransactionType.EXPENSE) {
+        if (transaction.getType() == TransactionType.EXPENSE) {
             if (transaction.getCurrencyType() == CurrencyType.RUR) {
                 mAccount.setBalance(mAccount.getBalance().subtract(transaction.getAmount()));
             } else if (transaction.getCurrencyType() == CurrencyType.USD) {

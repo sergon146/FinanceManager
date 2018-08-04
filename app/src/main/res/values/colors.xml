@@ -22,4 +22,9 @@
     <color name="charcoal_grey">#404b50</color>
 
     <color name="tab_icon">@color/white</color>
+
+
+    <color name="income">#2ec438</color>
+    <color name="expense">#d12d2d</color>
+
 </resources>
