@@ -34,7 +34,7 @@ public abstract class RepositoryModule {
 
     @Singleton
     @Provides
-    static TransactionRepository  provideTransactionRepository() {
+    static TransactionRepository provideTransactionRepository() {
         return new TransactionRepository();
     }
 }

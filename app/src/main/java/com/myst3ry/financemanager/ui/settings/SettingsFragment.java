@@ -15,8 +15,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 public final class SettingsFragment extends PreferenceFragmentCompat
-        implements SharedPreferences.OnSharedPreferenceChangeListener
-{
+        implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     public static final String TAG = SettingsFragment.class.getSimpleName();
 

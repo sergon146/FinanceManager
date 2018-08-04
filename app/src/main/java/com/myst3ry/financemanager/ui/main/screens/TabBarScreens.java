@@ -12,7 +12,7 @@ public enum TabBarScreens {
 
     /**
      * todo will be added later
-     *
+     * <p>
      * FEED(R.string.tab_feed, R.drawable.ic_tab_feed);
      **/
 

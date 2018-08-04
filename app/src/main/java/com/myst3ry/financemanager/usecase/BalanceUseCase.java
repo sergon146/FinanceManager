@@ -1,7 +1,7 @@
 package com.myst3ry.financemanager.usecase;
 
-import com.myst3ry.calculations.model.CurrencyType;
 import com.myst3ry.calculations.model.Account;
+import com.myst3ry.calculations.model.CurrencyType;
 import com.myst3ry.calculations.model.Transaction;
 import com.myst3ry.financemanager.repository.AccountRepository;
 import com.myst3ry.financemanager.repository.ExchangeRepository;

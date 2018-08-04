@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.myst3ry.calculations.model.TransactionType;
 import com.myst3ry.calculations.model.Transaction;
+import com.myst3ry.calculations.model.TransactionType;
 import com.myst3ry.financemanager.R;
 import com.myst3ry.financemanager.utils.Utils;
 

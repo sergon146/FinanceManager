@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
-import com.myst3ry.calculations.model.CurrencyType;
 import com.myst3ry.calculations.model.Account;
+import com.myst3ry.calculations.model.CurrencyType;
 import com.myst3ry.calculations.model.Transaction;
 import com.myst3ry.financemanager.R;
 import com.myst3ry.financemanager.ui.base.BaseFragment;
@@ -31,26 +31,18 @@ import butterknife.OnClick;
 public final class BalanceFragment extends BaseFragment<BalancePresenter>
         implements BalanceView {
     private static final String UUID_KEY = "UUID_KEY";
-
+    @Inject
+    @InjectPresenter
+    public BalancePresenter presenter;
     @BindView(R.id.rur_balance)
     TextView mainCurBalanceTextView;
     @BindView(R.id.usd_balance)
     TextView secondCurBalanceTextView;
     @BindView(R.id.transaction_recycler)
     RecyclerView transactionRecycler;
-
-    @Inject
-    @InjectPresenter
-    public BalancePresenter presenter;
     private BalanceFormatterFactory formatterFactory = new BalanceFormatterFactory();
     private UUID accountUUid;
     private TransactionAdapter adapter;
-
-    @Override
-    @ProvidePresenter
-    protected BalancePresenter providePresenter() {
-        return presenter;
-    }
 
     public static BalanceFragment newInstance(UUID accountUuid) {
         final BalanceFragment fragment = new BalanceFragment();
@@ -58,6 +50,12 @@ public final class BalanceFragment extends BaseFragment<BalancePresenter>
         args.putSerializable(UUID_KEY, accountUuid);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    @ProvidePresenter
+    protected BalancePresenter providePresenter() {
+        return presenter;
     }
 
     @Override

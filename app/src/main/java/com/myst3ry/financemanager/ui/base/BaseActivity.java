@@ -24,9 +24,11 @@ import dagger.android.support.HasSupportFragmentInjector;
 public abstract class BaseActivity<Presenter extends BasePresenter> extends MvpAppCompatActivity
         implements BaseView, HasSupportFragmentInjector {
 
+    @Nullable
+    @BindView(R.id.toolbar_title)
+    protected TextView title;
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentInjector;
-
     private Presenter presenter;
 
     protected Presenter providePresenter() {
@@ -36,10 +38,6 @@ public abstract class BaseActivity<Presenter extends BasePresenter> extends MvpA
     public Presenter getPresenter() {
         return presenter;
     }
-
-    @Nullable
-    @BindView(R.id.toolbar_title)
-    protected TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

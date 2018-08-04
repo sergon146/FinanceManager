@@ -23,14 +23,14 @@ public final class AboutFragment extends BaseFragment<AboutPresenter> implements
     @InjectPresenter
     AboutPresenter presenter;
 
+    public static AboutFragment newInstance() {
+        return new AboutFragment();
+    }
+
     @Override
     @ProvidePresenter
     public AboutPresenter providePresenter() {
         return presenter;
-    }
-
-    public static AboutFragment newInstance() {
-        return new AboutFragment();
     }
 
     @Override

@@ -12,11 +12,14 @@ public final class Calculations {
 
     private static final int SCALE_TYPE = BigDecimal.ROUND_DOWN;
     private static final int SCALE_VALUE = 2;
-
+    private static volatile Calculations INSTANCE;
     private Account mAccount;
     private double mRate;
 
-    private static volatile Calculations INSTANCE;
+    private Calculations(final Account account, final Double rate) {
+        this.mAccount = account;
+        this.mRate = rate;
+    }
 
     public static Calculations getInstance(final Account account, final double rate) {
         Calculations instance = INSTANCE;
@@ -29,11 +32,6 @@ public final class Calculations {
             }
         }
         return instance;
-    }
-
-    private Calculations(final Account account, final Double rate) {
-        this.mAccount = account;
-        this.mRate = rate;
     }
 
     public void income(final Transaction transaction) {
@@ -58,7 +56,7 @@ public final class Calculations {
 
     public BigDecimal getTotalBalance(final List<Account> accounts) {
         BigDecimal totalBalance = BigDecimal.ZERO;
-        for (final Account account : accounts) {
+        for (final Account account: accounts) {
             if (account.getCurrencyType() == CurrencyType.USD) {
                 totalBalance = totalBalance.add(convertToRur(account.getBalance()));
             } else if (account.getCurrencyType() == CurrencyType.RUR) {

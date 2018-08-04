@@ -33,17 +33,15 @@ import butterknife.OnClick;
 public final class MainActivity extends BaseActivity<MainPresenter>
         implements MainView, FragmentManager.OnBackStackChangedListener {
 
+    @Inject
+    @InjectPresenter
+    public MainPresenter presenter;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
-
     @BindView(R.id.tab_bar)
     AHBottomNavigation tabBar;
     @BindView(R.id.back)
     View back;
-
-    @Inject
-    @InjectPresenter
-    public MainPresenter presenter;
     private FragmentManager fragmentManager;
 
     @Override

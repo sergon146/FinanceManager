@@ -9,7 +9,7 @@ public enum Screens {
 
     /**
      * todo will be added later
-     *
+     * <p>
      * FEED_SCREEN(TabBarScreens.FEED);
      */
 

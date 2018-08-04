@@ -24,12 +24,10 @@ import icepick.Icepick;
 
 public abstract class BaseFragment<Presenter extends BasePresenter> extends MvpAppCompatFragment
         implements BaseView, HasSupportFragmentInjector, Injectable {
+    protected BaseActivity activity;
+    protected Presenter presenter;
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentInjector;
-
-    protected BaseActivity activity;
-
-    protected Presenter presenter;
 
     protected Presenter providePresenter() {
         return null;

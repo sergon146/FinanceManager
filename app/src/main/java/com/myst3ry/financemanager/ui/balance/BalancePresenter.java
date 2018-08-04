@@ -1,8 +1,8 @@
 package com.myst3ry.financemanager.ui.balance;
 
 import com.arellomobile.mvp.InjectViewState;
-import com.myst3ry.calculations.model.CurrencyType;
 import com.myst3ry.calculations.model.Account;
+import com.myst3ry.calculations.model.CurrencyType;
 import com.myst3ry.financemanager.ui.base.BasePresenter;
 import com.myst3ry.financemanager.usecase.BalanceUseCase;
 

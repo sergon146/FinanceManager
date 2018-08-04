@@ -24,12 +24,11 @@ import butterknife.BindView;
 
 public class AccountsFragment extends BaseFragment<AccountPresenter> implements AccountView {
 
-    @BindView(R.id.account_rv)
-    RecyclerView accountRecycler;
-
     @Inject
     @InjectPresenter
     public AccountPresenter presenter;
+    @BindView(R.id.account_rv)
+    RecyclerView accountRecycler;
     private AccountAdapter accountAdapter;
 
     public static AccountsFragment newInstance() {

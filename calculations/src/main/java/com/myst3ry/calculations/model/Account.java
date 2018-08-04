@@ -31,16 +31,16 @@ public final class Account {
         return mBalance;
     }
 
+    public void setBalance(final BigDecimal balance) {
+        this.mBalance = balance;
+    }
+
     public CurrencyType getCurrencyType() {
         return mCurrencyType;
     }
 
     public AccountType getAccountType() {
         return mAccountType;
-    }
-
-    public void setBalance(final BigDecimal balance) {
-        this.mBalance = balance;
     }
 
     public UUID getUuid() {

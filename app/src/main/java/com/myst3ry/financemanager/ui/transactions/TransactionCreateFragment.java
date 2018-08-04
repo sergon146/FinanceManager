@@ -55,16 +55,13 @@ public final class TransactionCreateFragment extends BaseFragment<TransactionCra
     @Inject
     @InjectPresenter
     TransactionCratePresenter presenter;
-
-    private BalanceFormatterFactory formatterFactory = new BalanceFormatterFactory();
-
     @State
     CurrencyType currentCurrencyType;
     @State
     TransactionType currentTransactionType;
     @State
     int transactionIndex, currencyIndex, categoryIndex;
-
+    private BalanceFormatterFactory formatterFactory = new BalanceFormatterFactory();
     private ArrayList<String> transactionTitles, currencyTitles, categoryTitles;
 
     public static TransactionCreateFragment newInstance(UUID accountUuid) {

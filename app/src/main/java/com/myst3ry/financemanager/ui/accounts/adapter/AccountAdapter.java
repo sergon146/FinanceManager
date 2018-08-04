@@ -55,6 +55,10 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         notifyItemInserted(newPos);
     }
 
+    public interface OnAccountClick {
+        void onAccountClick(Account account);
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.title)
         TextView title;
@@ -76,9 +80,5 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
             type.setText(Utils.getAccountTypeTitle(itemView.getContext(),
                     account.getAccountType()));
         }
-    }
-
-    public interface OnAccountClick {
-        void onAccountClick(Account account);
     }
 }

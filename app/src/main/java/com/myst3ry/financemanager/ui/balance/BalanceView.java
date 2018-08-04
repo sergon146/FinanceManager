@@ -1,7 +1,7 @@
 package com.myst3ry.financemanager.ui.balance;
 
-import com.myst3ry.calculations.model.CurrencyType;
 import com.myst3ry.calculations.model.Account;
+import com.myst3ry.calculations.model.CurrencyType;
 import com.myst3ry.calculations.model.Transaction;
 import com.myst3ry.financemanager.ui.base.BaseView;
 

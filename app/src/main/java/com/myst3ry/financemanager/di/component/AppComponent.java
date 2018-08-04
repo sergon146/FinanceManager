@@ -3,8 +3,8 @@ package com.myst3ry.financemanager.di.component;
 import android.app.Application;
 
 import com.myst3ry.financemanager.App;
-import com.myst3ry.financemanager.di.modules.NetworkModule;
 import com.myst3ry.financemanager.di.modules.AppModule;
+import com.myst3ry.financemanager.di.modules.NetworkModule;
 import com.myst3ry.financemanager.di.modules.RepositoryModule;
 
 import javax.inject.Singleton;

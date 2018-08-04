@@ -2,12 +2,8 @@ package com.myst3ry.financemanager.ui.main;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.myst3ry.financemanager.ui.base.BasePresenter;
-import com.myst3ry.financemanager.ui.base.BaseView;
 import com.myst3ry.financemanager.ui.main.screens.Screens;
 import com.myst3ry.financemanager.ui.main.screens.TabBarScreens;
-
-import io.reactivex.disposables.CompositeDisposable;
-import retrofit2.HttpException;
 
 @InjectViewState
 public final class MainPresenter extends BasePresenter<MainView> {
@@ -22,9 +18,9 @@ public final class MainPresenter extends BasePresenter<MainView> {
             case MAIN:
                 screen = Screens.MAIN_SCREEN;
                 break;
-//            case FEED:
-//                screen = Screens.FEED_SCREEN;
-//                break;
+            //            case FEED:
+            //                screen = Screens.FEED_SCREEN;
+            //                break;
             case REPORT:
                 screen = Screens.REPORT_SCREEN;
                 break;
