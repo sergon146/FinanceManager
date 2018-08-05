@@ -1,13 +1,27 @@
 <resources>
 
-    <style name="AppTheme.Toolbar" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_accent</item>
+        <item name="android:windowBackground">@drawable/gradient_bg</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
     </style>
 
-    <style name="AppTheme.Settings" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+    <style name="AppTheme.Launcher">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
+
+    <style name="TextStyleDark">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextStyleDark.Bold" parent="TextStyleDark">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 </resources>

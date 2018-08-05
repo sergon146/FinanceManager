@@ -35,9 +35,11 @@ dependencies {
     implementation "com.android.support:design:$support_ver"
     implementation "com.android.support:support-v4:$support_ver"
     implementation "com.android.support:preference-v7:$support_ver"
+    implementation "com.android.support:cardview-v7:$support_ver"
 
     //butter knife
     implementation "com.jakewharton:butterknife:$butterknife_ver"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknife_ver"
 
     //icepick
@@ -47,6 +49,8 @@ dependencies {
     //dagger2
     implementation "com.google.dagger:dagger:$dagger_ver"
     annotationProcessor "com.google.dagger:dagger-compiler:$dagger_ver"
+    implementation "com.google.dagger:dagger-android-support:$dagger_ver"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_ver"
 
     //retrofit2
     implementation "com.squareup.retrofit2:retrofit:$retrofit_ver"
@@ -60,6 +64,15 @@ dependencies {
     //rxJava2
     implementation "io.reactivex.rxjava2:rxjava:$rxjava_ver"
     implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_ver"
+
+    //moxy
+    implementation "com.arello-mobile:moxy:$moxy_ver"
+    annotationProcessor "com.arello-mobile:moxy-compiler:$moxy_ver"
+    implementation "com.arello-mobile:moxy-android:$moxy_ver"
+    implementation "com.arello-mobile:moxy-app-compat:$moxy_ver"
+
+    //pretty views
+    implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'
 
     testImplementation "junit:junit:$junit_ver"
     androidTestImplementation "com.android.support.test:runner:$runner_ver"

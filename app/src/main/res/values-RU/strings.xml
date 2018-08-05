@@ -15,6 +15,32 @@
         <item>en</item>
     </string-array>
 
+
+    <string name="accept">Добавить</string>
+    <string name="decline">Отмена</string>
+
+    <!--Tab bar-->
+    <string name="tab_main">Главная</string>
+    <string name="tab_feed">Лента</string>
+    <string name="tab_report">Отчёт</string>
+    <string name="tab_settings">Настройки</string>
+    <string name="empty"> </string>
+    <!--Tab bar-->
+
+    <!--Account screen-->
+    <string name="add_wallet">Добавить счёт</string>
+    <!--Account screen-->
+
+    <!--Currency type-->
+    <string name="rub_symbol">₽</string>
+    <string name="usd_symbol">$</string>
+    <!--Currency type-->
+
+    <!--Account type-->
+    <string name="cash_type">Наличные</string>
+    <string name="card_type">Карта</string>
+    <!--Account type-->
+
     <!--Titles-->
     <string name="title_balance">Баланс</string>
     <string name="title_settings">Настройки</string>
@@ -52,21 +78,22 @@
     <string name="dialog_lang_message">Измения вступят в силу при следующем входе в приложение</string>
 
     <!--Create Transaction-->
-    <string name="dialog_title_expense">Расход</string>
-    <string name="dialog_title_income">Доход</string>
+    <string name="expense">Расход</string>
+    <string name="income">Доход</string>
     <string name="text_select_account">Выберите счет</string>
-    <string name="text_transaction_type">Тип операции</string>
+    <string name="text_transaction_type">Выберите тип операции</string>
     <string name="hint_enter_amount">Введите сумму</string>
     <string name="text_select_currency">Выберите валюту</string>
-    <string name="text_add_category_label">Категория</string>
+    <string name="text_add_category_label">Выберите категорию</string>
     <string name="text_current_category">Отсутствует</string>
     <string name="dialog_title_rur">Российский рубль (RUR)</string>
     <string name="dialog_title_usd">Доллар США (USD)</string>
-    <string name="title_accept">Добавить</string>
     <string name="new_transaction_title">Новая операция</string>
+    <string name="error_create_transaction">Что-то пошло не так! Транзакция не была добавлена!</string>
+    <string name="transaction_success">Транзакция добавлена!</string>
 
     <!--Connection-->
-    <string name="error">Ошибка %d (%s)</string>
+    <string name="http_error">Ошибка %d (%s)</string>
     <string name="connection_error">Проверьте свое соединение с интернетом</string>
     <string name="err_empty_field">Необходимо ввести сумму</string>
 

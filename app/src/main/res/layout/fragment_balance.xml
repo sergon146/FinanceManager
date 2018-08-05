@@ -1,20 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.balance.BalanceFragment">
+    >
 
-    <include layout="@layout/content_balance" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_add_new_transaction"
+    <TextView
+        android:id="@+id/rur"
+        style="@style/TextStyleDark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_standard"
-        android:layout_gravity="bottom|end"
-        app:elevation="@dimen/fab_elevation_standard"
-        app:srcCompat="@drawable/ic_add_white_24dp" />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/text_currency_rur"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
-</android.support.design.widget.CoordinatorLayout>
+    <TextView
+        android:id="@+id/rur_balance"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_standard"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@id/rur"
+        app:layout_constraintBottom_toBottomOf="@+id/rur"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toEndOf="@+id/rur"
+        app:layout_constraintTop_toTopOf="@+id/rur"
+        tools:text="P 2342.00 "
+        />
+
+    <TextView
+        android:id="@+id/usd"
+        style="@style/TextStyleDark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/text_currency_usd"
+        android:textAlignment="textEnd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rur"
+        />
+
+    <TextView
+        android:id="@+id/usd_balance"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_standard"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@id/usd"
+        app:layout_constraintBottom_toBottomOf="@+id/usd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toEndOf="@+id/usd"
+        app:layout_constraintTop_toTopOf="@+id/usd"
+        tools:text="$ 321.12"
+        />
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/margin_standard"
+        app:elevation="@dimen/fab_elevation_standard"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_add_bb8"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/transaction_recycler"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/usd_balance"
+        />
+
+</android.support.constraint.ConstraintLayout>

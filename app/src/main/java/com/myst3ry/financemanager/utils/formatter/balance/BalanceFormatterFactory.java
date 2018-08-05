@@ -1,6 +1,6 @@
 package com.myst3ry.financemanager.utils.formatter.balance;
 
-import com.myst3ry.calculations.CurrencyType;
+import com.myst3ry.calculations.model.CurrencyType;
 
 public final class BalanceFormatterFactory {
 

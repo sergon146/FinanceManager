@@ -24,14 +24,13 @@ public final class RatesStorage {
         return instance;
     }
 
-    private RatesStorage() {
+    public void saveUsdRate(final Context context, final Float rate) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit()
+                .putFloat(USD_RATE, rate).apply();
     }
 
-    public void saveUSDRate(final Context context, final Float rate) {
-        PreferenceManager.getDefaultSharedPreferences(context).edit().putFloat(USD_RATE, rate).apply();
-    }
-
-    public Float getUSDRate(final Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context).getFloat(USD_RATE, 0f);
+    public Float getUsdRate(final Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context)
+                .getFloat(USD_RATE, 0f);
     }
 }
