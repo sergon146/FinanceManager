@@ -1,17 +1,17 @@
 package com.myst3ry.financemanager.ui.balance;
 
-import com.myst3ry.calculations.model.Account;
-import com.myst3ry.calculations.model.CurrencyType;
-import com.myst3ry.calculations.model.Transaction;
 import com.myst3ry.financemanager.ui.base.BaseView;
+import com.myst3ry.model.Balance;
+import com.myst3ry.model.Operation;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public interface BalanceView extends BaseView {
-    void showTotalBalance(Account account);
+    void showMainBalance(Balance balance);
 
-    void showExchangedBalance(BigDecimal amount, CurrencyType type);
+    void showAdditionalBalance(Balance balance);
 
-    void showTransactions(List<Transaction> transactions);
+    void showOperations(List<Operation> Operations);
+
+    void setupTitle(String title);
 }

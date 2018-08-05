@@ -1,0 +1,42 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 27
+
+
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "com.android.support:appcompat-v7:$support_ver"
+    testImplementation "junit:junit:$junit_ver"
+    androidTestImplementation "com.android.support.test:runner:$runner_ver"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espresso_ver"
+
+    //database
+    implementation "android.arch.persistence.room:runtime:1.1.1"
+    implementation "android.arch.persistence.room:common:1.1.1"
+    annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
+
+    //gson
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_ver"
+}

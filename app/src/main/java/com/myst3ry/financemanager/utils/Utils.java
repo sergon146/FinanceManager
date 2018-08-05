@@ -4,17 +4,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Pair;
 
-import com.myst3ry.calculations.model.AccountType;
-import com.myst3ry.calculations.model.CategoryType;
-import com.myst3ry.calculations.model.CurrencyType;
-import com.myst3ry.calculations.model.TransactionType;
 import com.myst3ry.financemanager.BuildConfig;
 import com.myst3ry.financemanager.R;
 import com.myst3ry.financemanager.utils.formatter.balance.BalanceFormatterFactory;
+import com.myst3ry.model.Account;
+import com.myst3ry.model.AccountType;
+import com.myst3ry.model.Balance;
+import com.myst3ry.model.CategoryType;
+import com.myst3ry.model.CurrencyType;
+import com.myst3ry.model.ExchangeRate;
+import com.myst3ry.model.OperationType;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.List;
 
 public final class Utils {
 
@@ -26,18 +31,18 @@ public final class Utils {
         return currencies;
     }
 
-    public static ArrayList<String> getTransactionTitles(final Context context) {
-        final ArrayList<String> transactions = new ArrayList<>();
-        for (final TransactionType transaction: TransactionType.values()) {
-            transactions.add(getTransactionTitle(transaction, context));
+    public static ArrayList<String> getOperationTitles(final Context context) {
+        final ArrayList<String> operations = new ArrayList<>();
+        for (final OperationType operation: OperationType.values()) {
+            operations.add(getOperationTitle(operation, context));
         }
-        return transactions;
+        return operations;
     }
 
     public static CurrencyType getCurrencyTypeByResId(final int resId) {
         switch (resId) {
-            case R.string.dialog_title_rur:
-                return CurrencyType.RUR;
+            case R.string.dialog_title_rub:
+                return CurrencyType.RUB;
             case R.string.dialog_title_usd:
                 return CurrencyType.USD;
             default:
@@ -47,8 +52,8 @@ public final class Utils {
 
     public static int getCurrencyTypeTitleRes(CurrencyType type) {
         switch (type) {
-            case RUR:
-                return R.string.dialog_title_rur;
+            case RUB:
+                return R.string.dialog_title_rub;
             case USD:
                 return R.string.dialog_title_usd;
             default:
@@ -56,19 +61,19 @@ public final class Utils {
         }
     }
 
-    public static TransactionType getTransactionTypeByResId(final int resId) {
+    public static OperationType getOperationTypeByResId(final int resId) {
         switch (resId) {
             case R.string.expense:
-                return TransactionType.EXPENSE;
+                return OperationType.EXPENSE;
             case R.string.income:
-                return TransactionType.INCOME;
+                return OperationType.INCOME;
             default:
                 return null;
         }
     }
 
-    private static String getTransactionTitle(final TransactionType transaction, final Context context) {
-        switch (transaction) {
+    private static String getOperationTitle(final OperationType operation, final Context context) {
+        switch (operation) {
             case EXPENSE:
                 return context.getString(R.string.expense);
             case INCOME:
@@ -93,7 +98,7 @@ public final class Utils {
         return context.getString(resId);
     }
 
-    public static String getTransactionTypeTitle(final Context context, final TransactionType type) {
+    public static String getOperationTypeTitle(final Context context, final OperationType type) {
         int resId;
         switch (type) {
             case INCOME:
@@ -177,8 +182,8 @@ public final class Utils {
         private static String getSymbol(final Context context, final CurrencyType currency) {
             int resId;
             switch (currency) {
-                case RUR:
-                    resId = R.string.text_currency_rur;
+                case RUB:
+                    resId = R.string.text_currency_rub;
                     break;
                 case USD:
                     resId = R.string.text_currency_usd;
@@ -189,6 +194,45 @@ public final class Utils {
 
             return context.getString(resId);
         }
+
+        public static CurrencyType getOutCurrency(CurrencyType in) {
+            CurrencyType out;
+            switch (in) {
+                case RUB:
+                    out = CurrencyType.USD;
+                    break;
+                case USD:
+                    out = CurrencyType.RUB;
+                    break;
+                default:
+                    out = in;
+            }
+            return out;
+        }
+
     }
 
+    public static class Balances {
+        public static Pair<Balance, Balance> getBalanceSum(final CurrencyType currentCurrency,
+                                                           final ExchangeRate primaryRate,
+                                                           final ExchangeRate additionalRate,
+                                                           final List<Account> accounts) {
+            Balance balance = new Balance(currentCurrency);
+
+            BigDecimal sum = BigDecimal.ZERO;
+            for (Account account: accounts) {
+                if (account.getCurrencyType().equals(currentCurrency)) {
+                    sum = sum.add(account.getBalance());
+                } else {
+                    sum = sum.add(account.getBalance().multiply(primaryRate.getRate()));
+                }
+            }
+
+            balance.setAmount(sum);
+
+            BigDecimal amount = sum.multiply(additionalRate.getRate());
+            Balance additionalBalance = new Balance(CurrencyType.USD, amount);
+            return new Pair<>(balance, additionalBalance);
+        }
+    }
 }

@@ -5,7 +5,7 @@ import com.myst3ry.financemanager.ui.accounts.AccountsFragment;
 import com.myst3ry.financemanager.ui.balance.BalanceFragment;
 import com.myst3ry.financemanager.ui.dialogs.SelectionDialogFragment;
 import com.myst3ry.financemanager.ui.main.MainPresenter;
-import com.myst3ry.financemanager.ui.transactions.TransactionCreateFragment;
+import com.myst3ry.financemanager.ui.operations.OperationCreateFragment;
 
 import dagger.Module;
 import dagger.Provides;
@@ -25,8 +25,8 @@ public abstract class MainModule {
     @ContributesAndroidInjector(modules = BalanceModule.class)
     abstract BalanceFragment contributeBalanceFragment();
 
-    @ContributesAndroidInjector(modules = TransactionCreateModule.class)
-    abstract TransactionCreateFragment contributeTransactionCreateFragment();
+    @ContributesAndroidInjector(modules = OperationCreateModule.class)
+    abstract OperationCreateFragment contributeOperationCreateFragment();
 
     @ContributesAndroidInjector(modules = AboutModule.class)
     abstract AboutFragment contributeAboutFragment();

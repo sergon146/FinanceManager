@@ -11,6 +11,7 @@ buildscript {
         rxjava_ver = '2.1.1'
         rxandroid_ver = '2.0.1'
         moxy_ver = '1.5.3'
+        room_ver = '1.1.1'
 
         junit_ver = '4.12'
         runner_ver = '1.0.2'

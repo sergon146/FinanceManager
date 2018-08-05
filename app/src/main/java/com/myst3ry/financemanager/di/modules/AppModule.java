@@ -1,8 +1,8 @@
 package com.myst3ry.financemanager.di.modules;
 
-import android.app.Application;
 import android.content.Context;
 
+import com.myst3ry.financemanager.App;
 import com.myst3ry.financemanager.ui.main.MainActivity;
 
 import javax.inject.Singleton;
@@ -16,7 +16,7 @@ public abstract class AppModule {
 
     @Singleton
     @Provides
-    static Context provideContext(Application app) {
+    static Context provideContext(App app) {
         return app;
     }
 

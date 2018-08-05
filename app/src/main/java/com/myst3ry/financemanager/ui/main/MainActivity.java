@@ -18,12 +18,11 @@ import com.myst3ry.financemanager.ui.balance.BalanceFragment;
 import com.myst3ry.financemanager.ui.base.BaseActivity;
 import com.myst3ry.financemanager.ui.main.screens.Screens;
 import com.myst3ry.financemanager.ui.main.screens.TabBarScreens;
+import com.myst3ry.financemanager.ui.operations.OperationCreateFragment;
 import com.myst3ry.financemanager.ui.settings.SettingsFragment;
-import com.myst3ry.financemanager.ui.transactions.TransactionCreateFragment;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import javax.inject.Inject;
 
@@ -54,17 +53,17 @@ public final class MainActivity extends BaseActivity<MainPresenter>
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        prepareView(savedInstanceState);
     }
 
-    @Override
-    protected void prepareView() {
+    protected void prepareView(Bundle savedInstanceState) {
         fragmentManager = getSupportFragmentManager();
         fragmentManager.addOnBackStackChangedListener(this);
         shouldDisplayBack();
-        prepareTabBar();
+        prepareTabBar(savedInstanceState);
     }
 
-    private void prepareTabBar() {
+    private void prepareTabBar(Bundle savedInstanceState) {
         List<AHBottomNavigationItem> items = new ArrayList<>();
 
         for (TabBarScreens screen: TabBarScreens.values()) {
@@ -83,7 +82,9 @@ public final class MainActivity extends BaseActivity<MainPresenter>
             return false;
         });
 
-        activateTab(Screens.MAIN_SCREEN);
+        if (savedInstanceState == null) {
+            activateTab(Screens.MAIN_SCREEN);
+        }
     }
 
     @Override
@@ -103,8 +104,8 @@ public final class MainActivity extends BaseActivity<MainPresenter>
                 fragment = AccountsFragment.newInstance();
                 break;
             case BALANCE_SCREEN:
-                UUID uuid = (UUID) data;
-                fragment = BalanceFragment.newInstance(uuid);
+                long id = (long) data;
+                fragment = BalanceFragment.newInstance(id);
                 break;
             case REPORT_SCREEN:
                 fragment = AboutFragment.newInstance();
@@ -112,9 +113,9 @@ public final class MainActivity extends BaseActivity<MainPresenter>
             case SETTINGS_SCREEN:
                 fragment = SettingsFragment.newInstance();
                 break;
-            case TRANSACTIONS_SCREEN:
-                UUID accountUuid = (UUID) data;
-                fragment = TransactionCreateFragment.newInstance(accountUuid);
+            case OPERATIONS_SCREEN:
+                long accountUuid = (long) data;
+                fragment = OperationCreateFragment.newInstance(accountUuid);
                 break;
             default:
                 throw new RuntimeException("Unknown screen");

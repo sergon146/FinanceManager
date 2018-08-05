@@ -21,7 +21,7 @@ public final class MainPresenter extends BasePresenter<MainView> {
             //            case FEED:
             //                screen = Screens.FEED_SCREEN;
             //                break;
-            case REPORT:
+            case ABOUT:
                 screen = Screens.REPORT_SCREEN;
                 break;
             case SETTINGS:

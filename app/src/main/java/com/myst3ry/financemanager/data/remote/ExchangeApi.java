@@ -1,14 +1,18 @@
 package com.myst3ry.financemanager.data.remote;
 
-import com.myst3ry.financemanager.data.remote.model.ApiResponse;
-
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import okhttp3.ResponseBody;
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 public interface ExchangeApi {
 
-    String API_BASE_URL = "https://www.cbr-xml-daily.ru/";
+    String API_BASE_URL = "https://free.currencyconverterapi.com/api/v6/";
 
-    @GET("daily_json.js")
-    Observable<ApiResponse> getActualExchangeRates();
+    @GET("convert?compact=ultra")
+    Flowable<ResponseBody> getActualExchangeRates(@Query("q") String fromTo);
+
+    @GET("convert?compact=ultra")
+    Observable<String> getActualExchangeRateObject(@Query("q") String fromTo);
 }

@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.myst3ry.calculations.model.Account;
 import com.myst3ry.financemanager.R;
 import com.myst3ry.financemanager.utils.Utils;
+import com.myst3ry.model.Account;
 
 import java.util.ArrayList;
 import java.util.List;

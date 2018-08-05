@@ -1,9 +1,9 @@
 package com.myst3ry.financemanager.ui.accounts;
 
 import com.arellomobile.mvp.InjectViewState;
-import com.myst3ry.financemanager.data.remote.model.Valute;
 import com.myst3ry.financemanager.ui.base.BasePresenter;
 import com.myst3ry.financemanager.usecase.AccountUseCase;
+import com.myst3ry.model.CurrencyType;
 
 @InjectViewState
 public class AccountPresenter extends BasePresenter<AccountView> {
@@ -14,19 +14,18 @@ public class AccountPresenter extends BasePresenter<AccountView> {
     }
 
     @Override
-    public void onFirstViewAttach() {
-        super.onFirstViewAttach();
-        bind(onUi(useCase.getAccounts())
-                .subscribe(getViewState()::showAccounts));
+    public void attachView(AccountView view) {
+        super.attachView(view);
 
-        bind(onUi(useCase.getExchangeRate()).subscribe(val -> {
-            saveActualExchangeRates(val);
-            getViewState().showToast(val.getUSD().getValue() + "");
-        }));
+        bind(onUi(useCase.getBalanceSum(CurrencyType.RUB, CurrencyType.USD)).subscribe(pair -> {
+                    getViewState().showPrimaryBalance(pair.first);
+                    getViewState().showAdditionalBalance(pair.second);
+                }
+        ));
+
+        bind(onUi(useCase.getAccounts()).subscribe(accounts ->
+                getViewState().showAccounts(accounts)));
+
+
     }
-
-    private void saveActualExchangeRates(final Valute valutes) {
-        //        RatesStorage.getInstance().saveUsdRate(context, valutes != null ? valutes.getUSD().getValue() : 0f);
-    }
-
 }

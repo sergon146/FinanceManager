@@ -7,36 +7,36 @@
     >
 
     <TextView
-        android:id="@+id/rur"
+        android:id="@+id/main_currency"
         style="@style/TextStyleDark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
-        android:text="@string/text_currency_rur"
+        android:text="@string/text_currency_rub"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
 
     <TextView
-        android:id="@+id/rur_balance"
+        android:id="@+id/main_balance"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_standard"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@id/rur"
-        app:layout_constraintBottom_toBottomOf="@+id/rur"
+        app:layout_constraintBaseline_toBaselineOf="@id/main_currency"
+        app:layout_constraintBottom_toBottomOf="@+id/main_currency"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.05"
-        app:layout_constraintStart_toEndOf="@+id/rur"
-        app:layout_constraintTop_toTopOf="@+id/rur"
+        app:layout_constraintStart_toEndOf="@+id/main_currency"
+        app:layout_constraintTop_toTopOf="@+id/main_currency"
         tools:text="P 2342.00 "
         />
 
     <TextView
-        android:id="@+id/usd"
+        android:id="@+id/additional_currency"
         style="@style/TextStyleDark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,22 +45,22 @@
         android:text="@string/text_currency_usd"
         android:textAlignment="textEnd"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rur"
+        app:layout_constraintTop_toBottomOf="@+id/main_currency"
         />
 
     <TextView
-        android:id="@+id/usd_balance"
+        android:id="@+id/additional_balance"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_standard"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:textStyle="bold"
-        app:layout_constraintBaseline_toBaselineOf="@id/usd"
-        app:layout_constraintBottom_toBottomOf="@+id/usd"
+        app:layout_constraintBaseline_toBaselineOf="@id/additional_currency"
+        app:layout_constraintBottom_toBottomOf="@+id/additional_currency"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.05"
-        app:layout_constraintStart_toEndOf="@+id/usd"
-        app:layout_constraintTop_toTopOf="@+id/usd"
+        app:layout_constraintStart_toEndOf="@+id/additional_currency"
+        app:layout_constraintTop_toTopOf="@+id/additional_currency"
         tools:text="$ 321.12"
         />
 
@@ -79,14 +79,14 @@
         />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/transaction_recycler"
+        android:id="@+id/operation_recycler"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usd_balance"
+        app:layout_constraintTop_toBottomOf="@+id/additional_balance"
         />
 
 </android.support.constraint.ConstraintLayout>

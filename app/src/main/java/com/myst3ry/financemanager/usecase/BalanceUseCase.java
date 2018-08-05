@@ -1,40 +1,42 @@
 package com.myst3ry.financemanager.usecase;
 
-import com.myst3ry.calculations.model.Account;
-import com.myst3ry.calculations.model.CurrencyType;
-import com.myst3ry.calculations.model.Transaction;
 import com.myst3ry.financemanager.repository.AccountRepository;
 import com.myst3ry.financemanager.repository.ExchangeRepository;
-import com.myst3ry.financemanager.repository.TransactionRepository;
+import com.myst3ry.financemanager.repository.OperationRepository;
+import com.myst3ry.financemanager.utils.Utils;
+import com.myst3ry.model.Account;
+import com.myst3ry.model.Balance;
+import com.myst3ry.model.CurrencyType;
+import com.myst3ry.model.Operation;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
 
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 
 public class BalanceUseCase {
     private final AccountRepository accountRepository;
     private final ExchangeRepository exchangeRepository;
-    private TransactionRepository transactionRepository;
+    private final OperationRepository OperationRepository;
 
     public BalanceUseCase(AccountRepository accountRepository,
                           ExchangeRepository exchangeRepository,
-                          TransactionRepository transactionRepository) {
+                          OperationRepository OperationRepository) {
         this.accountRepository = accountRepository;
         this.exchangeRepository = exchangeRepository;
-        this.transactionRepository = transactionRepository;
+        this.OperationRepository = OperationRepository;
     }
 
-    public Observable<Account> getAccountBalance(UUID uuid) {
-        return accountRepository.getAccount(uuid);
+    public Flowable<Account> getAccountBalance(long id) {
+        return accountRepository.getAccount(id);
     }
 
-    public Observable<BigDecimal> getExchangeBalance(BigDecimal amount, CurrencyType type) {
-        return exchangeRepository.getExchangedAmount(amount, type);
+    public Flowable<Balance> getExchangeBalance(Balance balance) {
+        CurrencyType outCurrency = Utils.Currency.getOutCurrency(balance.getCurrencyType());
+        return exchangeRepository.getExchangeRate(outCurrency).map(rate ->
+                new Balance(outCurrency, balance.getAmount().multiply(rate.getRate())));
     }
 
-    public Observable<List<Transaction>> getTransactions(Account account) {
-        return transactionRepository.getTransactions();
+    public Flowable<List<Operation>> getOperations(Account account) {
+        return OperationRepository.getOperations(account);
     }
 }
