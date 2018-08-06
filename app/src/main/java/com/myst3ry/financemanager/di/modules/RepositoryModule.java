@@ -31,6 +31,9 @@ public abstract class RepositoryModule {
     @Singleton
     @Provides
     static OperationRepository provideOperationRepository(MainDatabase database) {
-        return new OperationRepository(database.operationDao());
+        return new OperationRepository(
+                database.operationDao(),
+                database.operationAccountPeriodicDao(),
+                database.periodicDao());
     }
 }

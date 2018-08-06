@@ -1,5 +1,6 @@
 package com.myst3ry.financemanager.di.modules;
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.myst3ry.financemanager.data.remote.ExchangeApi;
 import com.myst3ry.financemanager.utils.rx.RxThreadCallAdapter;
 
@@ -21,6 +22,7 @@ public abstract class NetworkModule {
     static OkHttpClient providesOkHttpClient() {
         return new OkHttpClient.Builder()
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE))
+                .addNetworkInterceptor(new StethoInterceptor())
                 .build();
     }
 

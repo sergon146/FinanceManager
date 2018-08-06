@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.myst3ry.financemanager.R;
-import com.myst3ry.financemanager.ui.accounts.adapter.AccountAdapter;
+import com.myst3ry.financemanager.ui.adapters.AccountAdapter;
 import com.myst3ry.financemanager.ui.base.BaseFragment;
 import com.myst3ry.financemanager.ui.main.screens.Screens;
 import com.myst3ry.financemanager.utils.formatter.balance.BalanceFormatterFactory;
@@ -37,6 +37,8 @@ public class AccountsFragment extends BaseFragment<AccountPresenter> implements 
     TextView totalBalance;
     @BindView(R.id.additional_balance)
     TextView additionalBalance;
+    @BindView(R.id.empty)
+    View emptyHolder;
 
     private AccountAdapter accountAdapter;
     private BalanceFormatterFactory formatterFactory = new BalanceFormatterFactory();
@@ -75,7 +77,12 @@ public class AccountsFragment extends BaseFragment<AccountPresenter> implements 
 
     @Override
     public void showAccounts(List<Account> accounts) {
-        accountAdapter.setAccounts(accounts);
+        if (accounts.isEmpty()) {
+            emptyHolder.setVisibility(View.VISIBLE);
+        } else {
+            emptyHolder.setVisibility(View.GONE);
+            accountAdapter.setAccounts(accounts);
+        }
     }
 
     @Override

@@ -9,15 +9,19 @@ import android.support.annotation.NonNull;
 
 import com.myst3ry.financemanager.data.dao.AccountDao;
 import com.myst3ry.financemanager.data.dao.ExchangeDao;
+import com.myst3ry.financemanager.data.dao.OperationAccountPeriodicDao;
 import com.myst3ry.financemanager.data.dao.OperationDao;
+import com.myst3ry.financemanager.data.dao.PeriodicDao;
 import com.myst3ry.financemanager.utils.DatabaseDataStub;
 import com.myst3ry.model.Account;
 import com.myst3ry.model.ExchangeRate;
 import com.myst3ry.model.Operation;
+import com.myst3ry.model.PeriodicOperation;
 
 import java.util.concurrent.Executors;
 
-@Database(entities = {Operation.class, Account.class, ExchangeRate.class}, version = 1, exportSchema = false)
+@Database(entities = {Operation.class, Account.class, ExchangeRate.class, PeriodicOperation.class},
+        version = 1, exportSchema = false)
 public abstract class MainDatabase extends RoomDatabase {
     private static MainDatabase instance;
 
@@ -36,7 +40,6 @@ public abstract class MainDatabase extends RoomDatabase {
                         Executors.newSingleThreadExecutor().execute(() -> {
                             MainDatabase database = getInstance(context);
                             database.accountDao().insert(DatabaseDataStub.getRurAccount());
-                            database.accountDao().insert(DatabaseDataStub.getRurAccount());
                             database.accountDao().insert(DatabaseDataStub.getUsdAccount());
 
                             database.exchangeDao().insert(DatabaseDataStub.getRubUsdRate());
@@ -53,4 +56,8 @@ public abstract class MainDatabase extends RoomDatabase {
     public abstract AccountDao accountDao();
 
     public abstract ExchangeDao exchangeDao();
+
+    public abstract OperationAccountPeriodicDao operationAccountPeriodicDao();
+
+    public abstract PeriodicDao periodicDao();
 }

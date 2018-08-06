@@ -93,6 +93,15 @@
     <string name="error_create_operation">Something went wrong! The Operation was not added</string>
     <string name="operation_success">Operation added!</string>
     <string name="zero_amount">Amount can\'t be zero!</string>
+    <string name="is_periodic_operation">Periodic transaction</string>
+    <string name="period_title">Repeat through</string>
+    <string name="repeat_count_zero">Repeat can\'t be zero!</string>
+    <string name="repeat_count_empty">Repeat can\'t be empty!</string>
+
+    <string name="operation_title">Operations</string>
+    <string name="perioidc_operation_title">Periodic operations</string>
+
+    <string name="empty_data">There\'s nothing here…</string>
 
     <!--Connection-->
     <string name="http_error">Error Code#%d (%s)</string>
@@ -126,4 +135,7 @@
     <string name="treatment">Treatment</string>
     <string name="salary">Salary</string>
     <string name="other">Other</string>
+
+
+    <string name="invalid_value">Invalid value entered</string>
 </resources>

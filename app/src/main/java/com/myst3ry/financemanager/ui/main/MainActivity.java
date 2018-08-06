@@ -19,6 +19,7 @@ import com.myst3ry.financemanager.ui.base.BaseActivity;
 import com.myst3ry.financemanager.ui.main.screens.Screens;
 import com.myst3ry.financemanager.ui.main.screens.TabBarScreens;
 import com.myst3ry.financemanager.ui.operations.OperationCreateFragment;
+import com.myst3ry.financemanager.ui.operationslist.OperationListFragment;
 import com.myst3ry.financemanager.ui.settings.SettingsFragment;
 
 import java.util.ArrayList;
@@ -113,9 +114,12 @@ public final class MainActivity extends BaseActivity<MainPresenter>
             case SETTINGS_SCREEN:
                 fragment = SettingsFragment.newInstance();
                 break;
-            case OPERATIONS_SCREEN:
+            case CREATE_OPERATIONS_SCREEN:
                 long accountUuid = (long) data;
                 fragment = OperationCreateFragment.newInstance(accountUuid);
+                break;
+            case OPERATIONS_LIST_SCREEN:
+                fragment = OperationListFragment.newInstance(true);
                 break;
             default:
                 throw new RuntimeException("Unknown screen");
@@ -132,12 +136,14 @@ public final class MainActivity extends BaseActivity<MainPresenter>
                 .commit();
     }
 
+    @Override
     public void showProgressBar() {
         if (progressBar.getVisibility() == View.GONE) {
             progressBar.setVisibility(View.VISIBLE);
         }
     }
 
+    @Override
     public void hideProgressBar() {
         if (progressBar.getVisibility() == View.VISIBLE) {
             progressBar.setVisibility(View.GONE);

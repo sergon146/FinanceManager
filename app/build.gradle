@@ -80,6 +80,9 @@ dependencies {
     implementation "android.arch.persistence.room:rxjava2:$room_ver"
     annotationProcessor "android.arch.persistence.room:compiler:$room_ver"
 
+    //test & debug
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+
     testImplementation "junit:junit:$junit_ver"
     androidTestImplementation "com.android.support.test:runner:$runner_ver"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$espresso_ver"

@@ -1,4 +1,4 @@
-package com.myst3ry.financemanager.ui.balance;
+package com.myst3ry.financemanager.ui.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +15,6 @@ import com.myst3ry.model.OperationType;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -23,8 +22,7 @@ import butterknife.ButterKnife;
 
 public class OperationAdapter extends RecyclerView.Adapter<OperationAdapter.BalanceViewHolder> {
 
-    private List<Operation> OperationList = new ArrayList<>();
-    private boolean isShowWallet = false;
+    private List<Operation> operationList = new ArrayList<>();
 
     @NonNull
     @Override
@@ -36,17 +34,17 @@ public class OperationAdapter extends RecyclerView.Adapter<OperationAdapter.Bala
 
     @Override
     public void onBindViewHolder(@NonNull BalanceViewHolder holder, int position) {
-        holder.bind(OperationList.get(position));
+        holder.bind(operationList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return OperationList.size();
+        return operationList.size();
     }
 
     public void setOperations(List<Operation> Operations) {
-        this.OperationList.clear();
-        this.OperationList.addAll(Operations);
+        this.operationList.clear();
+        this.operationList.addAll(Operations);
         notifyDataSetChanged();
     }
 
@@ -85,7 +83,7 @@ public class OperationAdapter extends RecyclerView.Adapter<OperationAdapter.Bala
             amount.setText(amountTitle);
             amount.setTextColor(color);
 
-            date.setText(SimpleDateFormat.getDateTimeInstance().format(new Date()));
+            date.setText(SimpleDateFormat.getDateInstance().format(item.getDate()));
             category.setText(item.getCategory());
         }
     }

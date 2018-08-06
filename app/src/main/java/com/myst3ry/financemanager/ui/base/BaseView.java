@@ -15,4 +15,8 @@ public interface BaseView extends MvpView {
     void showLongToast(int resId);
 
     void showLongToast(String message);
+
+    void showProgressBar();
+
+    void hideProgressBar();
 }

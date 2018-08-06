@@ -6,6 +6,7 @@ import com.myst3ry.financemanager.ui.base.BasePresenter;
 import com.myst3ry.financemanager.usecase.OperationCreateUseCase;
 import com.myst3ry.model.Account;
 import com.myst3ry.model.Operation;
+import com.myst3ry.model.PeriodicOperation;
 
 
 @InjectViewState
@@ -24,9 +25,9 @@ public class OperationCreatePresenter extends BasePresenter<OperationCreateView>
         }));
     }
 
-    public void performOperation(Operation operation) {
+    public void performOperation(Operation operation, PeriodicOperation periodic) {
         operation.setCurrencyType(currentAccount.getCurrencyType());
-        bind(onUi(useCase.addOperation(operation)).subscribe(
+        bind(onUi(useCase.addOperation(operation, periodic)).subscribe(
                 () -> getViewState().successPerform(),
                 throwable -> {
                     getViewState().showLongToast(R.string.error_create_operation);

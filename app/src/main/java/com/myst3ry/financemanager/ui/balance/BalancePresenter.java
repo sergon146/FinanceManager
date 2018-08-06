@@ -32,6 +32,10 @@ public class BalancePresenter extends BasePresenter<BalanceView> {
 
     private void loadOperations(Account account) {
         bind(onUi(useCase.getOperations(account))
-                .subscribe(Operations -> getViewState().showOperations(Operations)));
+                .doOnSubscribe((p) -> getViewState().showProgressBar())
+                .doOnNext((p) -> getViewState().hideProgressBar())
+                .subscribe(operations -> {
+                    getViewState().showOperations(operations);
+                }));
     }
 }

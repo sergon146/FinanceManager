@@ -3,6 +3,7 @@ package com.myst3ry.financemanager;
 import android.app.Activity;
 import android.app.Application;
 
+import com.facebook.stetho.Stetho;
 import com.myst3ry.financemanager.data.local.MainDatabase;
 import com.myst3ry.financemanager.di.base.AppInjector;
 import com.myst3ry.financemanager.utils.LocaleManager;
@@ -33,6 +34,7 @@ public final class App extends Application implements HasActivityInjector {
         instance = this;
         AppInjector.init(this);
         LocaleManager.setLocale(this);
+        Stetho.initializeWithDefaults(this);
         initDatabase();
     }
 

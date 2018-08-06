@@ -69,7 +69,7 @@
             android:textColor="@color/color_primary_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_amount"
+            app:layout_constraintTop_toBottomOf="@+id/amount_edit"
             />
 
         <TextView
@@ -87,7 +87,7 @@
             />
 
         <EditText
-            android:id="@+id/et_amount"
+            android:id="@+id/amount_edit"
             style="@style/TextStyleDark"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -138,7 +138,7 @@
             style="@style/TextStyleDark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:ellipsize="end"
             android:gravity="center"
@@ -146,8 +146,9 @@
             android:padding="8dp"
             android:text="@string/accept"
             android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/category_label"
+            app:layout_constraintTop_toBottomOf="@+id/periodic_edit"
             />
 
         <TextView
@@ -168,6 +169,57 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/category_label"
             app:layout_constraintTop_toTopOf="@+id/add"
+            />
+
+        <Switch
+            android:id="@+id/periodic_switch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:paddingEnd="20dp"
+            android:text="@string/is_periodic_operation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/category_label"
+            />
+
+        <TextView
+            android:id="@+id/textView"
+            style="@style/TextStyleDark"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="-1dp"
+            android:gravity="center"
+            android:text="@string/period_title"
+            app:layout_constraintBottom_toBottomOf="@+id/periodic_edit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/periodic_edit"
+            />
+
+        <EditText
+            android:id="@+id/periodic_edit"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:inputType="number|numberDecimal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/textView"
+            app:layout_constraintTop_toBottomOf="@+id/periodic_switch"
+            />
+
+        <android.support.constraint.Group
+            android:id="@+id/periodic_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="textView,periodic_edit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible"
             />
 
     </android.support.constraint.ConstraintLayout>

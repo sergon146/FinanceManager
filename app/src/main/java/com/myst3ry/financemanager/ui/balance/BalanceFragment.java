@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.myst3ry.financemanager.R;
+import com.myst3ry.financemanager.ui.adapters.OperationAdapter;
 import com.myst3ry.financemanager.ui.base.BaseFragment;
 import com.myst3ry.financemanager.ui.main.screens.Screens;
 import com.myst3ry.financemanager.utils.formatter.balance.BalanceFormatterFactory;
@@ -42,6 +43,8 @@ public final class BalanceFragment extends BaseFragment<BalancePresenter>
     TextView additionalBalance;
     @BindView(R.id.operation_recycler)
     RecyclerView operationRecycler;
+    @BindView(R.id.empty)
+    View emptyHolder;
 
     private BalanceFormatterFactory formatterFactory = new BalanceFormatterFactory();
     private long accountUUid;
@@ -81,7 +84,7 @@ public final class BalanceFragment extends BaseFragment<BalancePresenter>
 
     @OnClick(R.id.fab_add)
     void onFabClick() {
-        activity.openScreen(Screens.OPERATIONS_SCREEN, accountUUid, false);
+        activity.openScreen(Screens.CREATE_OPERATIONS_SCREEN, accountUUid, false);
     }
 
     @Override
@@ -103,9 +106,20 @@ public final class BalanceFragment extends BaseFragment<BalancePresenter>
                 .formatBalance(balance.getAmount()));
     }
 
+
+    @OnClick(R.id.periodic_icon)
+    void onPeriodicClick(View view) {
+        openScreen(Screens.OPERATIONS_LIST_SCREEN, null);
+    }
+
     @Override
-    public void showOperations(List<Operation> Operations) {
-        adapter.setOperations(Operations);
+    public void showOperations(List<Operation> operations) {
+        if (operations.isEmpty()) {
+            emptyHolder.setVisibility(View.VISIBLE);
+        } else {
+            emptyHolder.setVisibility(View.GONE);
+            adapter.setOperations(operations);
+        }
     }
 
     @Override

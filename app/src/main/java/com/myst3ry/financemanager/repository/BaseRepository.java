@@ -8,19 +8,19 @@ import io.reactivex.schedulers.Schedulers;
 
 public abstract class BaseRepository {
 
-    protected Observable onUi(Observable observable) {
+    protected Observable flow(Observable observable) {
         return observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    protected Completable onUi(Completable completable) {
+    protected Completable flow(Completable completable) {
         return completable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    protected <T> Flowable<T> onUi(Flowable<T> flowable) {
+    protected <T> Flowable<T> flow(Flowable<T> flowable) {
         return flowable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

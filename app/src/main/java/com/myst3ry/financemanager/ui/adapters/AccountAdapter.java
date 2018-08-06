@@ -1,4 +1,4 @@
-package com.myst3ry.financemanager.ui.accounts.adapter;
+package com.myst3ry.financemanager.ui.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;

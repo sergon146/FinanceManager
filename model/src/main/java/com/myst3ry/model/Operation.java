@@ -6,9 +6,11 @@ import android.arch.persistence.room.TypeConverters;
 
 import com.myst3ry.model.converter.BigDecimalConverter;
 import com.myst3ry.model.converter.CurrencyTypeConverter;
+import com.myst3ry.model.converter.DateConverter;
 import com.myst3ry.model.converter.OperationTypeConverter;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Entity(tableName = "operation")
 public class Operation {
@@ -21,20 +23,35 @@ public class Operation {
     @TypeConverters(BigDecimalConverter.class)
     private BigDecimal amount;
     private String category;
+    @TypeConverters(DateConverter.class)
+    private Date date;
     private long accountId;
+    private boolean isActive = true;
 
     public Operation(long id,
                      OperationType type,
                      CurrencyType currencyType,
                      BigDecimal amount,
                      String category,
-                     long accountId) {
+                     Date date,
+                     long accountId,
+                     boolean isActive) {
         this.id = id;
         this.type = type;
         this.currencyType = currencyType;
         this.amount = amount;
         this.category = category;
+        this.date = date;
         this.accountId = accountId;
+        this.isActive = isActive;
+    }
+
+    public Operation(Operation operation) {
+        this.type = operation.type;
+        this.currencyType = operation.currencyType;
+        this.amount = operation.amount;
+        this.category = operation.category;
+        this.accountId = operation.accountId;
     }
 
     public Operation(final Builder builder) {
@@ -43,6 +60,7 @@ public class Operation {
         this.amount = builder.amount;
         this.category = builder.category;
         this.accountId = builder.accountId;
+        this.date = new Date();
     }
 
     public static Builder newBuilder() {
@@ -89,12 +107,28 @@ public class Operation {
         this.category = category;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     public long getAccountId() {
         return accountId;
     }
 
     public void setAccountId(long accountId) {
         this.accountId = accountId;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public static final class Builder {

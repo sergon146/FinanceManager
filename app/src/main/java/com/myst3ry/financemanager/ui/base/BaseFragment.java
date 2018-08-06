@@ -8,14 +8,17 @@ import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.myst3ry.financemanager.R;
 import com.myst3ry.financemanager.di.base.Injectable;
 import com.myst3ry.financemanager.ui.main.screens.Screens;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
@@ -28,6 +31,10 @@ public abstract class BaseFragment<Presenter extends BasePresenter> extends MvpA
     protected Presenter presenter;
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentInjector;
+
+    @Nullable
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     protected Presenter providePresenter() {
         return null;
@@ -52,8 +59,8 @@ public abstract class BaseFragment<Presenter extends BasePresenter> extends MvpA
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+        super.onViewCreated(view, savedInstanceState);
         prepareViews();
     }
 
@@ -101,6 +108,20 @@ public abstract class BaseFragment<Presenter extends BasePresenter> extends MvpA
     @Override
     public void showLongToast(final String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showProgressBar() {
+        if (progressBar != null && progressBar.getVisibility() != View.VISIBLE) {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void hideProgressBar() {
+        if (progressBar != null && progressBar.getVisibility() != View.GONE) {
+            progressBar.setVisibility(View.GONE);
+        }
     }
 
     protected void setScreenTitle(@StringRes int resId) {

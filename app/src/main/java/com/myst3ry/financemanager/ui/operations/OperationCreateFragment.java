@@ -3,12 +3,14 @@ package com.myst3ry.financemanager.ui.operations;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.Group;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -21,6 +23,7 @@ import com.myst3ry.model.Account;
 import com.myst3ry.model.CurrencyType;
 import com.myst3ry.model.Operation;
 import com.myst3ry.model.OperationType;
+import com.myst3ry.model.PeriodicOperation;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -29,6 +32,7 @@ import java.util.Arrays;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import icepick.State;
 
@@ -42,11 +46,15 @@ public final class OperationCreateFragment extends BaseFragment<OperationCreateP
     @BindView(R.id.amount)
     TextView amount;
     @BindView(R.id.operation_type)
-    TextView OperationTextView;
+    TextView operationTextView;
     @BindView(R.id.category_label)
     TextView categoryTextView;
-    @BindView(R.id.et_amount)
+    @BindView(R.id.amount_edit)
     EditText amountEditText;
+    @BindView(R.id.periodic_edit)
+    EditText periodicEdit;
+    @BindView(R.id.periodic_group)
+    Group periodic_group;
 
     @Inject
     @InjectPresenter
@@ -58,6 +66,7 @@ public final class OperationCreateFragment extends BaseFragment<OperationCreateP
     private BalanceFormatterFactory formatterFactory = new BalanceFormatterFactory();
     private ArrayList<String> operationTitles, categoryTitles;
     private long accountId;
+    private boolean isPeriodicToggle = false;
 
     public static OperationCreateFragment newInstance(long accountId) {
         final OperationCreateFragment fragment = new OperationCreateFragment();
@@ -72,6 +81,7 @@ public final class OperationCreateFragment extends BaseFragment<OperationCreateP
     protected OperationCreatePresenter providePresenter() {
         return presenter;
     }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -113,7 +123,7 @@ public final class OperationCreateFragment extends BaseFragment<OperationCreateP
     }
 
     private void setDefaultValues() {
-        OperationTextView.setText(operationTitles.get(operationIndex));
+        operationTextView.setText(operationTitles.get(operationIndex));
         categoryTextView.setText(categoryTitles.get(categoryIndex));
         currentOperationType = OperationType.values()[0];
     }
@@ -125,7 +135,7 @@ public final class OperationCreateFragment extends BaseFragment<OperationCreateP
             currentOperationType = OperationType.values()[selectedIndex];
             final String type = operationTitles.get(selectedIndex);
             replaceCategoryList(type);
-            OperationTextView.setText(type);
+            operationTextView.setText(type);
             operationIndex = selectedIndex;
         });
         dialog.show(activity.getSupportFragmentManager(), null);
@@ -170,20 +180,42 @@ public final class OperationCreateFragment extends BaseFragment<OperationCreateP
 
     private void createOperation() {
         final String amount = amountEditText.getText().toString();
-        if (amount.equals(BigDecimal.ZERO)) {
+        if (BigDecimal.ZERO.equals(new BigDecimal(Float.valueOf(amount)))) {
             showToast(R.string.zero_amount);
             return;
         }
 
+        long dayRepeat = 0L;
+        if (isPeriodicToggle) {
+            String repeat = periodicEdit.getText().toString();
+            try {
+                dayRepeat = Long.parseLong(repeat);
+            } catch (NumberFormatException nfe) {
+                showToast(R.string.invalid_value);
+                return;
+            }
+
+            if (BigDecimal.ZERO.equals(new BigDecimal(dayRepeat))) {
+                showToast(R.string.repeat_count_zero);
+                return;
+            } else {
+                if (repeat.isEmpty()) {
+                    showToast(R.string.repeat_count_empty);
+                }
+            }
+        }
+
         if (!amount.isEmpty()) {
-            final Operation operation = Operation.newBuilder()
+            PeriodicOperation periodic = new PeriodicOperation(dayRepeat);
+            Operation operation = Operation.newBuilder()
                     .setCurrencyType(CurrencyType.values()[currencyIndex])
                     .setAmount(new BigDecimal(amount))
                     .setOperationType(currentOperationType)
                     .setCategory(categoryTextView.getText().toString())
                     .setAccountId(accountId)
                     .build();
-            getPresenter().performOperation(operation);
+
+            getPresenter().performOperation(operation, periodic);
         } else {
             showToast(getString(R.string.err_empty_field));
         }
@@ -198,8 +230,22 @@ public final class OperationCreateFragment extends BaseFragment<OperationCreateP
 
     @Override
     public void successPerform() {
+        Toast toast = Toast.makeText(getContext(), R.string.operation_success, Toast.LENGTH_SHORT);
+        TextView toastMessage = toast.getView().findViewById(android.R.id.message);
+        toastMessage.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_vader, 0, 0, 0);
+        toast.show();
+
         getFragmentManager().popBackStack();
-        showToast(R.string.operation_success);
+    }
+
+    @OnCheckedChanged(R.id.periodic_switch)
+    void onPeriodicToggle(boolean isToggle) {
+        isPeriodicToggle = isToggle;
+        if (isToggle) {
+            periodic_group.setVisibility(View.VISIBLE);
+        } else {
+            periodic_group.setVisibility(View.GONE);
+        }
     }
 
     @Override

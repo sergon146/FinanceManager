@@ -4,6 +4,7 @@ import com.myst3ry.financemanager.repository.AccountRepository;
 import com.myst3ry.financemanager.repository.OperationRepository;
 import com.myst3ry.model.Account;
 import com.myst3ry.model.Operation;
+import com.myst3ry.model.PeriodicOperation;
 
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
@@ -22,7 +23,7 @@ public class OperationCreateUseCase {
         return accountRepository.getAccount(id);
     }
 
-    public Completable addOperation(Operation operation) {
-        return operationRepository.addOperation(operation);
+    public Completable addOperation(Operation operation, PeriodicOperation periodic) {
+        return operationRepository.addOperation(operation, periodic);
     }
 }

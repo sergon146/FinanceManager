@@ -17,11 +17,14 @@ public class AccountPresenter extends BasePresenter<AccountView> {
     public void attachView(AccountView view) {
         super.attachView(view);
 
-        bind(onUi(useCase.getBalanceSum(CurrencyType.RUB, CurrencyType.USD)).subscribe(pair -> {
-                    getViewState().showPrimaryBalance(pair.first);
-                    getViewState().showAdditionalBalance(pair.second);
-                }
-        ));
+        bind(onUi(useCase.getBalanceSum(CurrencyType.RUB, CurrencyType.USD))
+                .doOnSubscribe((p) -> getViewState().showProgressBar())
+                .doOnTerminate(() -> getViewState().hideProgressBar())
+                .subscribe(pair -> {
+                            getViewState().showPrimaryBalance(pair.first);
+                            getViewState().showAdditionalBalance(pair.second);
+                        }
+                ));
 
         bind(onUi(useCase.getAccounts()).subscribe(accounts ->
                 getViewState().showAccounts(accounts)));
