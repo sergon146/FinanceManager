@@ -27,7 +27,7 @@ android {
 }
 
 dependencies {
-    implementation project(path: ':calculations')
+    implementation project(path: ':model')
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "com.android.support:appcompat-v7:$support_ver"
@@ -74,7 +74,18 @@ dependencies {
     //pretty views
     implementation 'com.aurelhubert:ahbottomnavigation:2.1.0'
 
+    //database
+    implementation "android.arch.persistence.room:runtime:$room_ver"
+    implementation "android.arch.persistence.room:common:$room_ver"
+    implementation "android.arch.persistence.room:rxjava2:$room_ver"
+    annotationProcessor "android.arch.persistence.room:compiler:$room_ver"
+
+    //test & debug
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+
     testImplementation "junit:junit:$junit_ver"
     androidTestImplementation "com.android.support.test:runner:$runner_ver"
+    androidTestImplementation "com.android.support.test:rules:$runner_ver"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$espresso_ver"
+    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$espresso_ver"
 }

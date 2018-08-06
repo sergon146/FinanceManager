@@ -2,10 +2,11 @@ package com.myst3ry.financemanager.ui.main.screens;
 
 public enum Screens {
     MAIN_SCREEN(TabBarScreens.MAIN),
-    REPORT_SCREEN(TabBarScreens.REPORT),
+    REPORT_SCREEN(TabBarScreens.ABOUT),
     SETTINGS_SCREEN(TabBarScreens.SETTINGS),
     BALANCE_SCREEN,
-    TRANSACTIONS_SCREEN;
+    CREATE_OPERATIONS_SCREEN,
+    OPERATIONS_LIST_SCREEN;
 
     /**
      * todo will be added later

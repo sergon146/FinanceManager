@@ -1,25 +1,24 @@
 package com.myst3ry.financemanager.repository;
 
-import com.myst3ry.calculations.model.Account;
-import com.myst3ry.financemanager.data.dao.AccountsDao;
+import com.myst3ry.financemanager.data.dao.AccountDao;
+import com.myst3ry.model.Account;
 
 import java.util.List;
-import java.util.UUID;
 
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 
-public class AccountRepository {
-    private final AccountsDao accountDb;
+public class AccountRepository extends BaseRepository {
+    private final AccountDao accountDao;
 
-    public AccountRepository(AccountsDao accountDb) {
-        this.accountDb = accountDb;
+    public AccountRepository(AccountDao accountDao) {
+        this.accountDao = accountDao;
     }
 
-    public Observable<List<Account>> getAccounts() {
-        return accountDb.getAccounts();
+    public Flowable<List<Account>> getAccounts() {
+        return accountDao.getAll();
     }
 
-    public Observable<Account> getAccount(UUID uuid) {
-        return accountDb.getAccount(uuid);
+    public Flowable<Account> getAccount(long id) {
+        return accountDao.getById(id);
     }
 }

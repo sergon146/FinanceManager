@@ -49,7 +49,6 @@ public abstract class BaseActivity<Presenter extends BasePresenter> extends MvpA
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
         ButterKnife.bind(this);
-        prepareView();
     }
 
     public void setScreenTitle(@StringRes int titleId) {
@@ -65,9 +64,6 @@ public abstract class BaseActivity<Presenter extends BasePresenter> extends MvpA
         if (title != null) {
             title.setText(titleText);
         }
-    }
-
-    protected void prepareView() {
     }
 
     public abstract void openScreen(Screens screen, Object data, boolean isRoot);

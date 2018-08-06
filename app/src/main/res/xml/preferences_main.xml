@@ -12,8 +12,8 @@
         android:entries="@array/pref_list_language_titles"
         android:entryValues="@array/pref_list_language_values"
         android:key="@string/key_language"
-        android:positiveButtonText="@null"
         android:negativeButtonText="@null"
+        android:positiveButtonText="@null"
         android:title="@string/pref_title_languages" />
 
 </PreferenceScreen>

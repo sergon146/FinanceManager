@@ -4,13 +4,24 @@ import com.arellomobile.mvp.InjectViewState;
 import com.myst3ry.financemanager.ui.base.BasePresenter;
 import com.myst3ry.financemanager.ui.main.screens.Screens;
 import com.myst3ry.financemanager.ui.main.screens.TabBarScreens;
+import com.myst3ry.financemanager.usecase.MainUseCase;
 
 @InjectViewState
 public final class MainPresenter extends BasePresenter<MainView> {
 
-    public MainPresenter() {
+    private final MainUseCase useCase;
+
+    public MainPresenter(MainUseCase useCase) {
+        this.useCase = useCase;
     }
 
+    @Override
+    protected void onFirstViewAttach() {
+        super.onFirstViewAttach();
+        bind(onUi(useCase.executeNecessaryPendingOperation()).subscribe(o -> {
+                },
+                throwable -> ((Throwable) throwable).printStackTrace()));
+    }
 
     public void onTabClicked(int position) {
         Screens screen;
@@ -21,7 +32,7 @@ public final class MainPresenter extends BasePresenter<MainView> {
             //            case FEED:
             //                screen = Screens.FEED_SCREEN;
             //                break;
-            case REPORT:
+            case ABOUT:
                 screen = Screens.REPORT_SCREEN;
                 break;
             case SETTINGS:

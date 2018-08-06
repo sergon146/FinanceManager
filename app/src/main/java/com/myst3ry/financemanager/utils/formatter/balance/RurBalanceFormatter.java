@@ -5,11 +5,11 @@ import java.text.DecimalFormat;
 
 public final class RurBalanceFormatter implements BalanceFormatter {
 
-    private static final String RUR_FORMAT_PATTERN = "\u20BD #,##0.00";
+    private static final String RUB_FORMAT_PATTERN = "\u20BD #,##0.00";
 
     @Override
     public String formatBalance(final BigDecimal balance) {
-        final DecimalFormat decimalFormat = new DecimalFormat(RUR_FORMAT_PATTERN);
+        final DecimalFormat decimalFormat = new DecimalFormat(RUB_FORMAT_PATTERN);
         return decimalFormat.format(balance);
     }
 }
