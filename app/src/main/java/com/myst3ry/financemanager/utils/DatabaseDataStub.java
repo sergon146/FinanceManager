@@ -7,14 +7,12 @@ import com.myst3ry.model.ExchangeRate;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Random;
 
 public class DatabaseDataStub {
     private static final String RUB_USD_JSON = "{\"RUB_USD\":0.015787}";
     private static final String USD_RUB_JSON = "{\"USD_RUB\":63.342038}";
 
     public static Account getRurAccount() {
-        Random random = new Random();
         return Account.newBuilder()
                 .setTitle("Наличные")
                 .setBalance(BigDecimal.ZERO)
@@ -24,7 +22,6 @@ public class DatabaseDataStub {
     }
 
     public static Account getUsdAccount() {
-        Random random = new Random();
         return Account.newBuilder()
                 .setTitle("Банковская карта")
                 .setBalance(BigDecimal.ZERO)

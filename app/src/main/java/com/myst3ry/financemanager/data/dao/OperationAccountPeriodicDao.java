@@ -30,13 +30,20 @@ public abstract class OperationAccountPeriodicDao {
     public abstract void updateAccountBalance(long accountId, BigDecimal amount);
 
     @Transaction
-    public Completable addOperationAndUpdateAccountBalance(Operation operation,
-                                                           BigDecimal amount,
-                                                           PeriodicOperation periodic) {
+    public Completable addOperationPereodicUpdateBalance(Operation operation,
+                                                         BigDecimal amount,
+                                                         PeriodicOperation periodic) {
         long operationId = insertOperation(operation);
         periodic.setOperationId(operationId);
         updateAccountBalance(operation.getAccountId(), amount);
         insertPeriodic(periodic);
+        return Completable.complete();
+    }
+
+    @Transaction
+    public Completable addOperationAndUpdateBalance(Operation operation, BigDecimal amount) {
+        insertOperation(operation);
+        updateAccountBalance(operation.getAccountId(), amount);
         return Completable.complete();
     }
 }

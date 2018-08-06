@@ -85,5 +85,7 @@ dependencies {
 
     testImplementation "junit:junit:$junit_ver"
     androidTestImplementation "com.android.support.test:runner:$runner_ver"
+    androidTestImplementation "com.android.support.test:rules:$runner_ver"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$espresso_ver"
+    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$espresso_ver"
 }

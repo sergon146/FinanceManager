@@ -1,5 +1,6 @@
 package com.myst3ry.financemanager.di.modules;
 
+import com.myst3ry.financemanager.repository.ExchangeRepository;
 import com.myst3ry.financemanager.repository.OperationRepository;
 import com.myst3ry.financemanager.ui.about.AboutFragment;
 import com.myst3ry.financemanager.ui.accounts.AccountsFragment;
@@ -18,8 +19,9 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class MainModule {
 
     @Provides
-    static MainUseCase provideMainUseCase(OperationRepository operationRepository) {
-        return new MainUseCase(operationRepository);
+    static MainUseCase provideMainUseCase(OperationRepository operationRepository,
+                                          ExchangeRepository exchangeRepository) {
+        return new MainUseCase(operationRepository, exchangeRepository);
     }
 
     @Provides

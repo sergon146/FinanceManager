@@ -108,7 +108,7 @@ public final class BalanceFragment extends BaseFragment<BalancePresenter>
 
 
     @OnClick(R.id.periodic_icon)
-    void onPeriodicClick(View view) {
+    void onPeriodicClick() {
         openScreen(Screens.OPERATIONS_LIST_SCREEN, null);
     }
 

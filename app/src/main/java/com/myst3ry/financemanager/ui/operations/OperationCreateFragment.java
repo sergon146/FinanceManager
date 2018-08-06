@@ -180,7 +180,7 @@ public final class OperationCreateFragment extends BaseFragment<OperationCreateP
 
     private void createOperation() {
         final String amount = amountEditText.getText().toString();
-        if (BigDecimal.ZERO.equals(new BigDecimal(Float.valueOf(amount)))) {
+        if (!amount.isEmpty() && BigDecimal.ZERO.equals(new BigDecimal(Float.valueOf(amount)))) {
             showToast(R.string.zero_amount);
             return;
         }
