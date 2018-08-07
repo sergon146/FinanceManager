@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:isScrollContainer="false"
     android:layout_height="match_parent"
     >
 
@@ -84,6 +85,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/operation_type_title"
             app:layout_constraintWidth_percent=".8"
+            tools:text="@string/text_current_category"
             />
 
         <EditText

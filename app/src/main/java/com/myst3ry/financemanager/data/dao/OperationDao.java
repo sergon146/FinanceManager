@@ -20,4 +20,7 @@ public abstract class OperationDao extends BaseDao<Operation> {
 
     @Query("SELECT * FROM `operation` WHERE accountId = :accId ORDER BY date DESC")
     public abstract Flowable<List<Operation>> getByAccount(long accId);
+
+    @Query("SELECT COUNT(id) from `operation` WHERE isActive = 1")
+    public abstract Flowable<Long> getTotalCount();
 }

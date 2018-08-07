@@ -1,15 +1,15 @@
 package com.myst3ry.financemanager.ui.adapters;
 
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.delegateadapter.delegate.BaseDelegateAdapter;
+import com.example.delegateadapter.delegate.BaseViewHolder;
 import com.myst3ry.financemanager.R;
 import com.myst3ry.financemanager.utils.Utils;
 import com.myst3ry.model.Account;
+import com.myst3ry.model.AccountType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHolder> {
+public class AccountAdapter extends
+        BaseDelegateAdapter<AccountAdapter.ViewHolder, Account> {
     private List<Account> accounts = new ArrayList<>();
     private OnAccountClick listener;
 
@@ -25,41 +26,50 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.ViewHold
         this.listener = listener;
     }
 
+    @Override
+    protected void onBindViewHolder(@NonNull View view,
+                                    @NonNull Account account,
+                                    @NonNull ViewHolder viewHolder) {
+        viewHolder.bind(account);
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.account_item;
+    }
+
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View root = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.account_item, parent, false);
-        return new ViewHolder(root);
+    protected ViewHolder createViewHolder(View view) {
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(accounts.get(position));
-    }
-
-    @Override
-    public int getItemCount() {
-        return accounts.size();
+    public boolean isForViewType(@NonNull List<?> list, int i) {
+        Object object = list.get(i);
+        if (object instanceof Account) {
+            AccountType type = ((Account) object).getAccountType();
+            return type.equals(AccountType.DEBIT_CARD) || type.equals(AccountType.CASH);
+        } else {
+            return false;
+        }
     }
 
     public void setAccounts(List<Account> accounts) {
         this.accounts.clear();
         this.accounts.addAll(accounts);
-        notifyDataSetChanged();
     }
 
     public void addAccount(Account account) {
         int newPos = accounts.size();
         accounts.add(account);
-        notifyItemInserted(newPos);
     }
 
     public interface OnAccountClick {
         void onAccountClick(Account account);
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends BaseViewHolder {
         @BindView(R.id.title)
         TextView title;
         @BindView(R.id.type)

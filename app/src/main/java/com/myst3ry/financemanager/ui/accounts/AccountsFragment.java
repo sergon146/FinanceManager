@@ -11,12 +11,16 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.example.delegateadapter.delegate.diff.DiffUtilCompositeAdapter;
+import com.example.delegateadapter.delegate.diff.IComparableItem;
 import com.myst3ry.financemanager.R;
 import com.myst3ry.financemanager.ui.adapters.AccountAdapter;
+import com.myst3ry.financemanager.ui.adapters.FeedAccountAdapterDelegate;
+import com.myst3ry.financemanager.ui.adapters.PatternAccountAdapterDelegate;
+import com.myst3ry.financemanager.ui.adapters.PeriodicAccountAdapterDelegate;
 import com.myst3ry.financemanager.ui.base.BaseFragment;
 import com.myst3ry.financemanager.ui.main.screens.Screens;
 import com.myst3ry.financemanager.utils.formatter.balance.BalanceFormatterFactory;
-import com.myst3ry.model.Account;
 import com.myst3ry.model.Balance;
 
 import java.util.List;
@@ -30,7 +34,6 @@ public class AccountsFragment extends BaseFragment<AccountPresenter> implements 
     @Inject
     @InjectPresenter
     public AccountPresenter presenter;
-
     @BindView(R.id.account_rv)
     RecyclerView accountRecycler;
     @BindView(R.id.total_balance)
@@ -39,8 +42,8 @@ public class AccountsFragment extends BaseFragment<AccountPresenter> implements 
     TextView additionalBalance;
     @BindView(R.id.empty)
     View emptyHolder;
-
-    private AccountAdapter accountAdapter;
+    private boolean isTabletUi;
+    private DiffUtilCompositeAdapter accountAdapter;
     private BalanceFormatterFactory formatterFactory = new BalanceFormatterFactory();
 
     public static AccountsFragment newInstance() {
@@ -57,6 +60,7 @@ public class AccountsFragment extends BaseFragment<AccountPresenter> implements 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
+        isTabletUi = getResources().getBoolean(R.bool.is_tablet_ui);
         return inflater.inflate(R.layout.fragment_account, container, false);
     }
 
@@ -65,23 +69,30 @@ public class AccountsFragment extends BaseFragment<AccountPresenter> implements 
         hideScreenTitle();
 
         accountRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        accountAdapter = new AccountAdapter(ac ->
-                openScreen(Screens.BALANCE_SCREEN, ac.getId()));
+        accountAdapter = new DiffUtilCompositeAdapter.Builder()
+                .add(new AccountAdapter(account ->
+                        openScreen(Screens.BALANCE_SCREEN, account)))
+                .add(new FeedAccountAdapterDelegate(() ->
+                        openScreen(Screens.FEED_SCREEN, null)))
+                .add(new PeriodicAccountAdapterDelegate(() ->
+                        openScreen(Screens.PERIODIC_SCREEN, null)))
+                .add(new PatternAccountAdapterDelegate(() ->
+                        openScreen(Screens.PERIODIC_SCREEN, null)))
+                .build();
         accountRecycler.setAdapter(accountAdapter);
     }
 
     @Override
-    public String getScreenTag() {
-        return "AccountsFragment";
-    }
-
-    @Override
-    public void showAccounts(List<Account> accounts) {
+    public void showAccounts(List<IComparableItem> accounts) {
         if (accounts.isEmpty()) {
             emptyHolder.setVisibility(View.VISIBLE);
         } else {
             emptyHolder.setVisibility(View.GONE);
-            accountAdapter.setAccounts(accounts);
+            accountAdapter.swapData(accounts);
+        }
+
+        if (isTabletUi && !accounts.isEmpty()) {
+            openScreen(Screens.FEED_SCREEN, null, false);
         }
     }
 
@@ -95,5 +106,10 @@ public class AccountsFragment extends BaseFragment<AccountPresenter> implements 
     public void showAdditionalBalance(Balance balance) {
         this.additionalBalance.setText(formatterFactory.create(balance.getCurrencyType())
                 .formatBalance(balance.getAmount()));
+    }
+
+    @Override
+    public String getScreenTag() {
+        return "AccountsFragment";
     }
 }

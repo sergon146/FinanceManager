@@ -29,6 +29,7 @@ import butterknife.OnClick;
 public final class BalanceFragment extends BaseFragment<BalancePresenter>
         implements BalanceView {
     private static final String ID_KEY = "ID_KEY";
+
     @Inject
     @InjectPresenter
     public BalancePresenter presenter;
@@ -104,12 +105,6 @@ public final class BalanceFragment extends BaseFragment<BalancePresenter>
         additionalCurrency.setText(balance.getCurrencyType().name());
         additionalBalance.setText(formatterFactory.create(balance.getCurrencyType())
                 .formatBalance(balance.getAmount()));
-    }
-
-
-    @OnClick(R.id.periodic_icon)
-    void onPeriodicClick() {
-        openScreen(Screens.OPERATIONS_LIST_SCREEN, null);
     }
 
     @Override

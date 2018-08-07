@@ -29,6 +29,11 @@
 
     <!--Account screen-->
     <string name="add_wallet">Добавить счёт</string>
+    <string name="all_operations">Все транзакции</string>
+    <string name="periodic_operations">Переодические транзакции</string>
+    <string name="patterns">Шаблоны операций</string>
+    <string name="total_count">Количество: %1$d</string>
+    <string name="activated_count">Активных: %1$d</string>
     <!--Account screen-->
 
     <!--Currency type-->

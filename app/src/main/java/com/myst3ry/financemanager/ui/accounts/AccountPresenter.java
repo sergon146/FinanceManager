@@ -16,19 +16,8 @@ public class AccountPresenter extends BasePresenter<AccountView> {
     @Override
     public void attachView(AccountView view) {
         super.attachView(view);
-
-        bind(onUi(useCase.getBalanceSum(CurrencyType.RUB, CurrencyType.USD))
-                .doOnSubscribe((p) -> getViewState().showProgressBar())
-                .doOnTerminate(() -> getViewState().hideProgressBar())
-                .subscribe(pair -> {
-                            getViewState().showPrimaryBalance(pair.first);
-                            getViewState().showAdditionalBalance(pair.second);
-                        }
-                ));
-
-        bind(onUi(useCase.getAccounts()).subscribe(accounts ->
-                getViewState().showAccounts(accounts)));
-
-
+        bind(onUi(useCase.getAccounts(CurrencyType.RUB, CurrencyType.USD))
+                .subscribe(accounts -> getViewState().showAccounts(accounts)));
     }
+
 }

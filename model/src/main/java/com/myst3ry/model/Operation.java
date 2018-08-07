@@ -4,6 +4,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
+import com.example.delegateadapter.delegate.diff.IComparableItem;
 import com.myst3ry.model.converter.BigDecimalConverter;
 import com.myst3ry.model.converter.CurrencyTypeConverter;
 import com.myst3ry.model.converter.DateConverter;
@@ -13,7 +14,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity(tableName = "operation")
-public class Operation {
+public class Operation implements IComparableItem {
     @PrimaryKey(autoGenerate = true)
     private long id;
     @TypeConverters(OperationTypeConverter.class)
@@ -129,6 +130,16 @@ public class Operation {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    @Override
+    public Object id() {
+        return id;
+    }
+
+    @Override
+    public Object content() {
+        return id + accountId + amount.toString();
     }
 
     public static final class Builder {

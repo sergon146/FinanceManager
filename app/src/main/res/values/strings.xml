@@ -29,6 +29,11 @@
 
     <!--Wallet screen-->
     <string name="add_wallet">Add Wallet</string>
+    <string name="all_operations">All operations</string>
+    <string name="periodic_operations">Periodic operations</string>
+    <string name="patterns">Operation patterns</string>
+    <string name="total_count">Total: %1$d</string>
+    <string name="activated_count">Active: %1$d</string>
     <!--Wallet screen-->
 
     <!--Currency type-->

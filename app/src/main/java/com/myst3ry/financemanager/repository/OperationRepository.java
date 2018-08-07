@@ -63,9 +63,17 @@ public class OperationRepository extends BaseRepository {
                 });
     }
 
-    public Completable togglePeriodic(boolean isActive, PeriodicOperation periodic) {
+    public Flowable<Long> getTotalPeriodicCount() {
+        return periodicDao.getTotalCount();
+    }
+
+    public Flowable<Long> getActivePeriodicCount() {
+        return periodicDao.getActiveCount();
+    }
+
+    public Completable togglePeriodic(boolean isTurnOn, PeriodicOperation periodic) {
         return flow(Completable.fromAction(() ->
-                periodicDao.togglePeriodic(isActive, periodic.getId())));
+                periodicDao.togglePeriodic(isTurnOn, periodic.getId())));
     }
 
     public Flowable executeNecessaryPendingOperation() {
@@ -97,5 +105,9 @@ public class OperationRepository extends BaseRepository {
             }
             return Flowable.empty();
         });
+    }
+
+    public Flowable<Long> getTotalOperations() {
+        return operationDao.getTotalCount();
     }
 }

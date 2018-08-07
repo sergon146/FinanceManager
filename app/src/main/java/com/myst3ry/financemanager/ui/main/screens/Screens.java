@@ -4,9 +4,12 @@ public enum Screens {
     MAIN_SCREEN(TabBarScreens.MAIN),
     REPORT_SCREEN(TabBarScreens.ABOUT),
     SETTINGS_SCREEN(TabBarScreens.SETTINGS),
+    FEED_SCREEN,
     BALANCE_SCREEN,
+    OPERATION_LIST_SCREEN,
     CREATE_OPERATIONS_SCREEN,
-    OPERATIONS_LIST_SCREEN;
+    PERIODIC_SCREEN,
+    PATTERNS_SCREEN;
 
     /**
      * todo will be added later

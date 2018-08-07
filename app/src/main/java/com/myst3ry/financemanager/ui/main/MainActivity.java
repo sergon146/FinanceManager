@@ -21,6 +21,8 @@ import com.myst3ry.financemanager.ui.main.screens.TabBarScreens;
 import com.myst3ry.financemanager.ui.operations.OperationCreateFragment;
 import com.myst3ry.financemanager.ui.operationslist.OperationListFragment;
 import com.myst3ry.financemanager.ui.settings.SettingsFragment;
+import com.myst3ry.model.Account;
+import com.myst3ry.model.AccountBaseItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +45,7 @@ public final class MainActivity extends BaseActivity<MainPresenter>
     @BindView(R.id.back)
     View back;
     private FragmentManager fragmentManager;
+    private boolean isTabletUi;
 
     @Override
     @ProvidePresenter
@@ -55,6 +58,7 @@ public final class MainActivity extends BaseActivity<MainPresenter>
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         prepareView(savedInstanceState);
+        isTabletUi = getResources().getBoolean(R.bool.is_tablet_ui);
     }
 
     protected void prepareView(Bundle savedInstanceState) {
@@ -98,40 +102,50 @@ public final class MainActivity extends BaseActivity<MainPresenter>
     }
 
     @Override
-    public void openScreen(Screens screen, Object data, boolean isRoot) {
+    public void openScreen(Screens screen, Object data, boolean isParent) {
         Fragment fragment;
         switch (screen) {
             case MAIN_SCREEN:
                 fragment = AccountsFragment.newInstance();
                 break;
             case BALANCE_SCREEN:
-                long id = (long) data;
-                fragment = BalanceFragment.newInstance(id);
+                Account account = (Account) data;
+                fragment = BalanceFragment.newInstance(account.getId());
                 break;
             case REPORT_SCREEN:
                 fragment = AboutFragment.newInstance();
+                break;
+            case PERIODIC_SCREEN:
+            case FEED_SCREEN:
+            case PATTERNS_SCREEN:
+                AccountBaseItem item = (Account) data;
+                fragment = OperationListFragment.newInstance(item);
                 break;
             case SETTINGS_SCREEN:
                 fragment = SettingsFragment.newInstance();
                 break;
             case CREATE_OPERATIONS_SCREEN:
-                long accountUuid = (long) data;
-                fragment = OperationCreateFragment.newInstance(accountUuid);
-                break;
-            case OPERATIONS_LIST_SCREEN:
-                fragment = OperationListFragment.newInstance(true);
+                long id = (long) data;
+                fragment = OperationCreateFragment.newInstance(id);
                 break;
             default:
                 throw new RuntimeException("Unknown screen");
         }
 
-        if (isRoot) {
-            fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        int containerId;
+
+        if (isTabletUi) {
+            containerId = isParent ? R.id.container : R.id.container_child;
+        } else {
+            if (isParent) {
+                fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            }
+            containerId = R.id.container;
         }
 
         fragmentManager
                 .beginTransaction()
-                .replace(R.id.container, fragment)
+                .replace(containerId, fragment)
                 .addToBackStack(fragment.getTag())
                 .commit();
     }
