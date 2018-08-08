@@ -1,12 +1,11 @@
-package com.myst3ry.financemanager.ui.adapters;
+package com.myst3ry.financemanager.ui.adapters.operation;
 
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.delegateadapter.delegate.BaseDelegateAdapter;
+import com.example.delegateadapter.delegate.BaseViewHolder;
 import com.myst3ry.financemanager.R;
 import com.myst3ry.financemanager.utils.Utils;
 import com.myst3ry.model.Operation;
@@ -14,41 +13,38 @@ import com.myst3ry.model.OperationType;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class OperationAdapter extends RecyclerView.Adapter<OperationAdapter.BalanceViewHolder> {
+public class OperationAdapterDelegate
+        extends BaseDelegateAdapter<OperationAdapterDelegate.ViewHolder, Operation> {
 
-    private List<Operation> operationList = new ArrayList<>();
+    @Override
+    protected void onBindViewHolder(@NonNull View view,
+                                    @NonNull Operation operation,
+                                    @NonNull ViewHolder viewHolder) {
+        viewHolder.bind(operation);
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.item_operation;
+    }
 
     @NonNull
     @Override
-    public BalanceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View item = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.operation_item, parent, false);
-        return new BalanceViewHolder(item);
+    protected ViewHolder createViewHolder(View view) {
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BalanceViewHolder holder, int position) {
-        holder.bind(operationList.get(position));
+    public boolean isForViewType(@NonNull List list, int i) {
+        return list.get(i) instanceof Operation;
     }
 
-    @Override
-    public int getItemCount() {
-        return operationList.size();
-    }
-
-    public void setOperations(List<Operation> Operations) {
-        this.operationList.clear();
-        this.operationList.addAll(Operations);
-        notifyDataSetChanged();
-    }
-
-    class BalanceViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends BaseViewHolder {
         @BindView(R.id.title)
         TextView title;
         @BindView(R.id.category)
@@ -58,14 +54,13 @@ public class OperationAdapter extends RecyclerView.Adapter<OperationAdapter.Bala
         @BindView(R.id.date)
         TextView date;
 
-        BalanceViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
         public void bind(Operation item) {
-            title.setText(Utils.getOperationTypeTitle(itemView.getContext(),
-                    item.getType()));
+            title.setText(item.getTitle());
 
             int coef;
             int color;
@@ -84,7 +79,13 @@ public class OperationAdapter extends RecyclerView.Adapter<OperationAdapter.Bala
             amount.setTextColor(color);
 
             date.setText(SimpleDateFormat.getDateInstance().format(item.getDate()));
-            category.setText(item.getCategory());
+            String categoryTitle = item.getCategory();
+            if (categoryTitle.equals(itemView.getResources().getString(R.string.none))) {
+                category.setVisibility(View.GONE);
+            } else {
+                category.setText(categoryTitle);
+                category.setVisibility(View.VISIBLE);
+            }
         }
     }
 }

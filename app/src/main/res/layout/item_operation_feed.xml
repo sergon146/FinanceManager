@@ -6,17 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
-    app:cardCornerRadius="2dp"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="4dp"
     app:cardUseCompatPadding="true"
     >
 
 
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="12dp"
+        android:padding="16dp"
         >
 
         <TextView
@@ -26,6 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:gravity="start"
+            android:textSize="22sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/amount"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -38,14 +39,29 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:ellipsize="end"
             android:gravity="start"
             android:lines="1"
-            app:layout_constraintEnd_toStartOf="@+id/date"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title"
             tools:text="Some category"
+            />
+
+        <TextView
+            android:id="@+id/account"
+            style="@style/TextStyleDark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:gravity="end"
+            android:lines="1"
+            app:layout_constraintEnd_toStartOf="@+id/amount"
+            app:layout_constraintStart_toEndOf="@+id/category"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            tools:text="Account title"
             />
 
         <TextView
@@ -67,8 +83,6 @@
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="@+id/category"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/category"
-            app:layout_constraintVertical_bias="1.0"
             tools:text="20:38"
             />
 

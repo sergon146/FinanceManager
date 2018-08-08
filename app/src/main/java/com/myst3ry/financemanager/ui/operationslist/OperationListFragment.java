@@ -11,9 +11,15 @@ import android.view.ViewGroup;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
+import com.example.delegateadapter.delegate.diff.DiffUtilCompositeAdapter;
+import com.example.delegateadapter.delegate.diff.IComparableItem;
 import com.myst3ry.financemanager.R;
-import com.myst3ry.financemanager.ui.adapters.PeriodicOperationAdapter;
+import com.myst3ry.financemanager.ui.adapters.operation.FeedOperationAdapterDelegate;
+import com.myst3ry.financemanager.ui.adapters.operation.OperationAdapterDelegate;
+import com.myst3ry.financemanager.ui.adapters.operation.PeriodicOperationAdapterDelegate;
 import com.myst3ry.financemanager.ui.base.BaseFragment;
+import com.myst3ry.financemanager.ui.dialogs.addoperation.AddOperationDialog;
+import com.myst3ry.model.AccountItemType;
 import com.myst3ry.model.PeriodicOperation;
 
 import java.util.List;
@@ -21,23 +27,36 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class OperationListFragment extends BaseFragment<OperationListPresenter>
         implements OperationListView {
-    private static final String SHOW_PERIODIC = "SHOW_PERIODIC";
+    private static final String ACCOUNT_TYPE = "ACCOUNT_TYPE";
+    private static final String ACCOUNT_ID = "ACCOUNT_ID";
     @BindView(R.id.operation_recycler)
-    RecyclerView operationRecycler;
+    RecyclerView operationsRecycler;
     @BindView(R.id.empty)
     View emptyHolder;
+
     @Inject
     @InjectPresenter
     OperationListPresenter operationListPresenter;
-    private RecyclerView.Adapter adapter;
 
-    public static OperationListFragment newInstance(boolean isShowPeriodic) {
+    private DiffUtilCompositeAdapter adapter;
+    private long accountId;
+
+    public static OperationListFragment newInstance(AccountItemType type) {
         OperationListFragment fragment = new OperationListFragment();
         Bundle bundle = new Bundle();
-        bundle.putBoolean(SHOW_PERIODIC, isShowPeriodic);
+        bundle.putString(ACCOUNT_TYPE, type.name());
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    public static OperationListFragment newInstance(Long id) {
+        OperationListFragment fragment = new OperationListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putLong(ACCOUNT_ID, id);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -60,38 +79,72 @@ public class OperationListFragment extends BaseFragment<OperationListPresenter>
     @Override
     protected void prepareViews() {
         super.prepareViews();
+        AccountItemType accountItemType = AccountItemType.ACCOUNT;
 
         if (getArguments() != null) {
-            boolean isPeriodic = getArguments().getBoolean(SHOW_PERIODIC);
-            getPresenter().setShowPeriodic(isPeriodic);
-            setScreenTitle(isPeriodic ? R.string.perioidc_operation_title
-                    : R.string.operation_title);
+            String type = getArguments().getString(ACCOUNT_TYPE);
+
+            if (type != null) {
+                accountItemType = AccountItemType.valueOf(type);
+            }
+
+            if (accountItemType == AccountItemType.ACCOUNT) {
+                accountId = getArguments().getLong(ACCOUNT_ID);
+                getPresenter().loadByAccountId(accountId);
+            } else {
+                getPresenter().loadByType(accountItemType);
+            }
         }
-        operationRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new PeriodicOperationAdapter();
-        operationRecycler.setAdapter(adapter);
+
+
+        operationsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        DiffUtilCompositeAdapter.Builder builder = new DiffUtilCompositeAdapter.Builder()
+                .add(new PeriodicOperationAdapterDelegate((isActive, operation) ->
+                        getPresenter().togglePeriodic(isActive, operation)));
+
+        if (accountItemType == AccountItemType.ACCOUNT) {
+            builder.add(new OperationAdapterDelegate());
+        } else {
+            builder.add(new FeedOperationAdapterDelegate());
+        }
+
+        adapter = builder.build();
+
+        operationsRecycler.setAdapter(adapter);
+    }
+
+
+    @OnClick(R.id.fab_add)
+    void onFabClick() {
+        AddOperationDialog dialog = new AddOperationDialog();
+        dialog.show(getChildFragmentManager(), getScreenTag());
+        dialog.setCancelable(false);
+    }
+
+    @Override
+    public void showOperations(List<IComparableItem> operations) {
+        operationsRecycler.scrollToPosition(0);
+        adapter.swapData(operations);
+    }
+
+    @Override
+    public void periodicToggleError(boolean isActive, PeriodicOperation periodic) {
+        adapter.notifyDataSetChanged();
+        showLongToast(R.string.error);
+    }
+
+    @Override
+    public void showEmpty() {
+        emptyHolder.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideEmpty() {
+        emptyHolder.setVisibility(View.GONE);
     }
 
     @Override
     public String getScreenTag() {
         return "OperationListFragment";
-    }
-
-    @Override
-    public void showPeriodicOperations(List<PeriodicOperation> periodicOperation) {
-        if (periodicOperation.isEmpty()) {
-            emptyHolder.setVisibility(View.VISIBLE);
-        } else {
-            PeriodicOperationAdapter periodicAdapter = (PeriodicOperationAdapter) adapter;
-            periodicAdapter.setListener((isActive, periodic) ->
-                    getPresenter().togglePeriodic(isActive, periodic));
-            periodicAdapter.setOperations(periodicOperation);
-        }
-    }
-
-    @Override
-    public void periodicToggleError(boolean isActive, PeriodicOperation periodic) {
-        PeriodicOperationAdapter periodicAdapter = (PeriodicOperationAdapter) adapter;
-        periodicAdapter.periodicToggleError(isActive, periodic);
     }
 }

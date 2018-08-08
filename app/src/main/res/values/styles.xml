@@ -6,6 +6,7 @@
         <item name="colorAccent">@color/color_accent</item>
         <item name="android:windowBackground">@drawable/gradient_bg</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="android:overScrollMode">never</item>
     </style>
 
     <style name="AppTheme.Launcher">

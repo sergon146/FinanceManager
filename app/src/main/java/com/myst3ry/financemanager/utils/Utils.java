@@ -15,7 +15,10 @@ import com.myst3ry.model.Balance;
 import com.myst3ry.model.CategoryType;
 import com.myst3ry.model.CurrencyType;
 import com.myst3ry.model.ExchangeRate;
+import com.myst3ry.model.FeedAccount;
 import com.myst3ry.model.OperationType;
+import com.myst3ry.model.PatternAccount;
+import com.myst3ry.model.PeriodicAccount;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -233,6 +236,31 @@ public final class Utils {
             BigDecimal amount = sum.multiply(additionalRate.getRate());
             Balance additionalBalance = new Balance(CurrencyType.USD, amount);
             return new Pair<>(balance, additionalBalance);
+        }
+    }
+
+    public static class DataStub {
+
+        public static FeedAccount getFeedAccount(Balance primary,
+                                                 Balance additional,
+                                                 Long totalOperations) {
+            FeedAccount feedAccount = new FeedAccount();
+            feedAccount.setMainBalance(primary);
+            feedAccount.setAdditionalBalance(additional);
+            feedAccount.setTotalCount(totalOperations);
+            return feedAccount;
+        }
+
+        public static PeriodicAccount getPeriodicAccount(Long totalPeriodic,
+                                                         Long activatedPeriodic) {
+            PeriodicAccount periodicAccount = new PeriodicAccount();
+            periodicAccount.setTotal(totalPeriodic);
+            periodicAccount.setActive(activatedPeriodic);
+            return periodicAccount;
+        }
+
+        public static PatternAccount getPatternAccount() {
+            return new PatternAccount();
         }
     }
 }
