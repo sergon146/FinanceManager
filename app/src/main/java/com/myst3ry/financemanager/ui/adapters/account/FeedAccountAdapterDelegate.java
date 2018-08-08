@@ -1,12 +1,14 @@
-package com.myst3ry.financemanager.ui.adapters;
+package com.myst3ry.financemanager.ui.adapters.account;
 
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.delegateadapter.delegate.BaseDelegateAdapter;
 import com.example.delegateadapter.delegate.BaseViewHolder;
 import com.myst3ry.financemanager.R;
+import com.myst3ry.financemanager.utils.ViewUtils;
 import com.myst3ry.financemanager.utils.formatter.balance.BalanceFormatterFactory;
 import com.myst3ry.model.FeedAccount;
 
@@ -39,7 +41,11 @@ public class FeedAccountAdapterDelegate
     @NonNull
     @Override
     protected ViewHolder createViewHolder(View view) {
-        return new ViewHolder(view);
+
+        ViewHolder holder = new ViewHolder(view);
+        holder.itemView.setOnClickListener(v ->
+                listener.onFeedClick(holder.getAdapterPosition()));
+        return holder;
     }
 
     @Override
@@ -49,7 +55,7 @@ public class FeedAccountAdapterDelegate
 
 
     public interface OnFeedClickListener {
-        void onFeedClick();
+        void onFeedClick(int position);
     }
 
     class ViewHolder extends BaseViewHolder {
@@ -66,6 +72,14 @@ public class FeedAccountAdapterDelegate
         }
 
         public void bind(FeedAccount account) {
+            if (account.isSelected() && ViewUtils.isTabletUi(itemView)) {
+                itemView.setBackgroundColor(ContextCompat
+                        .getColor(itemView.getContext(), R.color.item_selected_color));
+            } else {
+                itemView.setBackgroundColor(ContextCompat
+                        .getColor(itemView.getContext(), R.color.white));
+            }
+
             mainBalance.setText(formatterFactory
                     .create(account.getMainBalance().getCurrencyType())
                     .formatBalance(account.getMainBalance().getAmount()));
@@ -75,7 +89,6 @@ public class FeedAccountAdapterDelegate
 
             count.setText(itemView.getResources()
                     .getString(R.string.total_count, account.getTotalCount()));
-            itemView.setOnClickListener(v -> listener.onFeedClick());
         }
     }
 }

@@ -29,11 +29,11 @@ public final class MainPresenter extends BasePresenter<MainView> {
             case MAIN:
                 screen = Screens.MAIN_SCREEN;
                 break;
-            //            case FEED:
-            //                screen = Screens.FEED_SCREEN;
-            //                break;
-            case ABOUT:
+            case REPORT:
                 screen = Screens.REPORT_SCREEN;
+                break;
+            case ABOUT:
+                screen = Screens.ABOUT_SCREEN;
                 break;
             case SETTINGS:
                 screen = Screens.SETTINGS_SCREEN;
@@ -44,5 +44,9 @@ public final class MainPresenter extends BasePresenter<MainView> {
         }
 
         getViewState().activateTab(screen);
+    }
+
+    public void openScreen(Screens screen, Object data, boolean isParent) {
+        getViewState().openingScreen(screen, data, isParent);
     }
 }

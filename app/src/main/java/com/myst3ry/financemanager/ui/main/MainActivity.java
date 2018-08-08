@@ -14,15 +14,13 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.myst3ry.financemanager.R;
 import com.myst3ry.financemanager.ui.about.AboutFragment;
 import com.myst3ry.financemanager.ui.accounts.AccountsFragment;
-import com.myst3ry.financemanager.ui.balance.BalanceFragment;
 import com.myst3ry.financemanager.ui.base.BaseActivity;
 import com.myst3ry.financemanager.ui.main.screens.Screens;
 import com.myst3ry.financemanager.ui.main.screens.TabBarScreens;
-import com.myst3ry.financemanager.ui.operations.OperationCreateFragment;
 import com.myst3ry.financemanager.ui.operationslist.OperationListFragment;
 import com.myst3ry.financemanager.ui.settings.SettingsFragment;
 import com.myst3ry.model.Account;
-import com.myst3ry.model.AccountBaseItem;
+import com.myst3ry.model.AccountItemType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +69,7 @@ public final class MainActivity extends BaseActivity<MainPresenter>
     private void prepareTabBar(Bundle savedInstanceState) {
         List<AHBottomNavigationItem> items = new ArrayList<>();
 
-        for (TabBarScreens screen: TabBarScreens.values()) {
+        for (TabBarScreens screen : TabBarScreens.values()) {
             items.add(new AHBottomNavigationItem(getString(screen.getTitle()), screen.getIcon()));
         }
 
@@ -94,60 +92,74 @@ public final class MainActivity extends BaseActivity<MainPresenter>
 
     @Override
     public void activateTab(Screens screen) {
+        invalidateTabBar(screen);
+        if ((screen == Screens.ABOUT_SCREEN || screen == Screens.SETTINGS_SCREEN) && isTabletUi) {
+            openScreen(screen, null, false);
+        } else {
+            openScreen(screen, null, true);
+        }
+    }
+
+    private void invalidateTabBar(Screens screen) {
         TabBarScreens tab = screen.tab;
         int pos = tab.ordinal();
         tabBar.setCurrentItem(pos, false);
         tabBar.invalidate();
-        openScreen(screen, null, true);
+    }
+
+    @Override
+    public void openScreen(Screens screen, Object data) {
+        openScreen(screen, data, false);
     }
 
     @Override
     public void openScreen(Screens screen, Object data, boolean isParent) {
+        getPresenter().openScreen(screen, data, isParent);
+        invalidateTabBar(screen);
+    }
+
+    @Override
+    public void openingScreen(Screens screen, Object data, boolean isParent) {
         Fragment fragment;
         switch (screen) {
             case MAIN_SCREEN:
                 fragment = AccountsFragment.newInstance();
                 break;
-            case BALANCE_SCREEN:
-                Account account = (Account) data;
-                fragment = BalanceFragment.newInstance(account.getId());
-                break;
-            case REPORT_SCREEN:
+            case ABOUT_SCREEN:
                 fragment = AboutFragment.newInstance();
                 break;
-            case PERIODIC_SCREEN:
-            case FEED_SCREEN:
-            case PATTERNS_SCREEN:
-                AccountBaseItem item = (Account) data;
-                fragment = OperationListFragment.newInstance(item);
+            case OPERATION_LIST_SCREEN:
+                if (data instanceof Account) {
+                    Account account = (Account) data;
+                    fragment = OperationListFragment.newInstance(account.getId());
+                } else {
+                    AccountItemType type = (AccountItemType) data;
+                    fragment = OperationListFragment.newInstance(type);
+                }
                 break;
             case SETTINGS_SCREEN:
                 fragment = SettingsFragment.newInstance();
-                break;
-            case CREATE_OPERATIONS_SCREEN:
-                long id = (long) data;
-                fragment = OperationCreateFragment.newInstance(id);
                 break;
             default:
                 throw new RuntimeException("Unknown screen");
         }
 
-        int containerId;
-
         if (isTabletUi) {
-            containerId = isParent ? R.id.container : R.id.container_child;
+            int containerId = isParent ? R.id.container : R.id.container_child;
+            fragmentManager
+                    .beginTransaction()
+                    .replace(containerId, fragment)
+                    .commit();
         } else {
             if (isParent) {
                 fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
-            containerId = R.id.container;
+            fragmentManager
+                    .beginTransaction()
+                    .replace(R.id.container, fragment)
+                    .addToBackStack(fragment.getTag())
+                    .commit();
         }
-
-        fragmentManager
-                .beginTransaction()
-                .replace(containerId, fragment)
-                .addToBackStack(fragment.getTag())
-                .commit();
     }
 
     @Override

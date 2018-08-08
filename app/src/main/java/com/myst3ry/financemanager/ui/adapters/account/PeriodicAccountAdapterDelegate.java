@@ -1,12 +1,14 @@
-package com.myst3ry.financemanager.ui.adapters;
+package com.myst3ry.financemanager.ui.adapters.account;
 
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
 import com.example.delegateadapter.delegate.BaseDelegateAdapter;
 import com.example.delegateadapter.delegate.BaseViewHolder;
 import com.myst3ry.financemanager.R;
+import com.myst3ry.financemanager.utils.ViewUtils;
 import com.myst3ry.model.PeriodicAccount;
 
 import java.util.List;
@@ -37,8 +39,13 @@ public class PeriodicAccountAdapterDelegate
     @NonNull
     @Override
     protected ViewHolder createViewHolder(View view) {
-        return new ViewHolder(view);
+
+        ViewHolder holder = new ViewHolder(view);
+        holder.itemView.setOnClickListener(v ->
+                listener.onPeriodicClick(holder.getAdapterPosition()));
+        return holder;
     }
+
 
     @Override
     public boolean isForViewType(@NonNull List<?> list, int i) {
@@ -46,7 +53,7 @@ public class PeriodicAccountAdapterDelegate
     }
 
     public interface PeriodicClickListener {
-        void onClick();
+        void onPeriodicClick(int position);
     }
 
     class ViewHolder extends BaseViewHolder {
@@ -60,16 +67,20 @@ public class PeriodicAccountAdapterDelegate
             ButterKnife.bind(this, itemView);
         }
 
-        public void bind(PeriodicAccount periodic) {
-            count.setText(String.valueOf(periodic.getTotal()));
+        public void bind(PeriodicAccount account) {
+            if (account.isSelected() && ViewUtils.isTabletUi(itemView)) {
+                itemView.setBackgroundColor(ContextCompat
+                        .getColor(itemView.getContext(), R.color.item_selected_color));
+            } else {
+                itemView.setBackgroundColor(ContextCompat
+                        .getColor(itemView.getContext(), R.color.white));
+            }
 
-
+            count.setText(String.valueOf(account.getTotal()));
             count.setText(itemView.getResources()
-                    .getString(R.string.total_count, periodic.getTotal()));
-
+                    .getString(R.string.total_count, account.getTotal()));
             active.setText(itemView.getResources()
-                    .getString(R.string.activated_count, periodic.getActive()));
-            itemView.setOnClickListener(v -> listener.onClick());
+                    .getString(R.string.activated_count, account.getActive()));
         }
     }
 }

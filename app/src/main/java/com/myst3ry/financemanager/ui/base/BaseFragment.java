@@ -67,11 +67,13 @@ public abstract class BaseFragment<Presenter extends BasePresenter> extends MvpA
     protected void prepareViews() {
     }
 
-    protected void openScreen(Screens screen, Object data) {
+    @Override
+    public final void openScreen(Screens screen, Object data) {
         activity.openScreen(screen, data, false);
     }
 
-    protected void openScreen(Screens screen, Object data, boolean isRoot) {
+    @Override
+    public final void openScreen(Screens screen, Object data, boolean isRoot) {
         activity.openScreen(screen, data, isRoot);
     }
 
@@ -124,11 +126,13 @@ public abstract class BaseFragment<Presenter extends BasePresenter> extends MvpA
         }
     }
 
-    protected void setScreenTitle(@StringRes int resId) {
+    @Override
+    public void setScreenTitle(@StringRes int resId) {
         setScreenTitle(getString(resId));
     }
 
-    protected void setScreenTitle(String title) {
+    @Override
+    public void setScreenTitle(String title) {
         activity.setScreenTitle(title);
     }
 

@@ -14,13 +14,14 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.example.delegateadapter.delegate.diff.DiffUtilCompositeAdapter;
 import com.example.delegateadapter.delegate.diff.IComparableItem;
 import com.myst3ry.financemanager.R;
-import com.myst3ry.financemanager.ui.adapters.AccountAdapter;
-import com.myst3ry.financemanager.ui.adapters.FeedAccountAdapterDelegate;
-import com.myst3ry.financemanager.ui.adapters.PatternAccountAdapterDelegate;
-import com.myst3ry.financemanager.ui.adapters.PeriodicAccountAdapterDelegate;
+import com.myst3ry.financemanager.ui.adapters.account.AccountAdapterDelegate;
+import com.myst3ry.financemanager.ui.adapters.account.FeedAccountAdapterDelegate;
+import com.myst3ry.financemanager.ui.adapters.account.PatternAccountAdapterDelegate;
+import com.myst3ry.financemanager.ui.adapters.account.PeriodicAccountAdapterDelegate;
 import com.myst3ry.financemanager.ui.base.BaseFragment;
 import com.myst3ry.financemanager.ui.main.screens.Screens;
 import com.myst3ry.financemanager.utils.formatter.balance.BalanceFormatterFactory;
+import com.myst3ry.model.AccountItemType;
 import com.myst3ry.model.Balance;
 
 import java.util.List;
@@ -69,30 +70,28 @@ public class AccountsFragment extends BaseFragment<AccountPresenter> implements 
         hideScreenTitle();
 
         accountRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        accountRecycler.setItemAnimator(null);
+
         accountAdapter = new DiffUtilCompositeAdapter.Builder()
-                .add(new AccountAdapter(account ->
-                        openScreen(Screens.BALANCE_SCREEN, account)))
-                .add(new FeedAccountAdapterDelegate(() ->
-                        openScreen(Screens.FEED_SCREEN, null)))
-                .add(new PeriodicAccountAdapterDelegate(() ->
-                        openScreen(Screens.PERIODIC_SCREEN, null)))
-                .add(new PatternAccountAdapterDelegate(() ->
-                        openScreen(Screens.PERIODIC_SCREEN, null)))
+                .add(new AccountAdapterDelegate(pos -> getPresenter()
+                        .openDetailScreen(pos, pos)))
+                .add(new FeedAccountAdapterDelegate(pos -> getPresenter()
+                        .openDetailScreen(AccountItemType.FEED, pos)))
+                .add(new PeriodicAccountAdapterDelegate(pos -> getPresenter()
+                        .openDetailScreen(AccountItemType.PERIODIC, pos)))
+                .add(new PatternAccountAdapterDelegate(pos -> getPresenter()
+                        .openDetailScreen(AccountItemType.PATTERN, pos)))
                 .build();
         accountRecycler.setAdapter(accountAdapter);
     }
 
     @Override
-    public void showAccounts(List<IComparableItem> accounts) {
-        if (accounts.isEmpty()) {
-            emptyHolder.setVisibility(View.VISIBLE);
-        } else {
-            emptyHolder.setVisibility(View.GONE);
-            accountAdapter.swapData(accounts);
-        }
+    public void showAccounts(List<IComparableItem> accounts, int activatePos) {
+        accountAdapter.swapData(accounts);
+        accountAdapter.notifyDataSetChanged();
 
-        if (isTabletUi && !accounts.isEmpty()) {
-            openScreen(Screens.FEED_SCREEN, null, false);
+        if (isTabletUi && activatePos == 0) {
+            openScreen(Screens.OPERATION_LIST_SCREEN, accounts.get(activatePos), false);
         }
     }
 
@@ -106,6 +105,16 @@ public class AccountsFragment extends BaseFragment<AccountPresenter> implements 
     public void showAdditionalBalance(Balance balance) {
         this.additionalBalance.setText(formatterFactory.create(balance.getCurrencyType())
                 .formatBalance(balance.getAmount()));
+    }
+
+    @Override
+    public void showEmpty() {
+        emptyHolder.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideEmpty() {
+        emptyHolder.setVisibility(View.GONE);
     }
 
     @Override

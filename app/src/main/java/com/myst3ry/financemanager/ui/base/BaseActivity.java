@@ -89,7 +89,9 @@ public abstract class BaseActivity<Presenter extends BasePresenter> extends MvpA
     }
 
     public void hideScreenTitle() {
-        title.setVisibility(View.GONE);
+        if (title != null) {
+            title.setVisibility(View.GONE);
+        }
     }
 
     @Override

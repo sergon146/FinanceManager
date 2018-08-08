@@ -1,4 +1,4 @@
-package com.myst3ry.financemanager.ui.adapters;
+package com.myst3ry.financemanager.ui.adapters.operation;
 
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -19,11 +19,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PeriodicOperationAdapter
-        extends BaseDelegateAdapter<PeriodicOperationAdapter.ViewHolder, PeriodicOperation> {
+public class PeriodicOperationAdapterDelegate
+        extends BaseDelegateAdapter<PeriodicOperationAdapterDelegate.ViewHolder, PeriodicOperation> {
     private PeriodicSwitchListener listener;
 
-    public PeriodicOperationAdapter(PeriodicSwitchListener listener) {
+    public PeriodicOperationAdapterDelegate(PeriodicSwitchListener listener) {
         this.listener = listener;
     }
 
@@ -36,7 +36,7 @@ public class PeriodicOperationAdapter
 
     @Override
     protected int getLayoutId() {
-        return R.layout.periodic_operation_item;
+        return R.layout.item_operation_periodic;
     }
 
     @NonNull
@@ -55,6 +55,8 @@ public class PeriodicOperationAdapter
     }
 
     class ViewHolder extends BaseViewHolder {
+        @BindView(R.id.title)
+        TextView title;
         @BindView(R.id.amount)
         TextView amount;
         @BindView(R.id.category)
@@ -72,7 +74,7 @@ public class PeriodicOperationAdapter
         }
 
         public void bind(PeriodicOperation periodic) {
-            status.setChecked(periodic.isActive());
+            status.setChecked(periodic.isTurnOn());
             status.setOnCheckedChangeListener((compound, toggled) -> {
                 if (listener != null) {
                     listener.onSwitchToggled(toggled, periodic);
@@ -81,6 +83,7 @@ public class PeriodicOperationAdapter
             dayRepeat.setText(String.valueOf(periodic.getDayRepeat()));
 
             Operation item = periodic.getOperation();
+            title.setText(item.getTitle());
             int coef;
             int color;
             if (item.getType() == OperationType.INCOME) {
@@ -98,7 +101,14 @@ public class PeriodicOperationAdapter
             amount.setTextColor(color);
 
             type.setText(Utils.getOperationTypeTitle(itemView.getContext(), item.getType()));
-            category.setText(item.getCategory());
+
+            String categoryTitle = item.getCategory();
+            if (categoryTitle.equals(itemView.getResources().getString(R.string.none))) {
+                category.setVisibility(View.GONE);
+            } else {
+                category.setText(categoryTitle);
+                category.setVisibility(View.VISIBLE);
+            }
         }
     }
 }

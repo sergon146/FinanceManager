@@ -2,7 +2,7 @@ package com.myst3ry.model;
 
 import com.example.delegateadapter.delegate.diff.IComparableItem;
 
-public class FeedAccount implements IComparableItem {
+public class FeedAccount extends AccountBaseItem implements IComparableItem {
     private long totalCount;
     private Balance mainBalance;
     private Balance additionalBalance;

@@ -1,6 +1,5 @@
 package com.myst3ry.financemanager.usecase;
 
-
 import android.util.Pair;
 
 import com.example.delegateadapter.delegate.diff.IComparableItem;
@@ -9,6 +8,7 @@ import com.myst3ry.financemanager.repository.ExchangeRepository;
 import com.myst3ry.financemanager.repository.OperationRepository;
 import com.myst3ry.financemanager.utils.Utils;
 import com.myst3ry.model.Account;
+import com.myst3ry.model.AccountBaseItem;
 import com.myst3ry.model.Balance;
 import com.myst3ry.model.CurrencyType;
 
@@ -30,7 +30,7 @@ public class AccountUseCase {
         this.operationRepository = operationRepository;
     }
 
-    public Flowable<List<IComparableItem>> getAccounts(CurrencyType primaryType,
+    public Flowable<List<AccountBaseItem>> getAccounts(CurrencyType primaryType,
                                                        CurrencyType additionalType) {
         return Flowable.combineLatest(
                 exchangeRepository.getExchangeRate(primaryType),
@@ -49,13 +49,13 @@ public class AccountUseCase {
 
     }
 
-    private List<IComparableItem> prepareAccounts(List<Account> accounts,
+    private List<AccountBaseItem> prepareAccounts(List<Account> accounts,
                                                   Pair<Balance, Balance> balance,
                                                   Long totalOperations,
                                                   Long totalPeriodic,
                                                   Long activatedPeriodic) {
 
-        List<IComparableItem> accountItems = new ArrayList<>(accounts);
+        List<AccountBaseItem> accountItems = new ArrayList<>(accounts);
         accountItems.add(Utils.DataStub
                 .getFeedAccount(balance.first, balance.second, totalOperations));
         accountItems.add(Utils.DataStub.getPeriodicAccount(totalPeriodic, activatedPeriodic));

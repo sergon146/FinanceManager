@@ -1,9 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">FinanceManager</string>
+    <string name="app_name">Star Coin</string>
 
     <!--Pref Keys (Do Not Localize)-->
     <string name="key_options_enable">key_switch_enable_options</string>
     <string name="key_language">key_list_language</string>
+    <string name="key_about">key_about</string>
 
     <string-array name="pref_list_language_titles">
         <item>@string/language_russian</item>
@@ -21,10 +23,9 @@
 
     <!--Tab bar-->
     <string name="tab_main">Главная</string>
-    <string name="tab_feed">Лента</string>
+    <string name="tab_report">Лента</string>
     <string name="tab_about">О приложении</string>
     <string name="tab_settings">Настройки</string>
-    <string name="empty"> </string>
     <!--Tab bar-->
 
     <!--Account screen-->
@@ -74,6 +75,7 @@
     <!--Preferences-->
     <string name="pref_title_options">Настройки</string>
     <string name="pref_title_languages">Язык</string>
+    <string name="pref_title_about">О приложении</string>
     <string name="switch_summary_off">Выключено</string>
     <string name="switch_summary_on">Включено</string>
     <string name="language_russian">Русский</string>
@@ -86,24 +88,29 @@
     <string name="expense">Расход</string>
     <string name="income">Доход</string>
     <string name="text_select_account">Выберите счет</string>
+    <string name="empty_account">Пожалуйста выберите счет</string>
     <string name="text_operation_type">Выберите тип операции</string>
     <string name="hint_enter_amount">Введите сумму</string>
+    <string name="hint_enter_title">Введите название</string>
     <string name="text_select_currency">Выберите валюту</string>
     <string name="text_add_category_label">Выберите категорию</string>
-    <string name="text_current_category">Отсутствует</string>
+    <string name="none">Отсутствует</string>
     <string name="dialog_title_rub">Российский рубль (RUB)</string>
     <string name="dialog_title_usd">Доллар США (USD)</string>
     <string name="new_operation_title">Новая операция</string>
     <string name="error_create_operation">Что-то пошло не так! Транзакция не была добавлена!</string>
     <string name="operation_success">Транзакция добавлена!</string>
+    <string name="empty_title">Необходимо ввести название!</string>
     <string name="zero_amount">Сумма не может равняться нулю</string>
     <string name="is_periodic_operation">Переодическая транзакция</string>
-    <string name="period_title">Повторять через</string>
+    <string name="period_title">Повторять через (дней)</string>
     <string name="repeat_count_zero">Количество дней не может быть нулём</string>
     <string name="repeat_count_empty">Количество дней не может быть пустым</string>
 
-    <string name="operation_title">Транзакции</string>
+    <string name="operations_title">Транзакции</string>
+    <string name="operation_title">Транзакция</string>
     <string name="perioidc_operation_title">Переодические транзакции</string>
+    <string name="error">Произошла ошибка! Попробуйте позже</string>
 
     <string name="empty_data">Здесь ничего нет…</string>
     <!--Connection-->
@@ -129,4 +136,15 @@
     </string-array>
 
     <string name="invalid_value">Введено некорректное значение</string>
+    <string name="food">Еда</string>
+    <string name="clothes">Одежда</string>
+    <string name="communal_payments">Коммунальные платежи</string>
+    <string name="rest">Отдых</string>
+    <string name="education">Образование</string>
+    <string name="home">Дом</string>
+    <string name="family">Семья</string>
+    <string name="auto">Авто</string>
+    <string name="treatment">Медицина</string>
+    <string name="salary">Зарплата</string>
+    <string name="other">Процее</string>
 </resources>

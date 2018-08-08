@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:isScrollContainer="false"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_bg"
     >
 
     <android.support.constraint.ConstraintLayout
@@ -12,6 +12,26 @@
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/padding_double"
         >
+
+        <TextView
+            android:id="@+id/account_type_title"
+            style="@style/TextStyleDark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_standard"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="@dimen/margin_standard"
+            android:gravity="center"
+            android:text="@string/text_select_account"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/color_primary_text"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/operation_type"
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <TextView
             android:id="@+id/account_title"
@@ -23,10 +43,11 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="2"
+            android:text="@string/none"
             android:textSize="28sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_type_title"
             tools:text="Account name"
             />
 
@@ -46,15 +67,42 @@
             tools:text="$ 2312.21"
             />
 
-        <View
-            android:id="@+id/line"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="16dp"
-            android:background="@color/black"
+        <EditText
+            android:id="@+id/amount_edit"
+            style="@style/TextStyleDark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:ems="10"
+            android:hint="@string/hint_enter_amount"
+            android:inputType="numberDecimal"
+            android:singleLine="true"
+            android:textAlignment="textStart"
+            android:textSize="22sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/amount"
+            />
+
+        <EditText
+            android:id="@+id/title_edit"
+            style="@style/TextStyleDark"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="37dp"
+            android:ems="10"
+            android:hint="@string/hint_enter_title"
+            android:inputType="textAutoCorrect|text|textCapSentences|textAutoComplete"
+            android:singleLine="true"
+            android:textAlignment="textStart"
+            android:textSize="22sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/amount_edit"
             />
 
         <TextView
@@ -70,7 +118,7 @@
             android:textColor="@color/color_primary_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/amount_edit"
+            app:layout_constraintTop_toBottomOf="@+id/title_edit"
             />
 
         <TextView
@@ -85,24 +133,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/operation_type_title"
             app:layout_constraintWidth_percent=".8"
-            tools:text="@string/text_current_category"
-            />
-
-        <EditText
-            android:id="@+id/amount_edit"
-            style="@style/TextStyleDark"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:ems="10"
-            android:hint="@string/hint_enter_amount"
-            android:inputType="numberDecimal"
-            android:singleLine="true"
-            android:textAlignment="textStart"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/line"
-            app:layout_constraintWidth_percent=".82"
+            tools:text="@string/none"
             />
 
         <TextView
@@ -128,7 +159,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_standard"
             android:layout_marginEnd="@dimen/margin_standard"
-            android:text="@string/text_current_category"
+            android:text="@string/none"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/category_title"

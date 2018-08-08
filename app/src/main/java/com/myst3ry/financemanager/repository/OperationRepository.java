@@ -31,7 +31,11 @@ public class OperationRepository extends BaseRepository {
     }
 
     public Flowable<List<Operation>> getOperations(Account account) {
-        return operationDao.getByAccount(account.getId());
+        return getOperations(account.getId());
+    }
+
+    public Flowable<List<Operation>> getOperations(Long id) {
+        return operationDao.getByAccount(id);
     }
 
     public Completable addOperation(Operation operation, PeriodicOperation periodic) {
@@ -109,5 +113,9 @@ public class OperationRepository extends BaseRepository {
 
     public Flowable<Long> getTotalOperations() {
         return operationDao.getTotalCount();
+    }
+
+    public Flowable<List<Operation>> getAllOperations() {
+        return operationDao.getAll();
     }
 }

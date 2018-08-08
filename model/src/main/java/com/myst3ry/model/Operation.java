@@ -1,6 +1,7 @@
 package com.myst3ry.model;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
@@ -17,6 +18,7 @@ import java.util.Date;
 public class Operation implements IComparableItem {
     @PrimaryKey(autoGenerate = true)
     private long id;
+    private String title;
     @TypeConverters(OperationTypeConverter.class)
     private OperationType type;
     @TypeConverters(CurrencyTypeConverter.class)
@@ -28,8 +30,11 @@ public class Operation implements IComparableItem {
     private Date date;
     private long accountId;
     private boolean isActive = true;
+    @Ignore
+    private Account account;
 
     public Operation(long id,
+                     String title,
                      OperationType type,
                      CurrencyType currencyType,
                      BigDecimal amount,
@@ -38,6 +43,7 @@ public class Operation implements IComparableItem {
                      long accountId,
                      boolean isActive) {
         this.id = id;
+        this.title = title;
         this.type = type;
         this.currencyType = currencyType;
         this.amount = amount;
@@ -49,6 +55,7 @@ public class Operation implements IComparableItem {
 
     public Operation(Operation operation) {
         this.type = operation.type;
+        this.title = operation.getTitle();
         this.currencyType = operation.currencyType;
         this.amount = operation.amount;
         this.category = operation.category;
@@ -57,6 +64,7 @@ public class Operation implements IComparableItem {
 
     public Operation(final Builder builder) {
         this.type = builder.operationType;
+        this.title = builder.title;
         this.currencyType = builder.currencyType;
         this.amount = builder.amount;
         this.category = builder.category;
@@ -74,6 +82,14 @@ public class Operation implements IComparableItem {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public OperationType getType() {
@@ -132,6 +148,14 @@ public class Operation implements IComparableItem {
         isActive = active;
     }
 
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
     @Override
     public Object id() {
         return id;
@@ -144,6 +168,7 @@ public class Operation implements IComparableItem {
 
     public static final class Builder {
 
+        private String title;
         private OperationType operationType;
         private CurrencyType currencyType;
         private BigDecimal amount;
@@ -153,8 +178,13 @@ public class Operation implements IComparableItem {
         private Builder() {
         }
 
-        public Builder setOperationType(final OperationType OperationType) {
-            this.operationType = OperationType;
+        public Builder setTitle(final String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder setOperationType(final OperationType operationType) {
+            this.operationType = operationType;
             return this;
         }
 
