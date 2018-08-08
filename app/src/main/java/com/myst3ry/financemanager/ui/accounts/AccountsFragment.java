@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.arellomobile.mvp.presenter.ProvidePresenter;
@@ -22,7 +21,6 @@ import com.myst3ry.financemanager.ui.base.BaseFragment;
 import com.myst3ry.financemanager.ui.main.screens.Screens;
 import com.myst3ry.financemanager.utils.formatter.balance.BalanceFormatterFactory;
 import com.myst3ry.model.AccountItemType;
-import com.myst3ry.model.Balance;
 
 import java.util.List;
 
@@ -37,10 +35,6 @@ public class AccountsFragment extends BaseFragment<AccountPresenter> implements 
     public AccountPresenter presenter;
     @BindView(R.id.account_rv)
     RecyclerView accountRecycler;
-    @BindView(R.id.total_balance)
-    TextView totalBalance;
-    @BindView(R.id.additional_balance)
-    TextView additionalBalance;
     @BindView(R.id.empty)
     View emptyHolder;
     private boolean isTabletUi;
@@ -70,8 +64,6 @@ public class AccountsFragment extends BaseFragment<AccountPresenter> implements 
         hideScreenTitle();
 
         accountRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
-        accountRecycler.setItemAnimator(null);
-
         accountAdapter = new DiffUtilCompositeAdapter.Builder()
                 .add(new AccountAdapterDelegate(pos -> getPresenter()
                         .openDetailScreen(pos, pos)))
@@ -93,18 +85,6 @@ public class AccountsFragment extends BaseFragment<AccountPresenter> implements 
         if (isTabletUi && activatePos == 0) {
             openScreen(Screens.OPERATION_LIST_SCREEN, accounts.get(activatePos), false);
         }
-    }
-
-    @Override
-    public void showPrimaryBalance(Balance balance) {
-        this.totalBalance.setText(formatterFactory.create(balance.getCurrencyType())
-                .formatBalance(balance.getAmount()));
-    }
-
-    @Override
-    public void showAdditionalBalance(Balance balance) {
-        this.additionalBalance.setText(formatterFactory.create(balance.getCurrencyType())
-                .formatBalance(balance.getAmount()));
     }
 
     @Override

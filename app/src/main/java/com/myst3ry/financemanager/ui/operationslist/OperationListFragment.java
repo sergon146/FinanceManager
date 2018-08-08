@@ -43,7 +43,6 @@ public class OperationListFragment extends BaseFragment<OperationListPresenter>
     OperationListPresenter operationListPresenter;
 
     private DiffUtilCompositeAdapter adapter;
-    private long accountId;
 
     public static OperationListFragment newInstance(AccountItemType type) {
         OperationListFragment fragment = new OperationListFragment();
@@ -89,7 +88,7 @@ public class OperationListFragment extends BaseFragment<OperationListPresenter>
             }
 
             if (accountItemType == AccountItemType.ACCOUNT) {
-                accountId = getArguments().getLong(ACCOUNT_ID);
+                long accountId = getArguments().getLong(ACCOUNT_ID);
                 getPresenter().loadByAccountId(accountId);
             } else {
                 getPresenter().loadByType(accountItemType);
@@ -109,8 +108,8 @@ public class OperationListFragment extends BaseFragment<OperationListPresenter>
         }
 
         adapter = builder.build();
-
         operationsRecycler.setAdapter(adapter);
+        operationsRecycler.setItemAnimator(null);
     }
 
 

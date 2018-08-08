@@ -2,7 +2,6 @@ package com.myst3ry.financemanager.usecase;
 
 import android.util.Pair;
 
-import com.example.delegateadapter.delegate.diff.IComparableItem;
 import com.myst3ry.financemanager.repository.AccountRepository;
 import com.myst3ry.financemanager.repository.ExchangeRepository;
 import com.myst3ry.financemanager.repository.OperationRepository;

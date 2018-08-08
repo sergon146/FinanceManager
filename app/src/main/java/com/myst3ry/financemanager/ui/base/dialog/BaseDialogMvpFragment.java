@@ -40,6 +40,9 @@ public abstract class BaseDialogMvpFragment<Presenter extends BaseDialogPresente
     ProgressBar progressBar;
 
     Presenter presenter;
+    @Inject
+    DispatchingAndroidInjector<Fragment> fragmentInjector;
+    private BaseActivity activity;
 
     protected Presenter providePresenter() {
         return null;
@@ -48,11 +51,6 @@ public abstract class BaseDialogMvpFragment<Presenter extends BaseDialogPresente
     public Presenter getPresenter() {
         return presenter;
     }
-
-    private BaseActivity activity;
-
-    @Inject
-    DispatchingAndroidInjector<Fragment> fragmentInjector;
 
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
@@ -151,7 +149,6 @@ public abstract class BaseDialogMvpFragment<Presenter extends BaseDialogPresente
     public void hideScreenTitle() {
         activity.hideScreenTitle();
     }
-
 
 
     @Override

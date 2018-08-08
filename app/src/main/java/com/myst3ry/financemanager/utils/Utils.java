@@ -28,7 +28,7 @@ public final class Utils {
 
     public static ArrayList<String> getCurrencyTitles(final Context context) {
         final ArrayList<String> currencies = new ArrayList<>();
-        for (final CurrencyType currency: CurrencyType.values()) {
+        for (final CurrencyType currency : CurrencyType.values()) {
             currencies.add(Currency.getSymbol(context, currency));
         }
         return currencies;
@@ -36,7 +36,7 @@ public final class Utils {
 
     public static ArrayList<String> getOperationTitles(final Context context) {
         final ArrayList<String> operations = new ArrayList<>();
-        for (final OperationType operation: OperationType.values()) {
+        for (final OperationType operation : OperationType.values()) {
             operations.add(getOperationTitle(operation, context));
         }
         return operations;
@@ -223,7 +223,7 @@ public final class Utils {
             Balance balance = new Balance(currentCurrency);
 
             BigDecimal sum = BigDecimal.ZERO;
-            for (Account account: accounts) {
+            for (Account account : accounts) {
                 if (account.getCurrencyType().equals(currentCurrency)) {
                     sum = sum.add(account.getBalance());
                 } else {

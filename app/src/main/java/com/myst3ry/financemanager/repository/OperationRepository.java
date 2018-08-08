@@ -56,8 +56,8 @@ public class OperationRepository extends BaseRepository {
                 operationDao.getAll(),
                 periodicDao.getAll(),
                 (operations, periodicOperation) -> {
-                    for (Operation operation: operations) {
-                        for (PeriodicOperation periodic: periodicOperation) {
+                    for (Operation operation : operations) {
+                        for (PeriodicOperation periodic : periodicOperation) {
                             if (operation.getId() == periodic.getOperationId()) {
                                 periodic.setOperation(operation);
                             }
@@ -82,7 +82,7 @@ public class OperationRepository extends BaseRepository {
 
     public Flowable executeNecessaryPendingOperation() {
         return getPeriodicOperations().map(periodicOperations -> {
-            for (PeriodicOperation periodic: periodicOperations) {
+            for (PeriodicOperation periodic : periodicOperations) {
                 if (!periodic.isActive()) {
                     continue;
                 }

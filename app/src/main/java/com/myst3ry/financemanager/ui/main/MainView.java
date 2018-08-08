@@ -1,7 +1,6 @@
 package com.myst3ry.financemanager.ui.main;
 
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
-import com.arellomobile.mvp.viewstate.strategy.AddToEndStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import com.myst3ry.financemanager.ui.base.BaseView;
 import com.myst3ry.financemanager.ui.main.screens.Screens;

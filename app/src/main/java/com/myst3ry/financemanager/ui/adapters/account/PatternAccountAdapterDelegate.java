@@ -37,6 +37,7 @@ public class PatternAccountAdapterDelegate
     protected int getLayoutId() {
         return R.layout.item_account_patterns;
     }
+
     @NonNull
     @Override
     protected ViewHolder createViewHolder(View view) {

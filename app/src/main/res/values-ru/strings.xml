@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Star Coin</string>
+    <string name="app_name">Я Стар Коин</string>
 
     <!--Pref Keys (Do Not Localize)-->
     <string name="key_options_enable">key_switch_enable_options</string>
     <string name="key_language">key_list_language</string>
-    <string name="key_about">key_about</string>
 
     <string-array name="pref_list_language_titles">
         <item>@string/language_russian</item>
@@ -23,7 +22,7 @@
 
     <!--Tab bar-->
     <string name="tab_main">Главная</string>
-    <string name="tab_report">Лента</string>
+    <string name="tab_report">Отчёты</string>
     <string name="tab_about">О приложении</string>
     <string name="tab_settings">Настройки</string>
     <!--Tab bar-->

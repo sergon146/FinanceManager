@@ -2,7 +2,7 @@
 <resources>
 
     <color name="color_primary">#4982f3</color>
-    <color name="color_primary_dark">#e19f25</color>
+    <color name="color_primary_dark">#ffd43e</color>
     <color name="color_accent">#f44336</color>
 
     <color name="color_primary_text">#212121</color>
@@ -23,7 +23,7 @@
 
     <color name="tab_icon">@color/white</color>
 
-    <color name="item_selected_color">#ffde8b</color>
+    <color name="item_selected_color">#ffe7ac</color>
 
 
     <color name="income">#2ec438</color>

@@ -24,7 +24,7 @@ public class AddOperationPresenter extends BaseDialogPresenter<AddOperationView>
                 getViewState().showAccounts(accounts)));
     }
 
-    public void performOperation(Account account,Operation operation, PeriodicOperation periodic) {
+    public void performOperation(Account account, Operation operation, PeriodicOperation periodic) {
         operation.setCurrencyType(account.getCurrencyType());
         bind(onUi(useCase.addOperation(operation, periodic)).subscribe(
                 () -> getViewState().successPerform(),

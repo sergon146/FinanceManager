@@ -27,6 +27,10 @@ public abstract class BaseActivity<Presenter extends BasePresenter> extends MvpA
     @Nullable
     @BindView(R.id.toolbar_title)
     protected TextView title;
+    @Nullable
+    @BindView(R.id.toolbar)
+    protected View toolbar;
+    protected boolean isTabletUi;
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentInjector;
     private Presenter presenter;
@@ -49,6 +53,7 @@ public abstract class BaseActivity<Presenter extends BasePresenter> extends MvpA
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
         ButterKnife.bind(this);
+        isTabletUi = getResources().getBoolean(R.bool.is_tablet_ui);
     }
 
     public void setScreenTitle(@StringRes int titleId) {
@@ -58,6 +63,10 @@ public abstract class BaseActivity<Presenter extends BasePresenter> extends MvpA
     public void setScreenTitle(String titleText) {
         if (title == null) {
             return;
+        }
+
+        if (isTabletUi && toolbar != null) {
+            toolbar.setVisibility(View.GONE);
         }
 
         title.setVisibility(View.VISIBLE);

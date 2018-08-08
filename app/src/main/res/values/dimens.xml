@@ -13,4 +13,6 @@
     <dimen name="fab_elevation_standard">6dp</dimen>
     <dimen name="diagram_view_size">120dp</dimen>
 
+    <dimen name="account_height">100dp</dimen>
+
 </resources>

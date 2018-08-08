@@ -43,7 +43,6 @@ public final class MainActivity extends BaseActivity<MainPresenter>
     @BindView(R.id.back)
     View back;
     private FragmentManager fragmentManager;
-    private boolean isTabletUi;
 
     @Override
     @ProvidePresenter
@@ -56,7 +55,6 @@ public final class MainActivity extends BaseActivity<MainPresenter>
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         prepareView(savedInstanceState);
-        isTabletUi = getResources().getBoolean(R.bool.is_tablet_ui);
     }
 
     protected void prepareView(Bundle savedInstanceState) {

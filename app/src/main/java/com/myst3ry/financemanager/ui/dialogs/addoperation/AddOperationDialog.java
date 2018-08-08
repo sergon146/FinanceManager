@@ -41,7 +41,9 @@ public class AddOperationDialog extends BaseDialogMvpFragment<AddOperationPresen
         implements AddOperationView {
 
     private static final String ACCOUNT_ID = "ACCOUNT_ID";
-
+    @Inject
+    @InjectPresenter
+    public AddOperationPresenter presenter;
     @BindView(R.id.account_title)
     TextView accountTitle;
     @BindView(R.id.amount)
@@ -58,25 +60,6 @@ public class AddOperationDialog extends BaseDialogMvpFragment<AddOperationPresen
     EditText periodicEdit;
     @BindView(R.id.periodic_group)
     Group periodic_group;
-
-    @Inject
-    @InjectPresenter
-    public AddOperationPresenter presenter;
-
-    @Override
-    @ProvidePresenter
-    protected AddOperationPresenter providePresenter() {
-        return presenter;
-    }
-
-    public static AddOperationDialog newInstance(long accountId) {
-        final AddOperationDialog fragment = new AddOperationDialog();
-        final Bundle args = new Bundle();
-        args.putLong(ACCOUNT_ID, accountId);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @State
     OperationType currentOperationType;
     @State
@@ -86,6 +69,20 @@ public class AddOperationDialog extends BaseDialogMvpFragment<AddOperationPresen
     private ArrayList<String> operationTitles, categoryTitles, accountTitles = new ArrayList<>();
     private List<Account> accounts;
     private boolean isPeriodicToggle = false;
+
+    public static AddOperationDialog newInstance(long accountId) {
+        final AddOperationDialog fragment = new AddOperationDialog();
+        final Bundle args = new Bundle();
+        args.putLong(ACCOUNT_ID, accountId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    @ProvidePresenter
+    protected AddOperationPresenter providePresenter() {
+        return presenter;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,7 +103,7 @@ public class AddOperationDialog extends BaseDialogMvpFragment<AddOperationPresen
         super.onStart();
         Dialog dialog = getDialog();
         if (dialog != null && dialog.getWindow() != null) {
-            int width = ViewGroup.LayoutParams.MATCH_PARENT;
+            int width = ViewGroup.LayoutParams.WRAP_CONTENT;
             int height = ViewGroup.LayoutParams.WRAP_CONTENT;
             dialog.getWindow().setLayout(width, height);
         }
@@ -212,7 +209,6 @@ public class AddOperationDialog extends BaseDialogMvpFragment<AddOperationPresen
             showToast(R.string.empty_title);
             return;
         }
-
 
 
         final String amount = amountEditText.getText().toString();
