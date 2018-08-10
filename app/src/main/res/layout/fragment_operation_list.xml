@@ -10,6 +10,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="-1dp"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
+        android:paddingTop="@dimen/detail_top_padding"
+        android:paddingBottom="@dimen/operation_list_bottom_padding"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,5 +42,19 @@
         app:layout_constraintEnd_toEndOf="@+id/operation_recycler"
         app:layout_constraintStart_toStartOf="@+id/operation_recycler"
         app:layout_constraintTop_toTopOf="@+id/operation_recycler"
+        />
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/margin_standard"
+        app:elevation="@dimen/fab_elevation_standard"
+        app:fabSize="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_add_bb8"
         />
 </android.support.constraint.ConstraintLayout>

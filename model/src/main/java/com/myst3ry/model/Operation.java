@@ -1,9 +1,11 @@
 package com.myst3ry.model;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
+import com.example.delegateadapter.delegate.diff.IComparableItem;
 import com.myst3ry.model.converter.BigDecimalConverter;
 import com.myst3ry.model.converter.CurrencyTypeConverter;
 import com.myst3ry.model.converter.DateConverter;
@@ -13,30 +15,35 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity(tableName = "operation")
-public class Operation {
+public class Operation implements IComparableItem {
     @PrimaryKey(autoGenerate = true)
-    private long id;
+    protected Long id;
+    protected String title;
     @TypeConverters(OperationTypeConverter.class)
-    private OperationType type;
+    protected OperationType type;
     @TypeConverters(CurrencyTypeConverter.class)
-    private CurrencyType currencyType;
+    protected CurrencyType currencyType;
     @TypeConverters(BigDecimalConverter.class)
-    private BigDecimal amount;
-    private String category;
+    protected BigDecimal amount;
+    protected String category;
     @TypeConverters(DateConverter.class)
-    private Date date;
-    private long accountId;
-    private boolean isActive = true;
+    protected Date date;
+    protected Long accountId;
+    protected boolean isActive = true;
+    @Ignore
+    protected Account account;
 
-    public Operation(long id,
+    public Operation(Long id,
+                     String title,
                      OperationType type,
                      CurrencyType currencyType,
                      BigDecimal amount,
                      String category,
                      Date date,
-                     long accountId,
+                     Long accountId,
                      boolean isActive) {
         this.id = id;
+        this.title = title;
         this.type = type;
         this.currencyType = currencyType;
         this.amount = amount;
@@ -48,14 +55,16 @@ public class Operation {
 
     public Operation(Operation operation) {
         this.type = operation.type;
+        this.title = operation.getTitle();
         this.currencyType = operation.currencyType;
         this.amount = operation.amount;
         this.category = operation.category;
         this.accountId = operation.accountId;
     }
 
-    public Operation(final Builder builder) {
+    public Operation(Builder builder) {
         this.type = builder.operationType;
+        this.title = builder.title;
         this.currencyType = builder.currencyType;
         this.amount = builder.amount;
         this.category = builder.category;
@@ -67,12 +76,20 @@ public class Operation {
         return new Builder();
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public OperationType getType() {
@@ -115,11 +132,11 @@ public class Operation {
         this.date = date;
     }
 
-    public long getAccountId() {
+    public Long getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(long accountId) {
+    public void setAccountId(Long accountId) {
         this.accountId = accountId;
     }
 
@@ -131,19 +148,43 @@ public class Operation {
         isActive = active;
     }
 
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    @Override
+    public Object id() {
+        return id;
+    }
+
+    @Override
+    public Object content() {
+        return id + accountId + amount.toString();
+    }
+
     public static final class Builder {
 
+        private String title;
         private OperationType operationType;
         private CurrencyType currencyType;
         private BigDecimal amount;
         private String category;
-        private long accountId;
+        private Long accountId;
 
         private Builder() {
         }
 
-        public Builder setOperationType(final OperationType OperationType) {
-            this.operationType = OperationType;
+        public Builder setTitle(final String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder setOperationType(final OperationType operationType) {
+            this.operationType = operationType;
             return this;
         }
 
@@ -162,7 +203,7 @@ public class Operation {
             return this;
         }
 
-        public Builder setAccountId(final long accountId) {
+        public Builder setAccountId(final Long accountId) {
             this.accountId = accountId;
             return this;
         }

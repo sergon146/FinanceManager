@@ -9,6 +9,6 @@ import io.reactivex.Flowable;
 
 @Dao
 public abstract class ExchangeDao extends BaseDao<ExchangeRate> {
-    @Query("SELECT * from exchange WHERE exchangeCurrency = :currencyName")
+    @Query("SELECT * FROM exchange WHERE exchangeCurrency = :currencyName")
     public abstract Flowable<ExchangeRate> getRateByType(String currencyName);
 }

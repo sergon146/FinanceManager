@@ -23,17 +23,17 @@ public final class MainPresenter extends BasePresenter<MainView> {
                 throwable -> ((Throwable) throwable).printStackTrace()));
     }
 
-    public void onTabClicked(int position) {
+    public void onTabClicked(int position, boolean wasSelected) {
         Screens screen;
         switch (TabBarScreens.values()[position]) {
             case MAIN:
                 screen = Screens.MAIN_SCREEN;
                 break;
-            //            case FEED:
-            //                screen = Screens.FEED_SCREEN;
-            //                break;
-            case ABOUT:
+            case REPORT:
                 screen = Screens.REPORT_SCREEN;
+                break;
+            case ABOUT:
+                screen = Screens.ABOUT_SCREEN;
                 break;
             case SETTINGS:
                 screen = Screens.SETTINGS_SCREEN;
@@ -43,6 +43,10 @@ public final class MainPresenter extends BasePresenter<MainView> {
                 break;
         }
 
-        getViewState().activateTab(screen);
+        getViewState().activateTab(screen, wasSelected);
+    }
+
+    public void openScreen(Screens screen, Object data, boolean isParent) {
+        getViewState().openingScreen(screen, data, isParent);
     }
 }

@@ -5,12 +5,13 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
+import com.example.delegateadapter.delegate.diff.IComparableItem;
 import com.myst3ry.model.converter.DateConverter;
 
 import java.util.Date;
 
 @Entity(tableName = "periodic")
-public class PeriodicOperation {
+public class PeriodicOperation implements IComparableItem {
     @PrimaryKey(autoGenerate = true)
     private long id;
     private long operationId;
@@ -20,19 +21,22 @@ public class PeriodicOperation {
     private Date lastExecution;
     private long dayRepeat;
     private boolean isActive = true;
+    private boolean isTurnOn = true;
 
     public PeriodicOperation(long id,
                              long operationId,
                              Operation operation,
                              Date lastExecution,
                              long dayRepeat,
-                             boolean isActive) {
+                             boolean isActive,
+                             boolean isTurnOn) {
         this.id = id;
         this.operationId = operationId;
         this.operation = operation;
         this.lastExecution = lastExecution;
         this.dayRepeat = dayRepeat;
         this.isActive = isActive;
+        this.isTurnOn = isTurnOn;
     }
 
     public PeriodicOperation(long dayRepeat) {
@@ -88,4 +92,21 @@ public class PeriodicOperation {
         isActive = active;
     }
 
+    public boolean isTurnOn() {
+        return isTurnOn;
+    }
+
+    public void setTurnOn(boolean turnOn) {
+        isTurnOn = turnOn;
+    }
+
+    @Override
+    public Object id() {
+        return id;
+    }
+
+    @Override
+    public Object content() {
+        return id + operationId + dayRepeat;
+    }
 }

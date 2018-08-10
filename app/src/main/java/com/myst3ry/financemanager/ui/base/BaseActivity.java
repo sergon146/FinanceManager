@@ -1,11 +1,13 @@
 package com.myst3ry.financemanager.ui.base;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,10 @@ public abstract class BaseActivity<Presenter extends BasePresenter> extends MvpA
     @Nullable
     @BindView(R.id.toolbar_title)
     protected TextView title;
+    @Nullable
+    @BindView(R.id.toolbar)
+    protected View toolbar;
+    protected boolean isTabletUi;
     @Inject
     DispatchingAndroidInjector<Fragment> fragmentInjector;
     private Presenter presenter;
@@ -49,6 +55,16 @@ public abstract class BaseActivity<Presenter extends BasePresenter> extends MvpA
     public void setContentView(@LayoutRes int layoutResID) {
         super.setContentView(layoutResID);
         ButterKnife.bind(this);
+        isTabletUi = getResources().getBoolean(R.bool.is_tablet_ui);
+
+        if (isTabletUi) {
+            getWindow().setFlags(
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+            );
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
     }
 
     public void setScreenTitle(@StringRes int titleId) {
@@ -58,6 +74,10 @@ public abstract class BaseActivity<Presenter extends BasePresenter> extends MvpA
     public void setScreenTitle(String titleText) {
         if (title == null) {
             return;
+        }
+
+        if (isTabletUi && toolbar != null) {
+            toolbar.setVisibility(View.GONE);
         }
 
         title.setVisibility(View.VISIBLE);
@@ -89,7 +109,9 @@ public abstract class BaseActivity<Presenter extends BasePresenter> extends MvpA
     }
 
     public void hideScreenTitle() {
-        title.setVisibility(View.GONE);
+        if (title != null) {
+            title.setVisibility(View.GONE);
+        }
     }
 
     @Override

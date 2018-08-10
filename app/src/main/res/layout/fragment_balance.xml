@@ -29,8 +29,7 @@
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@id/main_currency"
         app:layout_constraintBottom_toBottomOf="@+id/main_currency"
-        app:layout_constraintEnd_toStartOf="@+id/periodic_icon"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/main_currency"
         app:layout_constraintTop_toTopOf="@+id/main_currency"
         app:layout_constraintVertical_bias="0.0"
@@ -60,8 +59,7 @@
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@id/additional_currency"
         app:layout_constraintBottom_toBottomOf="@+id/additional_currency"
-        app:layout_constraintEnd_toStartOf="@+id/periodic_icon"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/additional_currency"
         app:layout_constraintTop_toTopOf="@+id/additional_currency"
         tools:text="$ 321.12"
@@ -90,20 +88,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_add_bb8"
-        />
-
-    <ImageView
-        android:id="@+id/periodic_icon"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/rounded_white_bg"
-        android:padding="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/operation_recycler"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_r2d2"
         />
 
     <include

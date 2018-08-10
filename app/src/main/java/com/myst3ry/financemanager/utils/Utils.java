@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Pair;
+import android.widget.DatePicker;
 
 import com.myst3ry.financemanager.BuildConfig;
 import com.myst3ry.financemanager.R;
@@ -15,17 +16,21 @@ import com.myst3ry.model.Balance;
 import com.myst3ry.model.CategoryType;
 import com.myst3ry.model.CurrencyType;
 import com.myst3ry.model.ExchangeRate;
+import com.myst3ry.model.FeedAccount;
 import com.myst3ry.model.OperationType;
+import com.myst3ry.model.PatternAccount;
+import com.myst3ry.model.PeriodicAccount;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public final class Utils {
 
     public static ArrayList<String> getCurrencyTitles(final Context context) {
         final ArrayList<String> currencies = new ArrayList<>();
-        for (final CurrencyType currency: CurrencyType.values()) {
+        for (final CurrencyType currency : CurrencyType.values()) {
             currencies.add(Currency.getSymbol(context, currency));
         }
         return currencies;
@@ -33,7 +38,7 @@ public final class Utils {
 
     public static ArrayList<String> getOperationTitles(final Context context) {
         final ArrayList<String> operations = new ArrayList<>();
-        for (final OperationType operation: OperationType.values()) {
+        for (final OperationType operation : OperationType.values()) {
             operations.add(getOperationTitle(operation, context));
         }
         return operations;
@@ -172,6 +177,17 @@ public final class Utils {
         return intent;
     }
 
+    public static java.util.Date getPickerDate(DatePicker datePicker) {
+        int day = datePicker.getDayOfMonth();
+        int month = datePicker.getMonth();
+        int year = datePicker.getYear();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+
+        return calendar.getTime();
+    }
+
     public static class Currency {
 
         public static String getAmountTitle(final BigDecimal amount, final CurrencyType type) {
@@ -220,7 +236,7 @@ public final class Utils {
             Balance balance = new Balance(currentCurrency);
 
             BigDecimal sum = BigDecimal.ZERO;
-            for (Account account: accounts) {
+            for (Account account : accounts) {
                 if (account.getCurrencyType().equals(currentCurrency)) {
                     sum = sum.add(account.getBalance());
                 } else {
@@ -233,6 +249,31 @@ public final class Utils {
             BigDecimal amount = sum.multiply(additionalRate.getRate());
             Balance additionalBalance = new Balance(CurrencyType.USD, amount);
             return new Pair<>(balance, additionalBalance);
+        }
+    }
+
+    public static class DataStub {
+
+        public static FeedAccount getFeedAccount(Balance primary,
+                                                 Balance additional,
+                                                 Long totalOperations) {
+            FeedAccount feedAccount = new FeedAccount();
+            feedAccount.setMainBalance(primary);
+            feedAccount.setAdditionalBalance(additional);
+            feedAccount.setTotalCount(totalOperations);
+            return feedAccount;
+        }
+
+        public static PeriodicAccount getPeriodicAccount(Long totalPeriodic,
+                                                         Long activatedPeriodic) {
+            PeriodicAccount periodicAccount = new PeriodicAccount();
+            periodicAccount.setTotal(totalPeriodic);
+            periodicAccount.setActive(activatedPeriodic);
+            return periodicAccount;
+        }
+
+        public static PatternAccount getPatternAccount() {
+            return new PatternAccount();
         }
     }
 }

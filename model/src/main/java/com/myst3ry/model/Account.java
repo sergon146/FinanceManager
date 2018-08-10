@@ -1,6 +1,7 @@
 package com.myst3ry.model;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
@@ -11,7 +12,7 @@ import com.myst3ry.model.converter.CurrencyTypeConverter;
 import java.math.BigDecimal;
 
 @Entity(tableName = "account")
-public class Account {
+public class Account extends AccountBaseItem {
     @PrimaryKey(autoGenerate = true)
     private long id;
     private String title;
@@ -39,6 +40,11 @@ public class Account {
         balance = builder.balance;
         currencyType = builder.currencyType;
         accountType = builder.accountType;
+    }
+
+    @Ignore
+    public Account(AccountType accountType) {
+        this.accountType = accountType;
     }
 
     public static Builder newBuilder() {
@@ -83,6 +89,16 @@ public class Account {
 
     public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
+    }
+
+    @Override
+    public Object id() {
+        return id;
+    }
+
+    @Override
+    public Object content() {
+        return title + balance + accountType;
     }
 
     public static final class Builder {

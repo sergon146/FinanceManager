@@ -42,6 +42,9 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknife_ver"
 
+    //delegate adapter
+    implementation 'com.github.liverm0r:delegateadapters:v1.11'
+
     //icepick
     implementation "frankiesardo:icepick:$icepick_ver"
     annotationProcessor "frankiesardo:icepick-processor:$icepick_ver"

@@ -6,6 +6,10 @@
         <item name="colorAccent">@color/color_accent</item>
         <item name="android:windowBackground">@drawable/gradient_bg</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="android:overScrollMode">never</item>
+        <item name="android:windowContentOverlay">@color/transparent</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="android:statusBarColor">@color/transparent</item>
     </style>
 
     <style name="AppTheme.Launcher">
@@ -22,6 +26,11 @@
     <style name="TextStyleDark.Bold" parent="TextStyleDark">
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_in_top</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
     </style>
 
 </resources>

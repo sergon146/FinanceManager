@@ -5,6 +5,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Transaction;
 import android.arch.persistence.room.TypeConverters;
+import android.arch.persistence.room.Update;
 
 import com.myst3ry.model.Operation;
 import com.myst3ry.model.PeriodicOperation;
@@ -40,9 +41,16 @@ public abstract class OperationAccountPeriodicDao {
         return Completable.complete();
     }
 
+    @Update
+    public abstract void updateOperation(Operation operation);
+
     @Transaction
     public Completable addOperationAndUpdateBalance(Operation operation, BigDecimal amount) {
-        insertOperation(operation);
+        if (operation.getId() == null) {
+            insertOperation(operation);
+        } else {
+            updateOperation(operation);
+        }
         updateAccountBalance(operation.getAccountId(), amount);
         return Completable.complete();
     }

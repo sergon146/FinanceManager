@@ -12,16 +12,18 @@ import com.myst3ry.financemanager.data.dao.ExchangeDao;
 import com.myst3ry.financemanager.data.dao.OperationAccountPeriodicDao;
 import com.myst3ry.financemanager.data.dao.OperationDao;
 import com.myst3ry.financemanager.data.dao.PeriodicDao;
+import com.myst3ry.financemanager.data.dao.TemplateDao;
 import com.myst3ry.financemanager.utils.DatabaseDataStub;
 import com.myst3ry.model.Account;
 import com.myst3ry.model.ExchangeRate;
 import com.myst3ry.model.Operation;
 import com.myst3ry.model.PeriodicOperation;
+import com.myst3ry.model.Template;
 
 import java.util.concurrent.Executors;
 
-@Database(entities = {Operation.class, Account.class, ExchangeRate.class, PeriodicOperation.class},
-        version = 1, exportSchema = false)
+@Database(entities = {Operation.class, Account.class, ExchangeRate.class, PeriodicOperation.class,
+        Template.class}, version = 1, exportSchema = false)
 public abstract class MainDatabase extends RoomDatabase {
     private static MainDatabase instance;
 
@@ -60,4 +62,6 @@ public abstract class MainDatabase extends RoomDatabase {
     public abstract OperationAccountPeriodicDao operationAccountPeriodicDao();
 
     public abstract PeriodicDao periodicDao();
+
+    public abstract TemplateDao templateDao();
 }

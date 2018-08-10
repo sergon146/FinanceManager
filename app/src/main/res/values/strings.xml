@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Star Coin</string>
+    <string name="app_name">Ya.Star Coin</string>
 
     <!--Pref Keys (Do Not Localize)-->
     <string name="key_options_enable">key_switch_enable_options</string>
@@ -15,20 +15,28 @@
         <item>en</item>
     </string-array>
 
+    <string-array name="pref_about">
+        <item>@string/tab_about</item>
+    </string-array>
 
-    <string name="accept">Add</string>
+
+    <string name="accept">Done</string>
     <string name="decline">Cancel</string>
 
     <!--Tab bar-->
     <string name="tab_main">Main</string>
-    <string name="tab_feed">Feed</string>
+    <string name="tab_report">Reports</string>
     <string name="tab_about">About</string>
     <string name="tab_settings">Settings</string>
-    <string name="empty"> </string>
     <!--Tab bar-->
 
     <!--Wallet screen-->
     <string name="add_wallet">Add Wallet</string>
+    <string name="all_operations">All operations</string>
+    <string name="periodic_operations">Periodic operations</string>
+    <string name="patterns">Operation patterns</string>
+    <string name="total_count">Total: %1$d</string>
+    <string name="activated_count">Active: %1$d</string>
     <!--Wallet screen-->
 
     <!--Currency type-->
@@ -57,7 +65,7 @@
     <!--About Info-->
     <string name="text_about_app_version">Version: %s</string>
     <string name="text_about_title">Finance Manager</string>
-    <string name="text_about_desc">This application was developed defaultCurrency accordance with the home task of the Yandex School of Mobile Development defaultCurrency 2018.</string>
+    <string name="text_about_desc">This application was developed in accordance with the home task of the Yandex School of Mobile Development in 2018.</string>
     <string name="text_about_developer">Contact with Developer</string>
 
     <!--Contact Info-->
@@ -69,10 +77,12 @@
     <!--Preferences-->
     <string name="pref_title_options">Options</string>
     <string name="pref_title_languages">Language</string>
+    <string name="pref_title_about">About</string>
     <string name="switch_summary_off">Off</string>
     <string name="switch_summary_on">On</string>
     <string name="language_russian">Russian</string>
     <string name="language_english">English</string>
+
 
     <string name="dialog_lang_title">Language</string>
     <string name="dialog_lang_message">The changes will be applied next time you open the app</string>
@@ -81,28 +91,41 @@
     <string name="expense">Expense</string>
     <string name="income">Income</string>
     <string name="text_select_account">Select account</string>
-    <string name="text_operation_type">Select Operation type</string>
+    <string name="empty_account">Please select account</string>
+    <string name="text_operation_type"><u>Select Operation type</u></string>
     <string name="hint_enter_amount">Enter amount</string>
-    <string name="text_select_currency">Select currency</string>
-    <string name="text_add_category_label">Select category</string>
-    <string name="text_current_category">None</string>
+    <string name="hint_enter_title">Enter title</string>
+    <string name="text_add_category_label"><u>Select category</u></string>
+    <string name="none">None</string>
     <string name="dialog_title_rub">Russian Ruble (RUB)</string>
     <string name="dialog_title_usd">United States Dollar (USD)</string>
     <string name="new_operation_title">New Operation</string>
+    <string name="empty_title">Please enter title!</string>
     <string name="err_empty_field">You should enter amount first</string>
     <string name="error_create_operation">Something went wrong! The Operation was not added</string>
     <string name="operation_success">Operation added!</string>
     <string name="zero_amount">Amount can\'t be zero!</string>
     <string name="is_periodic_operation">Periodic transaction</string>
-    <string name="period_title">Repeat through</string>
+    <string name="period_title">Repeat through (days)</string>
     <string name="repeat_count_zero">Repeat can\'t be zero!</string>
     <string name="repeat_count_empty">Repeat can\'t be empty!</string>
 
-    <string name="operation_title">Operations</string>
+
+    <string name="template_title">Templates</string>
+    <string name="save_as_template">Save as template</string>
+    <string name="template_error">Error! Template not saved</string>
+
+    <string name="template_selection">Template\nselection</string>
+    <string name="periodic_switch_title">Periodic\ntransaction</string>
+
+    <string name="operations_title">Operations</string>
+    <string name="operation_title">Operation</string>
     <string name="perioidc_operation_title">Periodic operations</string>
+    <string name="error">Error! Please try again later</string>
 
     <string name="empty_data">There\'s nothing here…</string>
 
+    <string name="delete">Delete</string>
     <!--Connection-->
     <string name="http_error">Error Code#%d (%s)</string>
     <string name="connection_error">Check your internet connection</string>
@@ -116,6 +139,7 @@
         <item name="item_clothes">Clothes</item>
         <item name="item_medicine">Medicine</item>
         <item name="item_entertainment">Entertainments</item>
+        <item name="food">Food</item>
     </string-array>
 
     <string-array name="arr_income_categories">
@@ -135,6 +159,13 @@
     <string name="treatment">Treatment</string>
     <string name="salary">Salary</string>
     <string name="other">Other</string>
+
+
+    <string name="start_day">Start day</string>
+    <string name="end_day">End day</string>
+    <string name="date_pattern">%d/%d/%d</string>
+    <string name="date_holder">___/___/___</string>
+    <string name="generate">Generate report</string>
 
 
     <string name="invalid_value">Invalid value entered</string>
