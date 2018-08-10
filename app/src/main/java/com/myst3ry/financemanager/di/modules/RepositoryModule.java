@@ -6,6 +6,7 @@ import com.myst3ry.financemanager.data.remote.ExchangeApi;
 import com.myst3ry.financemanager.repository.AccountRepository;
 import com.myst3ry.financemanager.repository.ExchangeRepository;
 import com.myst3ry.financemanager.repository.OperationRepository;
+import com.myst3ry.financemanager.repository.TemplateRepository;
 
 import javax.inject.Singleton;
 
@@ -34,6 +35,13 @@ public abstract class RepositoryModule {
         return new OperationRepository(
                 database.operationDao(),
                 database.operationAccountPeriodicDao(),
-                database.periodicDao());
+                database.periodicDao(),
+                database.accountDao());
+    }
+
+    @Singleton
+    @Provides
+    static TemplateRepository provideTemplateRepository(MainDatabase database) {
+        return new TemplateRepository(database.templateDao());
     }
 }

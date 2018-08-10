@@ -40,6 +40,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_standard"
+            android:layout_marginTop="@dimen/margin_standard"
             android:layout_marginEnd="@dimen/margin_standard"
             android:ellipsize="end"
             android:gravity="center"
@@ -128,6 +129,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_standard"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="@dimen/margin_standard"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             app:layout_constraintEnd_toEndOf="parent"
@@ -159,6 +161,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_standard"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="@dimen/margin_standard"
             android:text="@string/none"
             app:layout_constraintEnd_toEndOf="parent"
@@ -167,58 +170,56 @@
             app:layout_constraintWidth_percent=".8"
             />
 
-        <TextView
-            android:id="@+id/add"
+        <Button
+            android:id="@+id/template"
             style="@style/TextStyleDark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            android:ellipsize="end"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_white_bg"
+            android:drawableTop="@drawable/ic_tropper"
             android:gravity="center"
-            android:maxLines="2"
-            android:padding="8dp"
-            android:text="@string/accept"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:padding="12dp"
+            android:text="@string/template_selection"
+            android:textAllCaps="false"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/periodic_edit"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/periodic_switch"
+            app:layout_constraintTop_toBottomOf="@+id/category_label"
             />
 
-        <TextView
-            android:id="@+id/cancel"
+        <CheckBox
+            android:id="@+id/save_template"
             style="@style/TextStyleDark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:maxLines="2"
-            android:padding="8dp"
-            android:text="@string/decline"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="@+id/add"
-            app:layout_constraintEnd_toStartOf="@+id/add"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/category_label"
-            app:layout_constraintTop_toTopOf="@+id/add"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/save_as_template"
+            app:layout_constraintBottom_toTopOf="@+id/periodic_switch"
+            app:layout_constraintEnd_toEndOf="@+id/periodic_switch"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/periodic_switch"
+            app:layout_constraintTop_toTopOf="@+id/template"
             />
 
-        <Switch
+        <android.support.v7.widget.SwitchCompat
             android:id="@+id/periodic_switch"
-            android:layout_width="0dp"
+            style="@style/TextStyleDark"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:paddingEnd="20dp"
-            android:text="@string/is_periodic_operation"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="32dp"
+            android:drawablePadding="20dp"
+            android:paddingStart="6dp"
+            android:text="@string/periodic_switch_title"
+            app:layout_constraintBottom_toBottomOf="@+id/template"
+            app:layout_constraintEnd_toStartOf="@+id/template"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/category_label"
+            app:switchPadding="20dp"
             />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/periodic_title"
             style="@style/TextStyleDark"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
@@ -241,8 +242,8 @@
             android:inputType="number|numberDecimal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/periodic_switch"
+            app:layout_constraintStart_toEndOf="@+id/periodic_title"
+            app:layout_constraintTop_toBottomOf="@+id/template"
             />
 
         <android.support.constraint.Group
@@ -250,13 +251,55 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="textView,periodic_edit"
+            app:constraint_referenced_ids="periodic_title,periodic_edit"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible"
             />
 
-    </android.support.constraint.ConstraintLayout>
+        <Button
+            android:id="@+id/add"
+            style="@style/TextStyleDark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/rounded_white_bg"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="2"
+            android:padding="10dp"
+            android:text="@string/accept"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/periodic_edit"
+            />
 
+        <Button
+            android:id="@+id/cancel"
+            style="@style/TextStyleDark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/rounded_white_bg"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="2"
+            android:padding="10dp"
+            android:text="@string/decline"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/add"
+            app:layout_constraintEnd_toStartOf="@+id/add"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/category_label"
+            app:layout_constraintTop_toTopOf="@+id/add"
+            />
+
+    </android.support.constraint.ConstraintLayout>
 </ScrollView>
 

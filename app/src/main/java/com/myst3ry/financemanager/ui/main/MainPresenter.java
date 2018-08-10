@@ -23,7 +23,7 @@ public final class MainPresenter extends BasePresenter<MainView> {
                 throwable -> ((Throwable) throwable).printStackTrace()));
     }
 
-    public void onTabClicked(int position) {
+    public void onTabClicked(int position, boolean wasSelected) {
         Screens screen;
         switch (TabBarScreens.values()[position]) {
             case MAIN:
@@ -43,7 +43,7 @@ public final class MainPresenter extends BasePresenter<MainView> {
                 break;
         }
 
-        getViewState().activateTab(screen);
+        getViewState().activateTab(screen, wasSelected);
     }
 
     public void openScreen(Screens screen, Object data, boolean isParent) {

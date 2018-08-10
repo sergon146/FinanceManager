@@ -8,6 +8,7 @@ import android.support.constraint.Group;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.myst3ry.financemanager.R;
 import com.myst3ry.financemanager.ui.base.dialog.BaseDialogMvpFragment;
 import com.myst3ry.financemanager.ui.dialogs.SelectionDialogFragment;
+import com.myst3ry.financemanager.ui.dialogs.template.TemplateDialog;
 import com.myst3ry.financemanager.utils.Utils;
 import com.myst3ry.financemanager.utils.formatter.balance.BalanceFormatterFactory;
 import com.myst3ry.model.Account;
@@ -24,6 +26,7 @@ import com.myst3ry.model.CurrencyType;
 import com.myst3ry.model.Operation;
 import com.myst3ry.model.OperationType;
 import com.myst3ry.model.PeriodicOperation;
+import com.myst3ry.model.Template;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -41,9 +44,12 @@ public class AddOperationDialog extends BaseDialogMvpFragment<AddOperationPresen
         implements AddOperationView {
 
     private static final String ACCOUNT_ID = "ACCOUNT_ID";
+    private static final String OPERATION_ID = "OPERATION_ID";
     @Inject
     @InjectPresenter
     public AddOperationPresenter presenter;
+    @BindView(R.id.account_type_title)
+    TextView accountTypeTitle;
     @BindView(R.id.account_title)
     TextView accountTitle;
     @BindView(R.id.amount)
@@ -53,13 +59,16 @@ public class AddOperationDialog extends BaseDialogMvpFragment<AddOperationPresen
     @BindView(R.id.category_label)
     TextView categoryTextView;
     @BindView(R.id.title_edit)
-    EditText titleEdit;
+    EditText titleEditText;
     @BindView(R.id.amount_edit)
     EditText amountEditText;
     @BindView(R.id.periodic_edit)
     EditText periodicEdit;
+    @BindView(R.id.save_template)
+    CheckBox saveTemplate;
     @BindView(R.id.periodic_group)
     Group periodic_group;
+
     @State
     OperationType currentOperationType;
     @State
@@ -70,12 +79,13 @@ public class AddOperationDialog extends BaseDialogMvpFragment<AddOperationPresen
     private List<Account> accounts;
     private boolean isPeriodicToggle = false;
 
-    public static AddOperationDialog newInstance(long accountId) {
-        final AddOperationDialog fragment = new AddOperationDialog();
-        final Bundle args = new Bundle();
-        args.putLong(ACCOUNT_ID, accountId);
-        fragment.setArguments(args);
-        return fragment;
+    public static AddOperationDialog newInstance(long accountId, long operaionId) {
+        AddOperationDialog dialog = new AddOperationDialog();
+        Bundle bundle = new Bundle();
+        bundle.putLong(ACCOUNT_ID, accountId);
+        bundle.putLong(OPERATION_ID, operaionId);
+        dialog.setArguments(bundle);
+        return dialog;
     }
 
     @Override
@@ -85,17 +95,30 @@ public class AddOperationDialog extends BaseDialogMvpFragment<AddOperationPresen
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-
-        hideScreenTitle();
-
         if (getArguments() != null) {
-            accountId = getArguments().getLong(ACCOUNT_ID);
+            accountId = getArguments().getLong(ACCOUNT_ID, -1);
+            long operationId = getArguments().getLong(OPERATION_ID, -1);
+            if (operationId != -1) {
+                getPresenter().loadOperation(operationId);
+            } else {
+                getPresenter().loadData();
+            }
         }
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         initTitlesLists();
+        accountTypeTitle.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -113,19 +136,14 @@ public class AddOperationDialog extends BaseDialogMvpFragment<AddOperationPresen
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_operation_create, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        setDefaultValues();
+        return inflater.inflate(R.layout.dialog_add_operation, container, false);
     }
 
     private void initTitlesLists() {
         operationTitles = Utils.getOperationTitles(getContext());
         categoryTitles = new ArrayList<>(Arrays.asList(getResources()
                 .getStringArray(R.array.arr_expense_categories)));
+        setDefaultValues();
     }
 
     private void setDefaultValues() {
@@ -149,7 +167,7 @@ public class AddOperationDialog extends BaseDialogMvpFragment<AddOperationPresen
         dialog.show(getActivity().getSupportFragmentManager(), null);
     }
 
-    @OnClick( {R.id.account_type_title, R.id.account_title})
+    @OnClick( {R.id.account_type_title, R.id.account_title, R.id.amount})
     void selectAccount() {
         final SelectionDialogFragment dialog =
                 SelectionDialogFragment.newInstance(accountTitles, accountIndex);
@@ -205,7 +223,7 @@ public class AddOperationDialog extends BaseDialogMvpFragment<AddOperationPresen
             return;
         }
 
-        if (titleEdit.getText().toString().isEmpty()) {
+        if (titleEditText.getText().toString().isEmpty()) {
             showToast(R.string.empty_title);
             return;
         }
@@ -243,17 +261,35 @@ public class AddOperationDialog extends BaseDialogMvpFragment<AddOperationPresen
         }
 
         PeriodicOperation periodic = new PeriodicOperation(dayRepeat);
-        Operation operation = Operation.newBuilder()
-                .setAccountId(accounts.get(accountIndex).getId())
+        Operation.Builder builder = Operation.newBuilder()
                 .setAmount(new BigDecimal(amount))
-                .setTitle(titleEdit.getText().toString())
+                .setTitle(titleEditText.getText().toString())
                 .setCurrencyType(CurrencyType.values()[currencyIndex])
                 .setOperationType(currentOperationType)
-                .setCategory(categoryTextView.getText().toString())
-                .build();
+                .setCategory(categoryTextView.getText().toString());
 
-        getPresenter().performOperation(accounts.get(accountIndex), operation, periodic);
+        Account account;
+        if (accounts != null && !accounts.isEmpty()) {
+            account = accounts.get(accountIndex);
+            builder.setAccountId(account.getId());
+        } else {
+            account = null;
+        }
 
+        Operation operation = builder.build();
+
+        boolean isSaveToTemplate = saveTemplate.isChecked();
+        getPresenter().performOperation(account, operation, periodic, isSaveToTemplate);
+
+    }
+
+    private void showAccountData(long accountId) {
+        for (Account account : accounts) {
+            if (account.getId() == accountId) {
+                showAccountData(account);
+                break;
+            }
+        }
     }
 
     @Override
@@ -283,13 +319,23 @@ public class AddOperationDialog extends BaseDialogMvpFragment<AddOperationPresen
             accountTitles.add(account.getTitle());
             if (account.getId() == accountId) {
                 accountIndex = i;
+                showAccountData(accountId);
+                break;
             }
         }
+    }
 
-        Account initAccount = accounts.get(accountIndex);
-        accountTitle.setText(initAccount.getTitle());
-        accountAmount.setText(formatterFactory.create(initAccount.getCurrencyType())
-                .formatBalance(initAccount.getBalance()));
+    @Override
+    public void showOperation(Operation operation) {
+        showAccountData(operation.getAccount());
+        accountTypeTitle.setVisibility(View.GONE);
+        accountTitle.setEnabled(false);
+        accountAmount.setEnabled(false);
+
+        operationTextView.setText(Utils.getOperationTypeTitle(getContext(), operation.getType()));
+        categoryTextView.setText(operation.getCategory());
+        amountEditText.setText(operation.getAmount().toPlainString());
+        titleEditText.setText(operation.getTitle());
     }
 
     @OnCheckedChanged(R.id.periodic_switch)
@@ -302,4 +348,32 @@ public class AddOperationDialog extends BaseDialogMvpFragment<AddOperationPresen
         }
     }
 
+    @OnClick(R.id.template)
+    void onTemplateClick() {
+        TemplateDialog dialog = TemplateDialog.newInstance();
+        dialog.setListener(template -> insertTemplate(template));
+        dialog.show(getFragmentManager(), dialog.getTag());
+    }
+
+    private void insertTemplate(Template template) {
+        amountEditText.setText(template.getAmount().toPlainString());
+        titleEditText.setText(template.getTitle());
+
+        for (int i = 0; i < operationTitles.size(); i++) {
+            String operation = operationTitles.get(i);
+            if (operation.equals(Utils.getOperationTypeTitle(getContext(), template.getType()))) {
+                operationTextView.setText(operation);
+                operationIndex = i;
+            }
+        }
+
+        for (int i = 0; i < categoryTitles.size(); i++) {
+            String category = categoryTitles.get(i);
+            if (category.equals(template.getCategory())) {
+                categoryIndex = i;
+                categoryTextView.setText(category);
+                break;
+            }
+        }
+    }
 }

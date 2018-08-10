@@ -20,6 +20,11 @@ import butterknife.ButterKnife;
 
 public class OperationAdapterDelegate
         extends BaseDelegateAdapter<OperationAdapterDelegate.ViewHolder, Operation> {
+    private final OperationClickListener listener;
+
+    public OperationAdapterDelegate(OperationClickListener listener) {
+        this.listener = listener;
+    }
 
     @Override
     protected void onBindViewHolder(@NonNull View view,
@@ -36,12 +41,21 @@ public class OperationAdapterDelegate
     @NonNull
     @Override
     protected ViewHolder createViewHolder(View view) {
-        return new ViewHolder(view);
+        ViewHolder holder = new ViewHolder(view);
+        holder.edit.setOnClickListener(v -> listener.onEditClick(holder.getAdapterPosition()));
+        holder.delete.setOnClickListener(v -> listener.onDeleteClick(holder.getAdapterPosition()));
+        return holder;
     }
 
     @Override
     public boolean isForViewType(@NonNull List list, int i) {
         return list.get(i) instanceof Operation;
+    }
+
+    public interface OperationClickListener {
+        void onEditClick(int position);
+
+        void onDeleteClick(int position);
     }
 
     class ViewHolder extends BaseViewHolder {
@@ -53,6 +67,11 @@ public class OperationAdapterDelegate
         TextView amount;
         @BindView(R.id.date)
         TextView date;
+        @BindView(R.id.delete)
+        View delete;
+        @BindView(R.id.edit)
+        View edit;
+
 
         ViewHolder(View itemView) {
             super(itemView);

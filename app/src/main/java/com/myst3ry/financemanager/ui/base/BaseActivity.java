@@ -1,11 +1,13 @@
 package com.myst3ry.financemanager.ui.base;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +56,15 @@ public abstract class BaseActivity<Presenter extends BasePresenter> extends MvpA
         super.setContentView(layoutResID);
         ButterKnife.bind(this);
         isTabletUi = getResources().getBoolean(R.bool.is_tablet_ui);
+
+        if (isTabletUi) {
+            getWindow().setFlags(
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                    WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+            );
+        } else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
     }
 
     public void setScreenTitle(@StringRes int titleId) {

@@ -6,6 +6,7 @@ import com.myst3ry.financemanager.R;
 import com.myst3ry.financemanager.ui.base.BasePresenter;
 import com.myst3ry.financemanager.usecase.OperationListUseCase;
 import com.myst3ry.model.AccountItemType;
+import com.myst3ry.model.Operation;
 import com.myst3ry.model.PeriodicOperation;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.List;
 public class OperationListPresenter extends BasePresenter<OperationListView> {
 
     private final OperationListUseCase useCase;
+    private List<IComparableItem> operations = new ArrayList<>();
 
     public OperationListPresenter(OperationListUseCase useCase) {
         this.useCase = useCase;
@@ -31,6 +33,8 @@ public class OperationListPresenter extends BasePresenter<OperationListView> {
                 loadPeriodic();
                 break;
             case PATTERN:
+                getViewState().setScreenTitle(R.string.template_title);
+                loadTemplates();
                 break;
         }
     }
@@ -65,19 +69,51 @@ public class OperationListPresenter extends BasePresenter<OperationListView> {
                         handleOperationList(new ArrayList<>(periodicOperation))));
     }
 
+    private void loadTemplates() {
+        bind(onUi(useCase.getTemplates())
+                .doOnSubscribe((p) -> getViewState().showProgressBar())
+                .doOnNext((p) -> getViewState().hideProgressBar())
+                .doOnError(th -> getViewState().showEmpty())
+                .subscribe(templates -> handleOperationList(new ArrayList<>(templates))));
+    }
+
     private void handleOperationList(List<IComparableItem> operation) {
+        operations.addAll(operation);
         if (operation.isEmpty()) {
             getViewState().showEmpty();
         } else {
             getViewState().hideEmpty();
-            getViewState().showOperations(operation);
         }
+
+        getViewState().showOperations(operation);
     }
 
-    public void togglePeriodic(boolean isActive, PeriodicOperation periodic) {
+    public void togglePeriodic(boolean isActive, int position) {
+        PeriodicOperation periodic = (PeriodicOperation) operations.get(position);
         bind(onUi(useCase.togglePeriodic(isActive, periodic))
                 .subscribe(() -> {
                 }, throwable ->
                         getViewState().periodicToggleError(!isActive, periodic)));
+    }
+
+    public void onPeriodicDelete(int position) {
+        PeriodicOperation periodic = (PeriodicOperation) operations.get(position);
+        bind(onUi(useCase.deletePeriodic(periodic)).subscribe(() -> {
+        }, throwable -> getViewState().showToast(R.string.error)));
+    }
+
+    public void onOperaionDelete(int position) {
+        Operation operation = (Operation) operations.get(position);
+        bind(onUi(useCase.deleteOperaion(operation)).subscribe(() -> {
+        }, throwable -> getViewState().showToast(R.string.error)));
+    }
+
+    public void onOperationEdit(int position) {
+        Operation operation = (Operation) operations.get(position);
+        getViewState().showEditDialog(operation);
+    }
+
+    public void showAddDialog() {
+        getViewState().showAddDialog();
     }
 }

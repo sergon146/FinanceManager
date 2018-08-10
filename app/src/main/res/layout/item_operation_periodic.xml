@@ -73,7 +73,6 @@
             android:layout_margin="16dp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/repeat_title"
             tools:text="25"
             />
@@ -113,6 +112,20 @@
             app:layout_constraintStart_toEndOf="@+id/type"
             app:layout_constraintTop_toBottomOf="@+id/amount"
             tools:text="Family"
+            />
+
+        <TextView
+            android:id="@+id/delete"
+            style="@style/TextStyleDark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:drawableTop="@drawable/ic_delete"
+            android:text="@string/delete"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             />
 
     </android.support.constraint.ConstraintLayout>

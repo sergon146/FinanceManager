@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Ya Star Coin</string>
+    <string name="app_name">Ya.Star Coin</string>
 
     <!--Pref Keys (Do Not Localize)-->
     <string name="key_options_enable">key_switch_enable_options</string>
@@ -20,7 +20,7 @@
     </string-array>
 
 
-    <string name="accept">Add</string>
+    <string name="accept">Done</string>
     <string name="decline">Cancel</string>
 
     <!--Tab bar-->
@@ -92,11 +92,10 @@
     <string name="income">Income</string>
     <string name="text_select_account">Select account</string>
     <string name="empty_account">Please select account</string>
-    <string name="text_operation_type">Select Operation type</string>
+    <string name="text_operation_type"><u>Select Operation type</u></string>
     <string name="hint_enter_amount">Enter amount</string>
     <string name="hint_enter_title">Enter title</string>
-    <string name="text_select_currency">Select currency</string>
-    <string name="text_add_category_label">Select category</string>
+    <string name="text_add_category_label"><u>Select category</u></string>
     <string name="none">None</string>
     <string name="dialog_title_rub">Russian Ruble (RUB)</string>
     <string name="dialog_title_usd">United States Dollar (USD)</string>
@@ -111,6 +110,14 @@
     <string name="repeat_count_zero">Repeat can\'t be zero!</string>
     <string name="repeat_count_empty">Repeat can\'t be empty!</string>
 
+
+    <string name="template_title">Templates</string>
+    <string name="save_as_template">Save as template</string>
+    <string name="template_error">Error! Template not saved</string>
+
+    <string name="template_selection">Template\nselection</string>
+    <string name="periodic_switch_title">Periodic\ntransaction</string>
+
     <string name="operations_title">Operations</string>
     <string name="operation_title">Operation</string>
     <string name="perioidc_operation_title">Periodic operations</string>
@@ -118,6 +125,7 @@
 
     <string name="empty_data">There\'s nothing here…</string>
 
+    <string name="delete">Delete</string>
     <!--Connection-->
     <string name="http_error">Error Code#%d (%s)</string>
     <string name="connection_error">Check your internet connection</string>
@@ -131,6 +139,7 @@
         <item name="item_clothes">Clothes</item>
         <item name="item_medicine">Medicine</item>
         <item name="item_entertainment">Entertainments</item>
+        <item name="food">Food</item>
     </string-array>
 
     <string-array name="arr_income_categories">

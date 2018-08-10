@@ -17,30 +17,30 @@ import java.util.Date;
 @Entity(tableName = "operation")
 public class Operation implements IComparableItem {
     @PrimaryKey(autoGenerate = true)
-    private long id;
-    private String title;
+    protected Long id;
+    protected String title;
     @TypeConverters(OperationTypeConverter.class)
-    private OperationType type;
+    protected OperationType type;
     @TypeConverters(CurrencyTypeConverter.class)
-    private CurrencyType currencyType;
+    protected CurrencyType currencyType;
     @TypeConverters(BigDecimalConverter.class)
-    private BigDecimal amount;
-    private String category;
+    protected BigDecimal amount;
+    protected String category;
     @TypeConverters(DateConverter.class)
-    private Date date;
-    private long accountId;
-    private boolean isActive = true;
+    protected Date date;
+    protected Long accountId;
+    protected boolean isActive = true;
     @Ignore
-    private Account account;
+    protected Account account;
 
-    public Operation(long id,
+    public Operation(Long id,
                      String title,
                      OperationType type,
                      CurrencyType currencyType,
                      BigDecimal amount,
                      String category,
                      Date date,
-                     long accountId,
+                     Long accountId,
                      boolean isActive) {
         this.id = id;
         this.title = title;
@@ -62,7 +62,7 @@ public class Operation implements IComparableItem {
         this.accountId = operation.accountId;
     }
 
-    public Operation(final Builder builder) {
+    public Operation(Builder builder) {
         this.type = builder.operationType;
         this.title = builder.title;
         this.currencyType = builder.currencyType;
@@ -76,11 +76,11 @@ public class Operation implements IComparableItem {
         return new Builder();
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -132,11 +132,11 @@ public class Operation implements IComparableItem {
         this.date = date;
     }
 
-    public long getAccountId() {
+    public Long getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(long accountId) {
+    public void setAccountId(Long accountId) {
         this.accountId = accountId;
     }
 
@@ -173,7 +173,7 @@ public class Operation implements IComparableItem {
         private CurrencyType currencyType;
         private BigDecimal amount;
         private String category;
-        private long accountId;
+        private Long accountId;
 
         private Builder() {
         }
@@ -203,7 +203,7 @@ public class Operation implements IComparableItem {
             return this;
         }
 
-        public Builder setAccountId(final long accountId) {
+        public Builder setAccountId(final Long accountId) {
             this.accountId = accountId;
             return this;
         }

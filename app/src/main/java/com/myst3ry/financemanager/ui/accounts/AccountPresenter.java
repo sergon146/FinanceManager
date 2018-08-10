@@ -35,6 +35,10 @@ public class AccountPresenter extends BasePresenter<AccountView> {
     }
 
     public void openDetailScreen(Object data, int pos) {
+        if (pos == -1) {
+            return;
+        }
+
         if (!(data instanceof AccountItemType)) {
             data = accounts.get(pos);
         }

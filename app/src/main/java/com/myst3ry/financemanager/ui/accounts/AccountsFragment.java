@@ -19,7 +19,6 @@ import com.myst3ry.financemanager.ui.adapters.account.PatternAccountAdapterDeleg
 import com.myst3ry.financemanager.ui.adapters.account.PeriodicAccountAdapterDelegate;
 import com.myst3ry.financemanager.ui.base.BaseFragment;
 import com.myst3ry.financemanager.ui.main.screens.Screens;
-import com.myst3ry.financemanager.utils.formatter.balance.BalanceFormatterFactory;
 import com.myst3ry.model.AccountItemType;
 
 import java.util.List;
@@ -39,7 +38,7 @@ public class AccountsFragment extends BaseFragment<AccountPresenter> implements 
     View emptyHolder;
     private boolean isTabletUi;
     private DiffUtilCompositeAdapter accountAdapter;
-    private BalanceFormatterFactory formatterFactory = new BalanceFormatterFactory();
+    private Bundle savedInstanceState;
 
     public static AccountsFragment newInstance() {
         return new AccountsFragment();
@@ -55,6 +54,7 @@ public class AccountsFragment extends BaseFragment<AccountPresenter> implements 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
+        this.savedInstanceState = savedInstanceState;
         isTabletUi = getResources().getBoolean(R.bool.is_tablet_ui);
         return inflater.inflate(R.layout.fragment_account, container, false);
     }
@@ -62,7 +62,6 @@ public class AccountsFragment extends BaseFragment<AccountPresenter> implements 
     @Override
     protected void prepareViews() {
         hideScreenTitle();
-
         accountRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         accountAdapter = new DiffUtilCompositeAdapter.Builder()
                 .add(new AccountAdapterDelegate(pos -> getPresenter()
@@ -82,7 +81,7 @@ public class AccountsFragment extends BaseFragment<AccountPresenter> implements 
         accountAdapter.swapData(accounts);
         accountAdapter.notifyDataSetChanged();
 
-        if (isTabletUi && activatePos == 0) {
+        if (isTabletUi && activatePos == 0 && savedInstanceState == null) {
             openScreen(Screens.OPERATION_LIST_SCREEN, accounts.get(activatePos), false);
         }
     }

@@ -2,6 +2,7 @@ package com.myst3ry.financemanager.di.modules;
 
 import com.myst3ry.financemanager.repository.AccountRepository;
 import com.myst3ry.financemanager.repository.OperationRepository;
+import com.myst3ry.financemanager.repository.TemplateRepository;
 import com.myst3ry.financemanager.ui.dialogs.addoperation.AddOperationPresenter;
 import com.myst3ry.financemanager.usecase.AddOperationUseCase;
 
@@ -14,8 +15,9 @@ public abstract class AddOperationModule {
     @Provides
     static AddOperationUseCase provideOperationCreateUseCase(
             AccountRepository accountRepository,
-            OperationRepository operationRepository) {
-        return new AddOperationUseCase(accountRepository, operationRepository);
+            OperationRepository operationRepository,
+            TemplateRepository templateRepository) {
+        return new AddOperationUseCase(accountRepository, operationRepository, templateRepository);
     }
 
     @Provides

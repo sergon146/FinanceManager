@@ -1,6 +1,7 @@
 package com.myst3ry.financemanager.repository;
 
 
+import com.myst3ry.financemanager.data.dao.AccountDao;
 import com.myst3ry.financemanager.data.dao.OperationAccountPeriodicDao;
 import com.myst3ry.financemanager.data.dao.OperationDao;
 import com.myst3ry.financemanager.data.dao.PeriodicDao;
@@ -21,29 +22,30 @@ public class OperationRepository extends BaseRepository {
     private final OperationDao operationDao;
     private final OperationAccountPeriodicDao operationAccountPeriodicDao;
     private final PeriodicDao periodicDao;
+    private final AccountDao accountDao;
 
     public OperationRepository(OperationDao operationDao,
                                OperationAccountPeriodicDao operationAccountPeriodicDao,
-                               PeriodicDao periodicDao) {
+                               PeriodicDao periodicDao,
+                               AccountDao accountDao) {
         this.operationDao = operationDao;
         this.operationAccountPeriodicDao = operationAccountPeriodicDao;
         this.periodicDao = periodicDao;
+        this.accountDao = accountDao;
     }
 
-    public Flowable<List<Operation>> getOperations(Account account) {
-        return getOperations(account.getId());
+    public Flowable<List<Operation>> getOperations(Long accountId) {
+        return operationDao.getByAccount(accountId);
     }
 
-    public Flowable<List<Operation>> getOperations(Long id) {
-        return operationDao.getByAccount(id);
-    }
-
-    public Completable addOperation(Operation operation, PeriodicOperation periodic) {
+    public Completable addOperation(Operation operation,
+                                    PeriodicOperation periodic,
+                                    BigDecimal deltaAmount) {
         int coef = operation.getType().equals(OperationType.EXPENSE) ? -1 : 1;
 
         if (periodic.getDayRepeat() == 0) {
-            return flow(Completable.fromAction(() -> operationAccountPeriodicDao.addOperationAndUpdateBalance(operation,
-                    operation.getAmount().multiply(BigDecimal.valueOf(coef)))));
+            return flow(Completable.fromAction(() -> operationAccountPeriodicDao
+                    .addOperationAndUpdateBalance(operation, deltaAmount)));
         } else {
             return flow(Completable.fromAction(() ->
                     operationAccountPeriodicDao.addOperationPereodicUpdateBalance(operation,
@@ -116,6 +118,37 @@ public class OperationRepository extends BaseRepository {
     }
 
     public Flowable<List<Operation>> getAllOperations() {
-        return operationDao.getAll();
+        return operationDao.getActive();
+    }
+
+    public Completable deletePeriodic(PeriodicOperation periodic) {
+        return Completable.fromAction(() -> periodicDao.delete(periodic.getId()));
+    }
+
+    public Flowable<Operation> getOperation(long operationId) {
+        return Flowable.combineLatest(
+                operationDao.getOperation(operationId),
+                accountDao.getAll(),
+                this::getOperation);
+    }
+
+    private Operation getOperation(Operation operation, List<Account> accounts) {
+        for (Account account : accounts) {
+            if (account.getId() == operation.getAccountId()) {
+                operation.setAccount(account);
+                return operation;
+            }
+        }
+        return operation;
+    }
+
+    public Completable deleteOperation(Operation operation) {
+        BigDecimal amount = operation.getType() == OperationType.INCOME
+                ? operation.getAmount()
+                : operation.getAmount().negate();
+        return Completable.fromAction(() -> {
+            operationDao.delete(operation.getId());
+            accountDao.updateAmount(operation.getAccountId(), amount);
+        });
     }
 }

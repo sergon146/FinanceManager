@@ -1,6 +1,6 @@
 package com.myst3ry.financemanager.ui.main;
 
-import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
+import com.arellomobile.mvp.viewstate.strategy.OneExecutionStateStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 import com.myst3ry.financemanager.ui.base.BaseView;
 import com.myst3ry.financemanager.ui.main.screens.Screens;
@@ -14,8 +14,8 @@ public interface MainView extends BaseView {
 
     void showConnectionError();
 
-    void activateTab(Screens screen);
+    void activateTab(Screens screen, boolean wasSelected);
 
-    @StateStrategyType(AddToEndSingleStrategy.class)
+    @StateStrategyType(OneExecutionStateStrategy.class)
     void openingScreen(Screens screen, Object data, boolean isParent);
 }

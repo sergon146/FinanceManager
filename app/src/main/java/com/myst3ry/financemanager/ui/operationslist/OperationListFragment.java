@@ -17,9 +17,11 @@ import com.myst3ry.financemanager.R;
 import com.myst3ry.financemanager.ui.adapters.operation.FeedOperationAdapterDelegate;
 import com.myst3ry.financemanager.ui.adapters.operation.OperationAdapterDelegate;
 import com.myst3ry.financemanager.ui.adapters.operation.PeriodicOperationAdapterDelegate;
+import com.myst3ry.financemanager.ui.adapters.operation.TemplateOperationAdapterDelegate;
 import com.myst3ry.financemanager.ui.base.BaseFragment;
 import com.myst3ry.financemanager.ui.dialogs.addoperation.AddOperationDialog;
 import com.myst3ry.model.AccountItemType;
+import com.myst3ry.model.Operation;
 import com.myst3ry.model.PeriodicOperation;
 
 import java.util.List;
@@ -42,6 +44,8 @@ public class OperationListFragment extends BaseFragment<OperationListPresenter>
     @InjectPresenter
     OperationListPresenter operationListPresenter;
 
+    private long accountId;
+
     private DiffUtilCompositeAdapter adapter;
 
     public static OperationListFragment newInstance(AccountItemType type) {
@@ -52,10 +56,10 @@ public class OperationListFragment extends BaseFragment<OperationListPresenter>
         return fragment;
     }
 
-    public static OperationListFragment newInstance(Long id) {
+    public static OperationListFragment newInstance(Long accountId) {
         OperationListFragment fragment = new OperationListFragment();
         Bundle bundle = new Bundle();
-        bundle.putLong(ACCOUNT_ID, id);
+        bundle.putLong(ACCOUNT_ID, accountId);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -88,21 +92,41 @@ public class OperationListFragment extends BaseFragment<OperationListPresenter>
             }
 
             if (accountItemType == AccountItemType.ACCOUNT) {
-                long accountId = getArguments().getLong(ACCOUNT_ID);
+                accountId = getArguments().getLong(ACCOUNT_ID);
                 getPresenter().loadByAccountId(accountId);
             } else {
                 getPresenter().loadByType(accountItemType);
             }
         }
 
-
         operationsRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+
         DiffUtilCompositeAdapter.Builder builder = new DiffUtilCompositeAdapter.Builder()
-                .add(new PeriodicOperationAdapterDelegate((isActive, operation) ->
-                        getPresenter().togglePeriodic(isActive, operation)));
+                .add(new PeriodicOperationAdapterDelegate(new PeriodicOperationAdapterDelegate.PeriodicClickListener() {
+                    @Override
+                    public void onSwitchToggled(boolean isActive, int pos) {
+                        getPresenter().togglePeriodic(isActive, pos);
+                    }
+
+                    @Override
+                    public void onDeleteClick(int pos) {
+                        getPresenter().onPeriodicDelete(pos);
+                    }
+                }))
+                .add(new TemplateOperationAdapterDelegate());
 
         if (accountItemType == AccountItemType.ACCOUNT) {
-            builder.add(new OperationAdapterDelegate());
+            builder.add(new OperationAdapterDelegate(new OperationAdapterDelegate.OperationClickListener() {
+                @Override
+                public void onEditClick(int position) {
+                    getPresenter().onOperationEdit(position);
+                }
+
+                @Override
+                public void onDeleteClick(int position) {
+                    getPresenter().onOperaionDelete(position);
+                }
+            }));
         } else {
             builder.add(new FeedOperationAdapterDelegate());
         }
@@ -115,9 +139,7 @@ public class OperationListFragment extends BaseFragment<OperationListPresenter>
 
     @OnClick(R.id.fab_add)
     void onFabClick() {
-        AddOperationDialog dialog = new AddOperationDialog();
-        dialog.show(getChildFragmentManager(), getScreenTag());
-        dialog.setCancelable(false);
+        getPresenter().showAddDialog();
     }
 
     @Override
@@ -140,6 +162,19 @@ public class OperationListFragment extends BaseFragment<OperationListPresenter>
     @Override
     public void hideEmpty() {
         emptyHolder.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showEditDialog(Operation operation) {
+        AddOperationDialog dialog =
+                AddOperationDialog.newInstance(operation.getAccountId(), operation.getId());
+        dialog.show(getFragmentManager(), dialog.getTag());
+    }
+
+    @Override
+    public void showAddDialog() {
+        AddOperationDialog dialog = AddOperationDialog.newInstance(accountId, -1);
+        dialog.show(getChildFragmentManager(), getScreenTag());
     }
 
     @Override

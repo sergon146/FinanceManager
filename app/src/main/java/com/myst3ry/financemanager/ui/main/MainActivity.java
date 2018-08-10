@@ -3,6 +3,7 @@ package com.myst3ry.financemanager.ui.main;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -79,17 +80,21 @@ public final class MainActivity extends BaseActivity<MainPresenter>
         tabBar.setInactiveColor(ContextCompat.getColor(this, R.color.white_50));
         tabBar.setNotificationBackgroundColorResource(R.color.color_primary_dark);
         tabBar.setOnTabSelectedListener((position, wasSelected) -> {
-            presenter.onTabClicked(position);
+            presenter.onTabClicked(position, wasSelected);
             return false;
         });
 
         if (savedInstanceState == null) {
-            activateTab(Screens.MAIN_SCREEN);
+            activateTab(Screens.MAIN_SCREEN, false);
         }
     }
 
     @Override
-    public void activateTab(Screens screen) {
+    public void activateTab(Screens screen, boolean wasSelected) {
+        if (wasSelected && fragmentManager.getBackStackEntryCount() == 1) {
+            return;
+        }
+
         invalidateTabBar(screen);
         if ((screen == Screens.ABOUT_SCREEN || screen == Screens.SETTINGS_SCREEN) && isTabletUi) {
             openScreen(screen, null, false);
@@ -142,22 +147,31 @@ public final class MainActivity extends BaseActivity<MainPresenter>
                 throw new RuntimeException("Unknown screen");
         }
 
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
         if (isTabletUi) {
             int containerId = isParent ? R.id.container : R.id.container_child;
-            fragmentManager
-                    .beginTransaction()
-                    .replace(containerId, fragment)
-                    .commit();
+            transaction.replace(containerId, fragment);
         } else {
             if (isParent) {
+                if (fragmentManager.getBackStackEntryCount() > 0) {
+                    transaction.setCustomAnimations(
+                            R.anim.slide_in_left, R.anim.slide_out_right);
+                }
+                transaction.replace(R.id.container, fragment)
+                        .addToBackStack(screen.name());
+
                 fragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
+            } else {
+                transaction.setCustomAnimations(
+                        R.anim.slide_in_right, R.anim.slide_out_left,
+                        R.anim.slide_in_left, R.anim.slide_out_right)
+                        .replace(R.id.container, fragment)
+                        .addToBackStack(screen.name());
             }
-            fragmentManager
-                    .beginTransaction()
-                    .replace(R.id.container, fragment)
-                    .addToBackStack(fragment.getTag())
-                    .commit();
         }
+
+        transaction.commit();
     }
 
     @Override
@@ -194,17 +208,6 @@ public final class MainActivity extends BaseActivity<MainPresenter>
             finish();
         } else {
             super.onBackPressed();
-        }
-    }
-
-    protected void activateScreen(String name) {
-        FragmentManager fm = fragmentManager;
-        fm.executePendingTransactions();
-
-        // display only root screen in tab
-        Screens screen = Screens.getEnum(fm.getBackStackEntryAt(0).getName());
-        if (screen != null) {
-            tabBar.postDelayed(() -> activateTab(screen), 100);
         }
     }
 

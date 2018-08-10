@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Я Стар Коин</string>
+    <string name="app_name">Я.Стар Коин</string>
 
     <!--Pref Keys (Do Not Localize)-->
     <string name="key_options_enable">key_switch_enable_options</string>
@@ -17,7 +17,7 @@
     </string-array>
 
 
-    <string name="accept">Добавить</string>
+    <string name="accept">Готово</string>
     <string name="decline">Отмена</string>
 
     <!--Tab bar-->
@@ -32,7 +32,7 @@
     <string name="all_operations">Все транзакции</string>
     <string name="periodic_operations">Переодические транзакции</string>
     <string name="patterns">Шаблоны операций</string>
-    <string name="total_count">Количество: %1$d</string>
+    <string name="total_count">Всего: %1$d</string>
     <string name="activated_count">Активных: %1$d</string>
     <!--Account screen-->
 
@@ -88,11 +88,10 @@
     <string name="income">Доход</string>
     <string name="text_select_account">Выберите счет</string>
     <string name="empty_account">Пожалуйста выберите счет</string>
-    <string name="text_operation_type">Выберите тип операции</string>
+    <string name="text_operation_type"><u>Выберите тип операции</u></string>
     <string name="hint_enter_amount">Введите сумму</string>
     <string name="hint_enter_title">Введите название</string>
-    <string name="text_select_currency">Выберите валюту</string>
-    <string name="text_add_category_label">Выберите категорию</string>
+    <string name="text_add_category_label"><u>Выберите категорию</u></string>
     <string name="none">Отсутствует</string>
     <string name="dialog_title_rub">Российский рубль (RUB)</string>
     <string name="dialog_title_usd">Доллар США (USD)</string>
@@ -111,11 +110,20 @@
     <string name="perioidc_operation_title">Переодические транзакции</string>
     <string name="error">Произошла ошибка! Попробуйте позже</string>
 
+    <string name="template_title">Шаблоны</string>
+    <string name="save_as_template">Сохранить в шаблон</string>
+    <string name="template_error">Ошибка! Шаблон не был сохранён</string>
+
+    <string name="template_selection">Выбор шаблона</string>
+    <string name="periodic_switch_title">Периодическая\nтранзакция</string>
+
     <string name="empty_data">Здесь ничего нет…</string>
     <!--Connection-->
     <string name="http_error">Ошибка %d (%s)</string>
     <string name="connection_error">Проверьте свое соединение с интернетом</string>
     <string name="err_empty_field">Необходимо ввести сумму</string>
+
+    <string name="delete">Удалить</string>
 
     <!--Operation Categories-->
     <string-array name="arr_expense_categories">
@@ -126,6 +134,7 @@
         <item name="item_clothes">Одежда</item>
         <item name="item_medicine">Медицина</item>
         <item name="item_entertainment">Развлечения</item>
+        <item name="food">Еда</item>
     </string-array>
 
     <string-array name="arr_income_categories">

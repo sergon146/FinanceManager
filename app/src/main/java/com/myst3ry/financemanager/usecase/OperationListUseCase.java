@@ -2,9 +2,11 @@ package com.myst3ry.financemanager.usecase;
 
 import com.myst3ry.financemanager.repository.AccountRepository;
 import com.myst3ry.financemanager.repository.OperationRepository;
+import com.myst3ry.financemanager.repository.TemplateRepository;
 import com.myst3ry.model.Account;
 import com.myst3ry.model.Operation;
 import com.myst3ry.model.PeriodicOperation;
+import com.myst3ry.model.Template;
 
 import java.util.List;
 
@@ -15,11 +17,14 @@ public class OperationListUseCase {
 
     private final OperationRepository operationRepository;
     private final AccountRepository accountRepository;
+    private final TemplateRepository templateRepository;
 
     public OperationListUseCase(OperationRepository operationRepository,
-                                AccountRepository accountRepository) {
+                                AccountRepository accountRepository,
+                                TemplateRepository templateRepository) {
         this.operationRepository = operationRepository;
         this.accountRepository = accountRepository;
+        this.templateRepository = templateRepository;
     }
 
     public Flowable<Account> getAccount(long id) {
@@ -52,5 +57,17 @@ public class OperationListUseCase {
                     }
                     return operations;
                 });
+    }
+
+    public Flowable<List<Template>> getTemplates() {
+        return templateRepository.getAllTemplate();
+    }
+
+    public Completable deletePeriodic(PeriodicOperation periodic) {
+        return operationRepository.deletePeriodic(periodic);
+    }
+
+    public Completable deleteOperaion(Operation operation) {
+        return operationRepository.deleteOperation(operation);
     }
 }

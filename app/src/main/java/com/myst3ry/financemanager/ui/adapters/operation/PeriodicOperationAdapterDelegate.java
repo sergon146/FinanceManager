@@ -21,9 +21,9 @@ import butterknife.ButterKnife;
 
 public class PeriodicOperationAdapterDelegate
         extends BaseDelegateAdapter<PeriodicOperationAdapterDelegate.ViewHolder, PeriodicOperation> {
-    private PeriodicSwitchListener listener;
+    private PeriodicClickListener listener;
 
-    public PeriodicOperationAdapterDelegate(PeriodicSwitchListener listener) {
+    public PeriodicOperationAdapterDelegate(@NonNull PeriodicClickListener listener) {
         this.listener = listener;
     }
 
@@ -42,7 +42,13 @@ public class PeriodicOperationAdapterDelegate
     @NonNull
     @Override
     protected ViewHolder createViewHolder(View view) {
-        return new ViewHolder(view);
+        ViewHolder holder = new ViewHolder(view);
+        holder.status.setOnCheckedChangeListener((compound, toggled) ->
+                listener.onSwitchToggled(toggled, holder.getAdapterPosition()));
+
+        holder.delete.setOnClickListener(v ->
+                listener.onDeleteClick(holder.getAdapterPosition()));
+        return holder;
     }
 
     @Override
@@ -50,8 +56,10 @@ public class PeriodicOperationAdapterDelegate
         return list.get(i) instanceof PeriodicOperation;
     }
 
-    public interface PeriodicSwitchListener {
-        void onSwitchToggled(boolean isActive, PeriodicOperation operation);
+    public interface PeriodicClickListener {
+        void onSwitchToggled(boolean isActive, int pos);
+
+        void onDeleteClick(int pos);
     }
 
     class ViewHolder extends BaseViewHolder {
@@ -67,6 +75,8 @@ public class PeriodicOperationAdapterDelegate
         Switch status;
         @BindView(R.id.count)
         TextView dayRepeat;
+        @BindView(R.id.delete)
+        View delete;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -75,11 +85,6 @@ public class PeriodicOperationAdapterDelegate
 
         public void bind(PeriodicOperation periodic) {
             status.setChecked(periodic.isTurnOn());
-            status.setOnCheckedChangeListener((compound, toggled) -> {
-                if (listener != null) {
-                    listener.onSwitchToggled(toggled, periodic);
-                }
-            });
             dayRepeat.setText(String.valueOf(periodic.getDayRepeat()));
 
             Operation item = periodic.getOperation();

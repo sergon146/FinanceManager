@@ -6,6 +6,7 @@ import com.myst3ry.financemanager.ui.about.AboutFragment;
 import com.myst3ry.financemanager.ui.accounts.AccountsFragment;
 import com.myst3ry.financemanager.ui.dialogs.SelectionDialogFragment;
 import com.myst3ry.financemanager.ui.dialogs.addoperation.AddOperationDialog;
+import com.myst3ry.financemanager.ui.dialogs.template.TemplateDialog;
 import com.myst3ry.financemanager.ui.main.MainPresenter;
 import com.myst3ry.financemanager.ui.operationslist.OperationListFragment;
 import com.myst3ry.financemanager.usecase.MainUseCase;
@@ -36,6 +37,9 @@ public abstract class MainModule {
 
     @ContributesAndroidInjector(modules = AddOperationModule.class)
     abstract AddOperationDialog contributeAddOperationDialog();
+
+    @ContributesAndroidInjector(modules = TemplateModule.class)
+    abstract TemplateDialog contributeTemplateDialog();
 
     @ContributesAndroidInjector(modules = AboutModule.class)
     abstract AboutFragment contributeAboutFragment();

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="account_logo_margin">24dp</dimen>
+    <dimen name="template_width">300dp</dimen>
+
+
+    <dimen name="detail_top_padding">102dp</dimen>
+    <dimen name="operation_list_bottom_padding">80dp</dimen>
+    <dimen name="template_list_padding">16dp</dimen>
+    <dimen name="template_button_margin">32dp</dimen>
+</resources>
