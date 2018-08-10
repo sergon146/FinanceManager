@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.util.Pair;
+import android.widget.DatePicker;
 
 import com.myst3ry.financemanager.BuildConfig;
 import com.myst3ry.financemanager.R;
@@ -22,6 +23,7 @@ import com.myst3ry.model.PeriodicAccount;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public final class Utils {
@@ -173,6 +175,17 @@ public final class Utils {
 
         intent.setData(Uri.parse(uriString));
         return intent;
+    }
+
+    public static java.util.Date getPickerDate(DatePicker datePicker) {
+        int day = datePicker.getDayOfMonth();
+        int month = datePicker.getMonth();
+        int year = datePicker.getYear();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day);
+
+        return calendar.getTime();
     }
 
     public static class Currency {

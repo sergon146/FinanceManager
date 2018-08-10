@@ -9,6 +9,7 @@ import com.myst3ry.financemanager.ui.dialogs.addoperation.AddOperationDialog;
 import com.myst3ry.financemanager.ui.dialogs.template.TemplateDialog;
 import com.myst3ry.financemanager.ui.main.MainPresenter;
 import com.myst3ry.financemanager.ui.operationslist.OperationListFragment;
+import com.myst3ry.financemanager.ui.report.ReportFragment;
 import com.myst3ry.financemanager.usecase.MainUseCase;
 
 import dagger.Module;
@@ -40,6 +41,9 @@ public abstract class MainModule {
 
     @ContributesAndroidInjector(modules = TemplateModule.class)
     abstract TemplateDialog contributeTemplateDialog();
+
+    @ContributesAndroidInjector(modules = ReportModule.class)
+    abstract ReportFragment contributeReportFragment();
 
     @ContributesAndroidInjector(modules = AboutModule.class)
     abstract AboutFragment contributeAboutFragment();

@@ -19,6 +19,7 @@ import com.myst3ry.financemanager.ui.base.BaseActivity;
 import com.myst3ry.financemanager.ui.main.screens.Screens;
 import com.myst3ry.financemanager.ui.main.screens.TabBarScreens;
 import com.myst3ry.financemanager.ui.operationslist.OperationListFragment;
+import com.myst3ry.financemanager.ui.report.ReportFragment;
 import com.myst3ry.financemanager.ui.settings.SettingsFragment;
 import com.myst3ry.model.Account;
 import com.myst3ry.model.AccountItemType;
@@ -96,7 +97,8 @@ public final class MainActivity extends BaseActivity<MainPresenter>
         }
 
         invalidateTabBar(screen);
-        if ((screen == Screens.ABOUT_SCREEN || screen == Screens.SETTINGS_SCREEN) && isTabletUi) {
+        if ((screen == Screens.ABOUT_SCREEN || screen == Screens.SETTINGS_SCREEN
+                || screen == Screens.REPORT_SCREEN) && isTabletUi) {
             openScreen(screen, null, false);
         } else {
             openScreen(screen, null, true);
@@ -130,6 +132,9 @@ public final class MainActivity extends BaseActivity<MainPresenter>
                 break;
             case ABOUT_SCREEN:
                 fragment = AboutFragment.newInstance();
+                break;
+            case REPORT_SCREEN:
+                fragment = ReportFragment.newInstance();
                 break;
             case OPERATION_LIST_SCREEN:
                 if (data instanceof Account) {

@@ -5,9 +5,11 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.TypeConverters;
 
 import com.myst3ry.model.Operation;
+import com.myst3ry.model.ReportData;
 import com.myst3ry.model.converter.BigDecimalConverter;
 import com.myst3ry.model.converter.DateConverter;
 
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.Flowable;
@@ -32,4 +34,8 @@ public abstract class OperationDao extends BaseDao<Operation> {
 
     @Query("UPDATE operation SET isActive = 0 WHERE id = :id")
     public abstract long delete(long id);
+
+    @Query("SELECT category, SUM(amount) as sum, type FROM operation " +
+            "WHERE isActive = 1 AND date BETWEEN :start AND :end GROUP BY category, type")
+    public abstract Flowable<List<ReportData>> getReport(Date start, Date end);
 }

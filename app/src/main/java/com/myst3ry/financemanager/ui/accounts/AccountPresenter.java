@@ -23,8 +23,8 @@ public class AccountPresenter extends BasePresenter<AccountView> {
     }
 
     @Override
-    public void attachView(AccountView view) {
-        super.attachView(view);
+    protected void onFirstViewAttach() {
+        super.onFirstViewAttach();
         bind(onUi(useCase.getAccounts(CurrencyType.RUB, CurrencyType.USD))
                 .subscribe(accounts -> {
                     this.accounts.clear();

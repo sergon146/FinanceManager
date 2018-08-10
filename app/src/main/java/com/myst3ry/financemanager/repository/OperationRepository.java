@@ -9,6 +9,7 @@ import com.myst3ry.model.Account;
 import com.myst3ry.model.Operation;
 import com.myst3ry.model.OperationType;
 import com.myst3ry.model.PeriodicOperation;
+import com.myst3ry.model.ReportData;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -150,5 +151,9 @@ public class OperationRepository extends BaseRepository {
             operationDao.delete(operation.getId());
             accountDao.updateAmount(operation.getAccountId(), amount);
         });
+    }
+
+    public Flowable<List<ReportData>> getReport(Date start, Date end) {
+        return operationDao.getReport(start, end);
     }
 }

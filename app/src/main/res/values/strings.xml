@@ -161,5 +161,12 @@
     <string name="other">Other</string>
 
 
+    <string name="start_day">Start day</string>
+    <string name="end_day">End day</string>
+    <string name="date_pattern">%d/%d/%d</string>
+    <string name="date_holder">___/___/___</string>
+    <string name="generate">Generate report</string>
+
+
     <string name="invalid_value">Invalid value entered</string>
 </resources>

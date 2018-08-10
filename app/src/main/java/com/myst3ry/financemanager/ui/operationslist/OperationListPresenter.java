@@ -25,8 +25,8 @@ public class OperationListPresenter extends BasePresenter<OperationListView> {
     public void loadByType(AccountItemType type) {
         switch (type) {
             case FEED:
+                getViewState().setScreenTitle(R.string.all_operations);
                 loadFeed();
-                getViewState().setScreenTitle(R.string.tab_report);
                 break;
             case PERIODIC:
                 getViewState().setScreenTitle(R.string.perioidc_operation_title);

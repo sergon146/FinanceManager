@@ -155,4 +155,11 @@
     <string name="treatment">Медицина</string>
     <string name="salary">Зарплата</string>
     <string name="other">Процее</string>
+
+
+    <string name="start_day">Дата начала</string>
+    <string name="end_day">Дата окончания</string>
+    <string name="date_pattern">%d/%d/%d</string>
+    <string name="date_holder">___/___/___</string>
+    <string name="generate">Сгенерировать отчёт</string>
 </resources>
