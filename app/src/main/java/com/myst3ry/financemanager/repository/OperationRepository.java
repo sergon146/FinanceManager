@@ -45,12 +45,12 @@ public class OperationRepository extends BaseRepository {
         int coef = operation.getType().equals(OperationType.EXPENSE) ? -1 : 1;
 
         if (periodic.getDayRepeat() == 0) {
-            return flow(Completable.fromAction(() -> operationAccountPeriodicDao
-                    .addOperationAndUpdateBalance(operation, deltaAmount)));
+            return Completable.fromAction(() -> operationAccountPeriodicDao
+                    .addOperationAndUpdateBalance(operation, deltaAmount));
         } else {
-            return flow(Completable.fromAction(() ->
+            return Completable.fromAction(() ->
                     operationAccountPeriodicDao.addOperationPereodicUpdateBalance(operation,
-                            operation.getAmount().multiply(BigDecimal.valueOf(coef)), periodic)));
+                            operation.getAmount().multiply(BigDecimal.valueOf(coef)), periodic));
         }
     }
 

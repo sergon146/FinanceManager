@@ -67,6 +67,7 @@ public class ReportFragment extends BaseFragment<ReportPresenter> implements Rep
 
     @Override
     protected void prepareViews() {
+        setScreenTitle(R.string.tab_report);
         dataRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ReportAdapter();
         dataRecycler.setAdapter(adapter);
